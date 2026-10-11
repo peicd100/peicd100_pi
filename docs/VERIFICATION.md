@@ -1,15 +1,23 @@
 # 驗證範圍
 
+## 0.3.0 新增 Gates
+
+- Activity：factory 無 timer、TUI only belowEditor 單行、不替換footer、不寫session／發請求；1秒僅requestRender、0/1/2/12/40/100/200可見欄寬與ANSI/中文／動態theme；shutdown/reload/tree/on-off隔離；lastActivity/operationElapsed／平行巢狀工具／5分提醒／Goal和UI等待／idle／未知狀態／nonTUI／私人內容不儲存。
+- Theme：已commit後官方reload只一次、store lock先釋放、noop/cancel/fail/queue不reload；reload失敗不rollback，stale-context getter禁存取；真AgentSession＋ThemeController＋Activity重載保持branch／settings／singleton widget，不呼叫模型。
+- Webhook：setup與on明確完成-only／Goal四終態預設，off／載入保留custom config與session/default/private資料，無真POST。native Goal兩loadorder＋server wait/resume加入Activity共存回歸。
+- 四個原生resources，新增activity可以獨立關閉，舊明確filter不偷偷擴大；完整回歸、三OS exacthead CI、隔離/remote/production install gate照舊。
+
+
 ## 0.2.2 本機檔案 Gates
 
-- Windows 暫時分享鎖 rename 注入、同一原子替換無目標空窗、永久错误最多七次嘗試／630ms 等待、非 Windows／非分享錯誤不重試。此 retry 僅本機檔案 I/O，HTTP at-most-once 不變。
+- Windows 暫時分享鎖 rename 注入、同一原子替換無目標空窗、永久錯誤最多七次嘗試／630ms 等待、非 Windows／非分享錯誤不重試。此 retry 僅本機檔案 I/O，HTTP at-most-once 不變。
 - 收據 finalize 尚未完成前 pending 不清零；Goal mock wire／DNS 取消／masterOff 仍要求確定 terminal receipt，不能改接受 UNKNOWN 來放寬測試。
 
 ## 0.2.0 新增 Gates
 
 - ACM 最近五次／後五回應、三次最低樣本、歷史前置證據、已知模型／比例連續範圍、未知比例／截斷／觀察未完／缺邊界、跨路由不誤歸因、readonly／不洩漏內容。runtime 正確保存 analysisPolicy metadata，不改 selector／校準算法。
 - Goal 0.54.11 dev-only 固定相容輸入；實際 Goal＋Pi 1.1.0 AgentSession mock wire，Goal-first／Webhook-first 都不通知中間回合，goal_complete 的 complete→null 持久狀態與 terminate tool batch 可通知一次。
-- Goal active／external wait／server-error recovery、確定 blocked／usage／budget stop、pause／clear、未知 schema、啟動不補送、resume 新終態、普通回合、busy／queue／input、masterOff／event opt-out／tree、DNS 期間新工作取消等。Goal 状態只是通知判斷，不接管它的續跑。
+- Goal active／external wait／server-error recovery、確定 blocked／usage／budget stop、pause／clear、未知 schema、啟動不補送、resume 新終態、普通回合、busy／queue／input、masterOff／event opt-out／tree、DNS 期間新工作取消等。Goal 狀態只是通知判斷，不接管它的續跑。
 - 三秒防抖與送前重驗均有測試；所有傳送為 mocked DNS／HTTPS，不對真實端點 POST。已提交 HTTP 的撤回與第三方端點／裝置送達不在保證範圍。
 - 原版不可變 runtime／聲明由 preserved_paths 綁原 Hash；active 新版 manifest 明確，不靠檔名新舊猜權威。依舊完整回歸、隔離安裝／更新／migration、公開隱私與三OS CI Gate。
 

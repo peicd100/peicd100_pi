@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 `0.2.2`；套件／GitHub repo：`peicd100_pi`。把 ACM、Webhook、Theme 整合成**一個安裝與更新入口**，內部仍是獨立模組，原指令與套件外資料位置不改。
+版本 `0.3.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Webhook、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，原指令與套件外資料位置不改。
 
 ## 安裝一次，之後更新
 
@@ -20,17 +20,32 @@ pi update git:github.com/peicd100/peicd100_pi
 
 本機開發：在工具工作區執行 `pi install ./peicd100_pi`，不要再安裝同一套件的 Git 來源。
 
-## 三個模組、原指令不變
+## 四個獨立模組、原指令保持
 
 | 資源 | 功能 | 指令 |
 | --- | --- | --- |
 | `extensions/acm.ts` | 無摘要上下文滑動＋獨立 no-summary guard | `/acm-status`、`/acm-analysis`、`/acm-config`、`/acm-setup` |
 | `extensions/webhook.ts` | 必要資訊通知、防重送與對話偏好 | `/webhook`、`/webhook-status`、`/webhook-setup`、`/webhook-test`、`/webhook-on`、`/webhook-off`、`/webhook-events`、`/webhook-clear`、`/webhook-default`、`/webhook-session` |
-| `extensions/theme.ts` | 中文模板啟用／停用還原 | `/pi-theme` |
+| `extensions/theme.ts` | 中文模板啟用／停用還原，成功變更後安全自動 reload | `/pi-theme` |
+| `extensions/activity.ts` | 獨立單行活動觀察，不取代 footer | `/pi-activity [on|off|status|json]` |
 
-在終端機 `pi config` 可分別停用三項，按 Tab 切換個人／專案範圍，再閒置 `/reload`。**ACM 主體與 guard 同一資源一起開關**，沒有單獨停用 guard 的公開入口。這不是安全沙盒，其他不可信插件仍可能破壞規則。
+在終端機 `pi config` 可分別停用四項，按 Tab 切換個人／專案範圍，再閒置 `/reload`。**ACM 主體與 guard 同一資源一起開關**，沒有單獨停用 guard 的公開入口。這不是安全沙盒，其他不可信插件仍可能破壞規則。
 
 Theme 的主題 JSON 是另一個原生 theme 資源。停用 Theme 指令入口不會自動還原配色；如要還原，先 `/pi-theme` 選「停用並還原原本主題」，再停用資源。
+
+### Activity：獨立活動列
+
+TUI 啟動後顯示在輸入框下方、原 footer 上方，獨占一行，不跟 ACM／用量／進度混排：
+
+```text
+活動｜執行指令｜最後活動 12 秒前｜目前動作 2 分 08 秒
+```
+
+每秒只更新 UI，不新增模型請求、session entries 或模型上下文；計時使用單調時鐘。觀察模型有內容的串流、工具開始／進度／結束（含同時與巢狀工具）、上下文整理與 UI 等待，分開顯示最後活動和當前動作時間。工具沒有回傳進度不代表卡死；超過五分鐘只提醒「久未活動，不代表當機」，明確 Goal／UI 等待、已閒置時不警告。
+
+Pi 沒有供 extension 使用的明確 auto-retry 事件，失敗後只能顯示「等待恢復／再次請求」，不猜重試次數／原因，不解析 prompt、工具參數、結果、命令或 Goal 私人內容。這不是進程心跳／所有背景程序完成偵測；UI 本身凍結時，列也不能繼續更新。
+
+新對話、切樹或 reload 重設本次觀察；無歷史時間證據就顯示「載入後尚無活動紀錄」，不猜前次工作已跑多久。窄終端／ANSI／中文按可見欄位截短，保持一行。關閉／reload 清理 timer／widget；SDK／print／RPC 不啟動。`/pi-activity off` 本次暫時隱藏，`on` 顯示；reload／新對話恢復預設。永久停用用 `pi config`；既有明確 extensions includes 不會偷偷加入新資源，請自行啟用 Activity。
 
 ### ACM
 
@@ -45,6 +60,8 @@ Theme 的主題 JSON 是另一個原生 theme 資源。停用 Theme 指令入口
 TUI 閒置時同步目前模型預算；明確自訂預算、停用設定或專案衝突不擅自覆蓋。未知模型／宿主以保守規則處理，必要內容過大時停止，不轉成摘要。停用整個 ACM 後會回到 Pi／其他插件的上下文行為，原生摘要可能恢復；不自動還原曾保存的模型預算。
 
 ### Webhook
+
+初次設定或明確 `/webhook-on`：一般 `notifyOn` 回到**只有完成**；Goal 回到**完成、受阻、額度／預算停止**。`/webhook-on` 會重設事件偏好，即使原本已開啟；之後可 `/webhook-events` 自訂。`off` 保留選擇；更新不改既有偏好或開關。
 
 總開關、新對話預設、此對話選擇互相獨立。新對話預設關閉；已有設定與既有對話選擇保持。總開關關閉連明確測試也阻擋；測試只越過此對話關閉。更新／載入不打開通知或補送歷史。
 
@@ -69,7 +86,9 @@ Windows 檔案暫時占用時，僅重試同一次本機原子替換（最多 6 
 
 ### Theme
 
-只兩項：啟用我的模板／停用還原。主題選擇由官方 API 保存，模板不在啟動時自動選用。原自訂主題仍可用；另選主題後，停用不覆寫較新選擇。
+只兩項：啟用我的模板／停用還原。成功變更並保存後，以官方 command-context `reload` **自動重新載入一次**，在 store lock／controller 釋放後執行；不是重新啟動程序。取消、已是同一主題、失敗、非 TUI、工作／佇列／對話變更不 reload。reload 失敗保留已保存主題，提示稍後手動 `/reload`，不拿 stale context 回退主題、不循環重載。僅此 `/pi-theme` 指令改變後會自動 reload，非所有 `/settings` 選擇，也不是套件更新後強制 reload。
+
+主題選擇由官方 API 保存，模板不在啟動時自動選用。原自訂主題仍可用；另選主題後，停用不覆寫較新選擇。
 
 淡紫標題／連結 `#C7A0E8`、錯誤玫瑰紅 `#E07A86`、工具錯誤背景 `#3A2329`；模型正文與程式碼保留原色／語法色。不使用不穩定包色轉換、不改 Pi 本體或加模型背景。自動亮暗配對、專案固定主題或缺失原紀錄時拒絕不完整還原。256 色終端會近似，不控制終端機整體背景。
 

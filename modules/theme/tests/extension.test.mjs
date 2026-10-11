@@ -6,10 +6,10 @@ const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url)),pres
 async function fixture(run){
  const root=await mkdtemp(join(tmpdir(),'theme 中文開關 ')),old=process.env.PI_CODING_AGENT_DIR;process.env.PI_CODING_AGENT_DIR=root;
  try{
-  const result=await loadExtensions([path],root);assert.deepEqual(result.errors,[]);const extension=result.extensions[0],store=new ToggleStore(root),choices=[],notices=[],setCalls=[],menus=[],settings={theme:'system'};
+  const result=await loadExtensions([path],root);assert.deepEqual(result.errors,[]);const extension=result.extensions[0],store=new ToggleStore(root),choices=[],notices=[],setCalls=[],menus=[],reloadCalls=[],settings={theme:'system'};
   const {fg,bg}=themeParts(preset),build=name=>new Theme(fg,bg,'truecolor',{name}),themes=new Map(['system','dark',TEMPLATE,'pi-theme-user'].map(n=>[n,build(n)]));let theme=themes.get('system');result.runtime.getSettings=()=>structuredClone(settings);
-  const ctx={mode:'tui',cwd:root,isIdle:()=>true,hasPendingMessages:()=>false,isProjectTrusted:()=>false,sessionManager:{getSessionId:()=> 'fixture',getSessionFile:()=> '/fixture.jsonl'},ui:{notify:t=>notices.push(t),get theme(){return theme;},getTheme:n=>themes.get(n),setTheme:value=>{setCalls.push(value);if(typeof value==='string'){if(!themes.has(value))return {success:false};settings.theme=value;theme=themes.get(value);}else theme=value;return {success:true};},select:async(title,options)=>{menus.push({title,options});return choices.shift();}}};
-  await run({root,extension,result,store,ctx,choices,notices,setCalls,menus,settings,themes,setCurrent:n=>{settings.theme=n;theme=themes.get(n);},get theme(){return theme;},command:args=>extension.commands.get('pi-theme').handler(args??'',ctx)});
+  const ctx={mode:'tui',cwd:root,reload:async()=>{reloadCalls.push('reload');},isIdle:()=>true,hasPendingMessages:()=>false,isProjectTrusted:()=>false,sessionManager:{getSessionId:()=> 'fixture',getSessionFile:()=> '/fixture.jsonl'},ui:{notify:t=>notices.push(t),get theme(){return theme;},getTheme:n=>themes.get(n),setTheme:value=>{setCalls.push(value);if(typeof value==='string'){if(!themes.has(value))return {success:false};settings.theme=value;theme=themes.get(value);}else theme=value;return {success:true};},select:async(title,options)=>{menus.push({title,options});return choices.shift();}}};
+  await run({root,extension,result,store,ctx,choices,notices,setCalls,menus,reloadCalls,settings,themes,setCurrent:n=>{settings.theme=n;theme=themes.get(n);},get theme(){return theme;},command:args=>extension.commands.get('pi-theme').handler(args??'',ctx)});
  }finally{if(old===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=old;await rm(root,{recursive:true,force:true});}
 }
 test('只註冊兩項中文開關，啟動不套用或呼叫模型，也不註冊不穩定文字轉換',()=>fixture(async f=>{
@@ -40,5 +40,19 @@ test('自動亮暗配對與專案固定主題先拒絕，不偷偷改成單一�
 }));
 test('沒有原紀錄或主題已消失時不猜測；官方setter失敗回退紀錄',()=>fixture(async f=>{
  f.setCurrent(TEMPLATE);f.choices.push('停用並還原原本主題');await f.command();assert.match(f.notices.at(-1),/找不到/);assert.equal(f.setCalls.length,0);
- f.setCurrent('system');f.ctx.ui.setTheme=()=>({success:false});f.choices.push('啟用我的模板');await f.command();assert.equal((await f.store.read()).state,null);assert.equal(f.settings.theme,'system');
+ f.setCurrent('system');f.ctx.ui.setTheme=()=>({success:false});f.choices.push('啟用我的模板');await f.command();assert.equal((await f.store.read()).state,null);assert.equal(f.settings.theme,'system');assert.equal(f.reloadCalls.length,0);
+}));
+test('真正改變後只reload一次；noop/取消不reload，且鎖已釋放',()=>fixture(async f=>{
+ f.ctx.reload=async()=>{f.reloadCalls.push('reload');await assert.rejects(readFile(join(f.store.lock,'owner.json')),{code:'ENOENT'});};
+ f.choices.push('啟用我的模板');await f.command();assert.equal(f.reloadCalls.length,1);f.choices.push('啟用我的模板');await f.command();await f.command();assert.equal(f.reloadCalls.length,1);
+ f.choices.push('停用並還原原本主題');await f.command();assert.equal(f.reloadCalls.length,2);
+}));
+test('reload後不存取任何stale UI/context；reload失敗不回退已保存主題',()=>fixture(async f=>{
+ f.ctx.reload=async()=>{Object.defineProperty(f.ctx,'ui',{get:()=>{throw new Error('STALE_CONTEXT_ACCESS');}});};f.choices.push('啟用我的模板');await f.command();assert.equal(f.settings.theme,TEMPLATE);assert.equal((await f.store.read()).state.enabled,true);
+}));
+test('reload失敗訊息去識別且保留committed選擇／紀錄',()=>fixture(async f=>{
+ f.ctx.reload=async()=>{throw new Error('PRIVATE_CREDENTIAL_PATH');};f.choices.push('啟用我的模板');await assert.rejects(f.command(),error=>/主題已保存/.test(error.message)&&!error.message.includes('PRIVATE'));assert.equal(f.settings.theme,TEMPLATE);assert.equal((await f.store.read()).state.enabled,true);
+}));
+test('套用成功後新工作／queue出現，不reload、不abort、不rollback主題',()=>fixture(async f=>{
+ const setter=f.ctx.ui.setTheme;f.ctx.ui.setTheme=value=>{const result=setter(value);f.ctx.hasPendingMessages=()=>true;return result;};f.choices.push('啟用我的模板');await f.command();assert.equal(f.reloadCalls.length,0);assert.equal(f.settings.theme,TEMPLATE);assert.equal((await f.store.read()).state.enabled,true);
 }));

@@ -1,5 +1,12 @@
 # 更新紀錄
 
+## 0.3.0
+
+- 新增 Activity 0.1.0：belowEditor 獨立單行、每秒純 UI、單調時計／每對話隔離、最後活動與動作耗時分開；等待／閒置不誤警，五分鐘無活動只提醒不代表當機。窄寬度／中文／ANSI、reload/shutdown 清理；不自動中止／重試／通知或寫模型上下文。
+- Theme 0.3.0：`/pi-theme` 成功更改並保存後安全自動官方 reload；noop／取消／失敗／新工作與佇列不 reload，reload 失敗不回退已保存主題、不取用 stale context。
+- Webhook 1.3.0：初次設定或明確 `/webhook-on` 重設事件預設，一般只有完成，Goal 完成／受阻／額度與預算停止；`events` 仍可自訂、`off` 保留，載入／更新不自動改偏好或開通知。
+- 第四資源可獨立 `pi config` 關閉，既有明確 filters 不擴大；原比例／樣式／資料位置、Goal 等待與防重送不變；舊 runtime／標籤保全。
+
 ## 0.2.2
 
 - Webhook 1.2.2：Windows 分享鎖／暫時存取錯誤時，對同一本機原子 rename 做有界重試，總等待最多 630ms；絕不 unlink 目標或重送 HTTP，持續失敗仍保留 UNKNOWN／防重送。

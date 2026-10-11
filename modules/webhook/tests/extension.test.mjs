@@ -34,7 +34,7 @@ test('unconfigured completed settlement skips mechanically; status masked, secre
   assert.equal(notices.length,0);
   await extension.commands.get('webhook-status').handler('json',ctx);
   assert.equal(JSON.parse(notices.at(-1)).configured,false);
-  assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.2.2');
+  assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.3.0');
   await extension.commands.get('webhook').handler('key dummy-do-not-echo',ctx);
   assert.ok(!notices.at(-1).includes('dummy-do-not-echo'));
   await extension.commands.get('webhook-setup').handler('',ctx);
@@ -90,7 +90,7 @@ test('Discord setup selects format first and asks only URL, persists empty key w
   assert.deepEqual(stages,['format','url','confirm']);assert.equal(calls(),1);
   const config=JSON.parse(await readFile(configPath(root),'utf8'));
   assert.equal(config.format,'discord');assert.equal(config.key,'');assert.equal(config.enabled,true);
-  assert.deepEqual(config.notifyOn,['completed']);assert.match(notices.at(-1),/已設定並開啟/);
+  assert.deepEqual(config.notifyOn,['completed']);assert.deepEqual(config.goalNotifyOn,['complete','blocked','usage_limited','budget_limited']);assert.match(notices.at(-1),/已設定並開啟/);
 }));
 for(const format of ['slack','generic'])test(`${format} setup keeps optional Bearer key after format and URL`,t=>fixture(async(extension,root)=>{
   mockSetupNetwork(t);const key=format==='slack'?'':'dummy-fixture-only';
@@ -140,6 +140,6 @@ test('hyphen test command dispatches an actual POST through mocked HTTPS, with d
 test('中文狀態為預設，原始 JSON 識別碼可明確取得且不寫設定',()=>fixture(async extension=>{
   const notices=[],ctx={mode:'sdk',ui:{notify:text=>notices.push(text)}};
   await extension.commands.get('webhook-status').handler('',ctx);assert.match(notices.at(-1),/全域總開關：關閉/);
-  await extension.commands.get('webhook-status').handler('json',ctx);assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.2.2');
+  await extension.commands.get('webhook-status').handler('json',ctx);assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.3.0');
   for(const c of extension.commands.values())assert.match(c.description,/[\u3400-\u9fff]/);
 }));

@@ -14,6 +14,7 @@ import {fromHost} from './runtime.mjs';
 const core=await fromHost('dist/index.js'),{loadExtensions}=await fromHost('dist/core/extensions/loader.js');
 const require=createRequire(import.meta.url),goalPath=join(dirname(require.resolve('@narumitw/pi-goal/package.json')),'dist/index.ts');
 const webhookPath=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
+const activityPath=fileURLToPath(new URL('../../activity/extensions/index.ts',import.meta.url));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function until(predicate){for(let i=0;i<1000;i++){if(await predicate())return;await sleep(10);}throw new Error('Timed out waiting for mocked Goal lifecycle');}
 for(const {goalFirst,recover} of [{goalFirst:true,recover:false},{goalFirst:false,recover:false},{goalFirst:true,recover:true}])test(`real pi-goal 0.54.11 + Pi AgentSession (${goalFirst?'goal first':'webhook first'}${recover?', server-error wait/resume':''}): continuation is silent, complete/null terminates and sends once`,async t=>{
@@ -23,7 +24,7 @@ for(const {goalFirst,recover} of [{goalFirst:true,recover:false},{goalFirst:fals
  t.mock.method(https,'request',(_url,_options,callback)=>{const r=new EventEmitter();r.destroy=()=>{};r.end=b=>{sent.push(JSON.parse(b));queueMicrotask(()=>callback({statusCode:204,destroy:()=>{}}));};return r;});
  try {
   const store=new Store(join(root,'config/webhook-notifier'));await store.writeConfig({version:1,enabled:true,url:'https://notify.example.invalid/fixture',key:'',format:'generic',notifyOn:['completed']});await store.writeDefault(true);
-  const extensions=await loadExtensions(goalFirst?[goalPath,webhookPath]:[webhookPath,goalPath],root);assert.deepEqual(extensions.errors,[]);
+  const extensions=await loadExtensions(goalFirst?[goalPath,webhookPath,activityPath]:[webhookPath,goalPath,activityPath],root);assert.deepEqual(extensions.errors,[]);
   const registry=await core.ModelRuntime.create({credentials:new InMemoryCredentialStore(),modelsPath:null,refreshOnCreate:false,allowModelNetwork:false});registry.hasConfiguredAuth=()=>true;registry.checkAuth=async()=>true;registry.getAuth=async()=>({auth:{apiKey:'fixture-only'},source:'FIXTURE'});registry.streamSimple=()=>{throw new Error('No nested or real model calls');};
   const manager=core.SessionManager.create(root,join(root,'sessions'));
   const loader={getExtensions:()=>extensions,getSkills:()=>({skills:[],diagnostics:[]}),getPrompts:()=>({prompts:[],diagnostics:[]}),getThemes:()=>({themes:[],diagnostics:[]}),getAgentsFiles:()=>({agentsFiles:[]}),getSystemPrompt:()=> 'Fixture only',getSystemPromptSource:()=>undefined,getAppendSystemPrompt:()=>[],getAppendSystemPromptSources:()=>[],extendResources:()=>{},reload:async()=>{}};
