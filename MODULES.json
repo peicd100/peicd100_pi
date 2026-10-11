@@ -200,18 +200,35 @@
         "themes/pi-theme-docker-look.json": "911897d69d68ec1915277c2d7d5302cb344c7abfec6f352a639ea005f63db70a"
       },
       "preserved_paths": {
-        "extensions/index.ts": "extensions/index_v0.2.0.ts"
+        "extensions/index.ts": "extensions/index_v0.2.0.ts",
+        "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.3.0.json"
       },
       "active": {
-        "version": "0.3.0",
+        "version": "0.3.1",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "1c30a164b9a6128674ea2220d1e5cdf95ee1dcdd4fbe6b3fed96ca72c9a1eb82",
-          "extensions/index_v0.3.0.ts": "d4df3ad01d5492f04138a2503003334660b400ea0e08fc7929faf474b6e8ceac",
+          "extensions/index.ts": "94884bf7188808d1222a1596e41c8cfd406df01f187360c52490c5096ae27c12",
+          "extensions/index_v0.3.1.ts": "6a499bfb5d812dc99fa458338fe09f8e2dd5b5e96e6d9e6644fa4724d7ada7ad",
           "src/toggle_v0.2.0.mjs": "cb28323b479896310085132b20d60ff72d2706e3522cc80e52fea17d3e8c30a5",
-          "themes/pi-theme-docker-look.json": "911897d69d68ec1915277c2d7d5302cb344c7abfec6f352a639ea005f63db70a"
+          "themes/pi-theme-docker-look.json": "853de1c69f5988d1eeb5c59cf2fddeea21d3898d834e3cb49159248c6e6f3638"
         }
-      }
+      },
+      "historical_releases": [
+        {
+          "version": "0.3.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "1c30a164b9a6128674ea2220d1e5cdf95ee1dcdd4fbe6b3fed96ca72c9a1eb82",
+            "extensions/index_v0.3.0.ts": "d4df3ad01d5492f04138a2503003334660b400ea0e08fc7929faf474b6e8ceac",
+            "src/toggle_v0.2.0.mjs": "cb28323b479896310085132b20d60ff72d2706e3522cc80e52fea17d3e8c30a5",
+            "themes/pi-theme-docker-look.json": "911897d69d68ec1915277c2d7d5302cb344c7abfec6f352a639ea005f63db70a"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v0.3.0.ts",
+            "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.3.0.json"
+          }
+        }
+      ]
     },
     {
       "module": "activity",

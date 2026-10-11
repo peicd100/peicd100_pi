@@ -1,5 +1,9 @@
 # 更新紀錄
 
+## 0.4.1
+
+- Theme 0.3.1 僅將執行中工具背景 `toolPendingBg` 改為 `#1A1A1A`；成功、錯誤與其他配色全部保持。保全舊 palette Hash，native Theme 渲染與單 key diff 回歸驗證；其他模組、資料、主題保存與安全 reload 不變。
+
 ## 0.4.0
 
 - Webhook 1.4.0：Goal 預設六事件 complete/waiting/paused/blocked/usage_limited/budget_limited，等待／暫停明確尚未完成；clear 不通知，正常 active 重試不通知。
