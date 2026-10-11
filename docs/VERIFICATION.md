@@ -1,5 +1,12 @@
 # 驗證範圍
 
+## 0.4.0 Goal 停止 Gates
+
+- 新adapter六defaults、等待資料schema未知failclosed、原Goalactive不mutation、stopepisode合併／resume新episode、clear不通知、complete→null。
+- 等待／暫停actual mock transport標未完成、manualpause無modelmessage/settled/aborted signal、startup不補送、wake/clear/DNSrace不送stale、master/session/optout/HTTPatmostonce／receipt保持。
+- 實際pi-goal0.54.11 retryexhaustion等待通知一次，resume→complete另一通知，兩loadorders＋Activity共存；observer factory/nonTUI無timer/shutdown清理，不LLM或Goal寫入。
+
+
 ## 0.3.0 新增 Gates
 
 - Activity：factory 無 timer、TUI only belowEditor 單行、不替換footer、不寫session／發請求；1秒僅requestRender、0/1/2/12/40/100/200可見欄寬與ANSI/中文／動態theme；shutdown/reload/tree/on-off隔離；lastActivity/operationElapsed／平行巢狀工具／5分提醒／Goal和UI等待／idle／未知狀態／nonTUI／私人內容不儲存。

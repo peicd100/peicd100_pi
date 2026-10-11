@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 `0.3.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Webhook、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，原指令與套件外資料位置不改。
+版本 `0.4.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Webhook、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，原指令與套件外資料位置不改。
 
 ## 安裝一次，之後更新
 
@@ -61,7 +61,7 @@ TUI 閒置時同步目前模型預算；明確自訂預算、停用設定或專�
 
 ### Webhook
 
-初次設定或明確 `/webhook-on`：一般 `notifyOn` 回到**只有完成**；Goal 回到**完成、受阻、額度／預算停止**。`/webhook-on` 會重設事件偏好，即使原本已開啟；之後可 `/webhook-events` 自訂。`off` 保留選擇；更新不改既有偏好或開關。
+初次設定或明確 `/webhook-on`：一般 `notifyOn` 回到**只有完成**；Goal 回到**完成、等待、暫停、受阻、額度／預算停止**。`/webhook-on` 會重設事件偏好，即使原本已開啟；之後可 `/webhook-events` 自訂。`off` 保留選擇；更新不改既有偏好或開關。
 
 總開關、新對話預設、此對話選擇互相獨立。新對話預設關閉；已有設定與既有對話選擇保持。總開關關閉連明確測試也阻擋；測試只越過此對話關閉。更新／載入不打開通知或補送歷史。
 
@@ -74,11 +74,16 @@ Windows 檔案暫時占用時，僅重試同一次本機原子替換（最多 6 
 取消後仍等待自有送出操作／收據寫入收尾，`/webhook-status` 不會提早顯示沒有待處理通知。
 
 選用相容 `@narumitw/pi-goal 0.54.11`（非執行依賴、不改 Goal 套件）：
-- Goal 進行、外部等待、伺服器錯誤重試／恢復中，不論安靜多久都不通知。
+- Goal 仍正常 `active` 執行／暫時重試不通知；**已明確進入等待**（含暫時伺服器錯誤重試用盡後的 indefinite wait）會通知「尚未完成、等待中」，不是完成或當機。
+- `paused`（手動暫停／中止、自動回應上限、無進展保護或工具不可用等）通知「尚未完成、已暫停」。停止原因與 Goal 私人內容不傳送；需要詳細原因請回 Pi `/goal` 查看。
 - `complete` 通知目標完成；`blocked`、`usage_limited`、`budget_limited` 通知真正停止、需要處理，不誤稱完成。
-- 手動 pause／clear 不當成完成；未知／不支援狀態保守阻擋。已完成後自動清除 active state 的紀錄仍能辨識，但啟動／更新不補送歷史。
+- pause 不當成完成但會有暫停通知；clear 不通知。未知／不支援狀態保守阻擋。已完成後自動清除 active state 的紀錄仍能辨識，但啟動／更新不補送歷史。
 - 同一 Goal 同一次終態轉換只通知一次；resume 後的新終態是另一個事件。沒有 Goal 時仍使用一般回合偏好，等待 Pi 重試與佇列真正結束後才通知。
-- `/webhook-events` 可分別選一般回合與 Goal 停止事件；舊設定未含 `goalNotifyOn` 時預設完成／受阻／額度與預算停止，但仍需既有 master 與 session 開啟，不會自動開啟通知。
+- `/webhook-events` 可分別選一般回合與 Goal 停止事件；舊設定未含 `goalNotifyOn` 時預設完成／等待／暫停／受阻／額度與預算停止，但仍需既有 master 與 session 開啟，不會自動開啟通知。
+
+TUI 會以一秒、leaf-change-only 的唯讀觀察器辨識 Goal 停止（手動 pause 未必有 agent_settled），不啟動模型、不修改 Goal。三秒閒置穩定後送出，醒來／resume／clear／新工作或 DNS 期間狀態變動即取消；同一 waiting／paused 持續寫入只通知一次，恢復後再次停下可新通知。啟動不補送歷史；observer 在 shutdown／reload 清理，nonTUI 不啟動。
+
+已保存明確的四事件 `goalNotifyOn` 不會因 update 被覆寫；要套用六事件預設，載入新版後明確 `/webhook-on`（不改 URL/key/對話開關），或用 `/webhook-events` 選新完整預設。
 
 相容是經此版本狀態格式與 Pi 1.1.0 測試，不保證未來 Goal schema／所有工作流插件；不是其他背景程式的全域完成偵測器。
 

@@ -1,5 +1,12 @@
 # 更新紀錄
 
+## 0.4.0
+
+- Webhook 1.4.0：Goal 預設六事件 complete/waiting/paused/blocked/usage_limited/budget_limited，等待／暫停明確尚未完成；clear 不通知，正常 active 重試不通知。
+- 新選用通知投影不改 Goal canonical active-wait 狀態；一秒 TUI readonly leaf observer補 manual pause／aborted turn無settled的漏訊，三秒idle/queueempty與DNS後同transition檢查、防重送/startup不補送/OptOut安全維持。
+- repeated waiting/paused persistence同episode只一次，resume後新episode可再通知；不傳私人原因/objective。不overwrite已保存custom事件，on/setup明確回六預設。
+- Activity／Theme／ACM與其獨立設定／行為不變；原 runtime/newpaths、標籤／資料保全。
+
 ## 0.3.0
 
 - 新增 Activity 0.1.0：belowEditor 獨立單行、每秒純 UI、單調時計／每對話隔離、最後活動與動作耗時分開；等待／閒置不誤警，五分鐘無活動只提醒不代表當機。窄寬度／中文／ANSI、reload/shutdown 清理；不自動中止／重試／通知或寫模型上下文。

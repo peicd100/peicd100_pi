@@ -92,17 +92,17 @@
         "src/core.mjs": "src/core_entry_v1.1.1.mjs"
       },
       "active": {
-        "version": "1.3.0",
+        "version": "1.4.0",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "35b06e197dcaa2e189b09db7629d29e750aab3e273d7200a9d907067896da6b9",
-          "extensions/index_v1.3.0.ts": "a6bb0d217ed944aa8d3d6fec7e6252cf898144b7c2f3658e74660f98ac06040b",
-          "src/core.mjs": "760d1846d796d21a00f8872dcaa75dca9c7cbb25ae9ba4a836e8c7d6967cab2b",
-          "src/core_v1.3.0.mjs": "ce396529657c1822291b20a034cfe620f438f489847c90dbbc37c102dd1104c2",
+          "extensions/index.ts": "2fae6904c0429276bd3166b56e7972429820bbaf7ff7b2d8235cd7045999b8b2",
+          "extensions/index_v1.4.0.ts": "446d4163a51a852953392716cd88115371c72bf4f945e0b455f96cece0b30507",
+          "src/core.mjs": "c1573edb9841dd2c4dd7bf084ba496c6b8047bbfb7082e89bca132513c99b2b6",
+          "src/core_v1.4.0.mjs": "fd232c1d65fe9ffc85d414511d63380f86f551ff46db6188589c85841fdead16",
           "src/atomic-file_v1.2.2.mjs": "c7c8d21cd76892a2ac16644bb2881bf4cbc148ec3c830c9e82e375b6cd0087a9",
-          "src/goal-policy_v1.2.0.mjs": "46338a23de311bf57ef38f5107b53b2170d42c59129bb6b18bfee619222a7d71",
+          "src/goal-policy_v1.4.0.mjs": "d1c06428d7215834c53d4bbc87c2f0d5be16ba6cd9b6693484102fcb7cafb3a7",
           "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
-          "src/presentation_v1.2.0.mjs": "17fdf84d26a22d92222a23d3f7cdd281a81ed9a474f658cddfde85a7047f4a7b"
+          "src/presentation_v1.4.0.mjs": "be0477a77b8a3ff916bd4f6d7b966f004661399ddcb9958850bd4b7712d39691"
         }
       },
       "historical_releases": [
@@ -156,6 +156,24 @@
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v1.2.2.ts",
             "src/core.mjs": "src/core_entry_v1.2.2.mjs"
+          }
+        },
+        {
+          "version": "1.3.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "35b06e197dcaa2e189b09db7629d29e750aab3e273d7200a9d907067896da6b9",
+            "extensions/index_v1.3.0.ts": "a6bb0d217ed944aa8d3d6fec7e6252cf898144b7c2f3658e74660f98ac06040b",
+            "src/core.mjs": "760d1846d796d21a00f8872dcaa75dca9c7cbb25ae9ba4a836e8c7d6967cab2b",
+            "src/core_v1.3.0.mjs": "ce396529657c1822291b20a034cfe620f438f489847c90dbbc37c102dd1104c2",
+            "src/atomic-file_v1.2.2.mjs": "c7c8d21cd76892a2ac16644bb2881bf4cbc148ec3c830c9e82e375b6cd0087a9",
+            "src/goal-policy_v1.2.0.mjs": "46338a23de311bf57ef38f5107b53b2170d42c59129bb6b18bfee619222a7d71",
+            "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
+            "src/presentation_v1.2.0.mjs": "17fdf84d26a22d92222a23d3f7cdd281a81ed9a474f658cddfde85a7047f4a7b"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.3.0.ts",
+            "src/core.mjs": "src/core_entry_v1.3.0.mjs"
           }
         }
       ]
