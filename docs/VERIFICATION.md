@@ -1,5 +1,10 @@
 # 驗證範圍
 
+## 0.2.2 本機檔案 Gates
+
+- Windows 暫時分享鎖 rename 注入、同一原子替換無目標空窗、永久错误最多七次嘗試／630ms 等待、非 Windows／非分享錯誤不重試。此 retry 僅本機檔案 I/O，HTTP at-most-once 不變。
+- 收據 finalize 尚未完成前 pending 不清零；Goal mock wire／DNS 取消／masterOff 仍要求確定 terminal receipt，不能改接受 UNKNOWN 來放寬測試。
+
 ## 0.2.0 新增 Gates
 
 - ACM 最近五次／後五回應、三次最低樣本、歷史前置證據、已知模型／比例連續範圍、未知比例／截斷／觀察未完／缺邊界、跨路由不誤歸因、readonly／不洩漏內容。runtime 正確保存 analysisPolicy metadata，不改 selector／校準算法。

@@ -9,7 +9,7 @@ import dns from 'node:dns/promises';
 import https from 'node:https';
 import {syncBuiltinESMExports} from 'node:module';
 import {EventEmitter} from 'node:events';
-import {Store} from '../src/core_v1.2.0.mjs';
+import {Store} from '../src/core_v1.2.2.mjs';
 import {fromHost} from './runtime.mjs';
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js');
 const {SessionManager}=await fromHost('dist/core/session-manager.js');

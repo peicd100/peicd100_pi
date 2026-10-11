@@ -9,7 +9,7 @@ import {EventEmitter} from 'node:events';
 import dns from 'node:dns/promises';
 import https from 'node:https';
 import {createAssistantMessageEventStream,InMemoryCredentialStore} from '@earendil-works/pi-ai';
-import {Store} from '../src/core_v1.2.0.mjs';
+import {Store} from '../src/core_v1.2.2.mjs';
 import {fromHost} from './runtime.mjs';
 const core=await fromHost('dist/index.js'),{loadExtensions}=await fromHost('dist/core/extensions/loader.js');
 const require=createRequire(import.meta.url),goalPath=join(dirname(require.resolve('@narumitw/pi-goal/package.json')),'dist/index.ts');
@@ -48,7 +48,8 @@ for(const {goalFirst,recover} of [{goalFirst:true,recover:false},{goalFirst:fals
   try {await until(()=>manager.getBranch().some(e=>e.customType==='goal-state'&&e.data?.goal?.status==='complete'));}
   catch(error){error.message+=JSON.stringify({requests,notices,errors,states:manager.getBranch().filter(e=>e.customType==='goal-state').map(e=>e.data)});throw error;}
   const states=manager.getBranch().filter(e=>e.customType==='goal-state');assert.equal(states.at(-1).data.goal,null,'Characterize actual complete-then-null persistence');
-  await until(()=>sent.length===1);await until(async()=>!(await store.recent()).some(r=>r.state==='UNKNOWN'));
+  try {await until(()=>sent.length===1);await until(async()=>!(await store.recent()).some(r=>r.state==='UNKNOWN'));}
+  catch(error){error.message+=JSON.stringify({requests,notices,errors,receipts:await store.recent()});throw error;}
   assert.equal(requests,2);assert.equal(sent[0].goal_status,'complete');assert.equal(sent[0].status,'completed');assert.deepEqual(errors,[]);
   assert(!JSON.stringify(sent).includes('disposable fixture'));assert.equal((await store.recent()).length,1);
  }finally{session?.dispose();t.mock.restoreAll();syncBuiltinESMExports();if(old===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=old;await rm(root,{recursive:true,force:true});}

@@ -1,6 +1,6 @@
 {
   "name": "peicd100_pi",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "private": true,
   "type": "module",
   "description": "PEICD100 Pi 工具箱：ACM 無摘要上下文、Webhook 通知與主題模板，單一安裝與更新",

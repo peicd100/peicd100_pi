@@ -92,13 +92,14 @@
         "src/core.mjs": "src/core_entry_v1.1.1.mjs"
       },
       "active": {
-        "version": "1.2.1",
+        "version": "1.2.2",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "7de08d5a9744817ff2ddaf4323e9a47189703fbdcaeb1bbb65e028bb94196fb5",
-          "extensions/index_v1.2.1.ts": "a5134ef37e097ee82eeb21896fb439329394cedbe13c90e481b56852eab81f09",
-          "src/core.mjs": "418f0dd83e347fd5b990b55866e6b5f4602772b0608fb7cd249b5b6fce41813f",
-          "src/core_v1.2.1.mjs": "6b40602950864d49df5667673de95248a71963a033cd4e06f6a596ec5ce9718d",
+          "extensions/index.ts": "1e64fa9a723404ac8b86d08d88285d405cd4846215ce922e7951d020133ab03a",
+          "extensions/index_v1.2.2.ts": "23e8853d96cbc153d2c5e8051fa28dea5fb534db1aee0d32a4e9c0ba18e2898a",
+          "src/core.mjs": "6bc7c71d645f9799eae774b60c1b38d40614bf53ed8973f7e3222a63db3ce2c9",
+          "src/core_v1.2.2.mjs": "f49313b2f654290c4a801fd90d341dcc1a50ac28bbaa3e8f4f93a96fd05bbf0a",
+          "src/atomic-file_v1.2.2.mjs": "c7c8d21cd76892a2ac16644bb2881bf4cbc148ec3c830c9e82e375b6cd0087a9",
           "src/goal-policy_v1.2.0.mjs": "46338a23de311bf57ef38f5107b53b2170d42c59129bb6b18bfee619222a7d71",
           "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
           "src/presentation_v1.2.0.mjs": "17fdf84d26a22d92222a23d3f7cdd281a81ed9a474f658cddfde85a7047f4a7b"
@@ -120,6 +121,23 @@
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v1.2.0.ts",
             "src/core.mjs": "src/core_entry_v1.2.0.mjs"
+          }
+        },
+        {
+          "version": "1.2.1",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "7de08d5a9744817ff2ddaf4323e9a47189703fbdcaeb1bbb65e028bb94196fb5",
+            "extensions/index_v1.2.1.ts": "a5134ef37e097ee82eeb21896fb439329394cedbe13c90e481b56852eab81f09",
+            "src/core.mjs": "418f0dd83e347fd5b990b55866e6b5f4602772b0608fb7cd249b5b6fce41813f",
+            "src/core_v1.2.1.mjs": "6b40602950864d49df5667673de95248a71963a033cd4e06f6a596ec5ce9718d",
+            "src/goal-policy_v1.2.0.mjs": "46338a23de311bf57ef38f5107b53b2170d42c59129bb6b18bfee619222a7d71",
+            "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
+            "src/presentation_v1.2.0.mjs": "17fdf84d26a22d92222a23d3f7cdd281a81ed9a474f658cddfde85a7047f4a7b"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.2.1.ts",
+            "src/core.mjs": "src/core_entry_v1.2.1.mjs"
           }
         }
       ]

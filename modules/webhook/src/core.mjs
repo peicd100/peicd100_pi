@@ -1,1 +1,1 @@
-export * from './core_v1.2.1.mjs';
+export * from './core_v1.2.2.mjs';
