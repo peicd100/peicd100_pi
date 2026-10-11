@@ -1,0 +1,39 @@
+{
+  "name": "peicd100_pi",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PEICD100 Pi 工具箱：ACM 無摘要上下文、Webhook 通知與主題模板，單一安裝與更新",
+  "license": "UNLICENSED",
+  "keywords": ["pi-package", "pi-extension", "acm", "webhook", "theme"],
+  "repository": {"type": "git", "url": "https://github.com/peicd100/peicd100_pi.git"},
+  "homepage": "https://github.com/peicd100/peicd100_pi#readme",
+  "bugs": {"url": "https://github.com/peicd100/peicd100_pi/issues"},
+  "engines": {"node": ">=22.19.0"},
+  "files": ["extensions/", "modules/", "src/", "scripts/migrate.mjs", "MODULES.json", "README.md", "CHANGELOG.md", "LICENSE", "NOTICE.md", "docs/"],
+  "pi": {
+    "extensions": ["./extensions/acm.ts", "./extensions/webhook.ts", "./extensions/theme.ts"],
+    "themes": ["./modules/theme/themes/pi-theme-docker-look.json"],
+    "skills": [],
+    "prompts": []
+  },
+  "dependencies": {"gpt-tokenizer": "3.4.0"},
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-ai": "*",
+    "@earendil-works/pi-tui": "*"
+  },
+  "devDependencies": {
+    "@earendil-works/pi-coding-agent": "1.1.0",
+    "@earendil-works/pi-ai": "1.1.0",
+    "@earendil-works/pi-tui": "1.1.0"
+  },
+  "scripts": {
+    "test": "node --test modules/acm/tests/*.test.mjs modules/webhook/tests/*.test.mjs modules/theme/tests/*.test.mjs tests/*.test.mjs",
+    "test:target": "node --test tests/*.test.mjs",
+    "check:package": "node scripts/check-package.mjs",
+    "test:install": "node scripts/test-install.mjs",
+    "test:remote": "node scripts/test-install.mjs --remote",
+    "migrate": "node scripts/migrate.mjs"
+  }
+}

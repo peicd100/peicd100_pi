@@ -1,0 +1,17 @@
+node_modules/
+.peicd100/
+.pi/
+AGENTS.md
+AGENTS.override.md
+.env
+.env.*
+config/
+private/
+artifacts/
+coverage/
+*.log
+*.tgz
+*.tar.gz
+*.tmp
+*.lock
+!package-lock.json
