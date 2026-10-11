@@ -1,6 +1,7 @@
 name: 整合套件驗證
 on:
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 permissions:

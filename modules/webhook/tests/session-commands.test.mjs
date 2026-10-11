@@ -13,6 +13,7 @@ import {SESSION_POLICY_TYPE as TYPE,readSessionPolicy,sessionEnabled} from '../s
 import {fromHost} from './runtime.mjs';
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js');
 const {SessionManager}=await fromHost('dist/core/session-manager.js');
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
 const config={version:1,enabled:true,url:'https://notify.example.invalid/fixture',key:'dummy-only',format:'generic',notifyOn:['completed']};
 const assistant=()=>({role:'assistant',api:'fixture',provider:'fixture',model:'fixture',timestamp:Date.now(),content:[{type:'text',text:'DO NOT TRANSMIT ANSWER'}],stopReason:'stop',usage:{input:1,output:1,cacheRead:0,cacheWrite:0,totalTokens:2,cost:{input:0,output:0,cacheRead:0,cacheWrite:0,total:0}}});
@@ -23,7 +24,16 @@ async function fixture(run){
  const load=async()=>{const loaded=await loadExtensions([path],root);assert.deepEqual(loaded.errors,[]);loaded.runtime.appendEntry=(type,data)=>manager.appendCustomEntry(type,data);extension=loaded.extensions[0];return extension;};
  const api={root,ctx,store:new Store(join(root,'config/webhook-notifier')),notices,get manager(){return manager;},set manager(m){manager=m;},load,
   get extension(){return extension;},event:async(name,e={})=>{for(const h of extension.handlers.get(name)??[])await h(e,ctx);},command:(name,args='')=>extension.commands.get('webhook-'+name).handler(args,ctx),
-  finish:async()=>{await api.event('agent_start');manager.appendMessage({role:'user',content:'DO NOT TRANSMIT PROMPT',timestamp:Date.now()});const id=manager.appendMessage(assistant());await api.event('turn_end',{outcome:'completed',messageEntryId:id});await api.event('agent_before_settle',{outcome:'completed'});await api.event('agent_settled');},
+  finish:async()=>{await api.event('agent_start');manager.appendMessage({role:'user',content:'DO NOT TRANSMIT PROMPT',timestamp:Date.now()});const id=manager.appendMessage(assistant());await api.event('turn_end',{outcome:'completed',messageEntryId:id});await api.event('agent_before_settle',{outcome:'completed'});await api.event('agent_settled');
+    // New notifications are nonblocking and debounce for three seconds.
+    await sleep(3010);
+    for(let n=0;n<500;n++){
+      await extension.commands.get('webhook-status').handler('json',ctx);
+      let status;try{status=JSON.parse(notices.at(-1));}catch{return;}
+      if(!status.automatic_pending)return;await sleep(10);
+    }
+    throw new Error('Pending webhook did not settle');
+  },
   newSession:()=>{manager=SessionManager.create(root,join(root,'sessions'));}};
  try{await load();await run(api);}finally{await api.event('session_shutdown');if(old===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=old;await rm(root,{recursive:true,force:true});}
 }

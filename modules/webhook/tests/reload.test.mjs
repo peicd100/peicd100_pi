@@ -24,7 +24,7 @@ test('same-process reload selects versioned core despite a cached legacy core.mj
     await writeFile(join(root,'src/session-policy_v1.1.0.mjs'),await readFile(join(source,'src/session-policy_v1.1.0.mjs')));
     await writeFile(join(root,'src/presentation_v1.1.1.mjs'),await readFile(join(source,'src/presentation_v1.1.1.mjs')));
     await writeFile(join(root,'src/secret-ui.ts'),await readFile(join(source,'src/secret-ui.ts')));
-    const index=await readFile(join(source,'extensions/index.ts'),'utf8');
+    const index=await readFile(join(source,'extensions/index_v1.1.1.ts'),'utf8');
     await writeFile(join(root,'extensions/index.ts'),index.replace('../src/core_v1.1.1.mjs','../src/core.mjs'));
     const load=async()=>{
       const r=await loadExtensionsCached([join(root,'extensions/index.ts')],root);
@@ -41,12 +41,12 @@ test('same-process reload selects versioned core despite a cached legacy core.mj
     const e={id:'fixture',sessionId:'fixture',sessionName:'Main',cwd:'/workspace/YouTube',outcome:'completed'};
     const at=new Date('2026-10-09T03:04:05Z');
     assert.equal(cached.makePayload(e,'discord',at).content.includes(' @everyone'),false);
-    for(const name of ['src/core_v1.1.1.mjs','src/core.mjs','extensions/index.ts'])
+    for(const name of ['src/core_v1.2.0.mjs','src/core.mjs','src/goal-policy_v1.2.0.mjs','src/quiet-gate_v1.2.0.mjs','src/presentation_v1.2.0.mjs','extensions/index_v1.2.0.ts','extensions/index.ts'])
       await writeFile(join(root,name),await readFile(join(source,name)));
     clearExtensionCache();
-    assert.equal((await status(await load())).loaded_version,'1.1.1');
-    const updated=await import(pathToFileURL(join(root,'src/core_v1.1.1.mjs')).href);
-    assert.equal(updated.VERSION,'1.1.1');
+    assert.equal((await status(await load())).loaded_version,'1.2.0');
+    const updated=await import(pathToFileURL(join(root,'src/core_v1.2.0.mjs')).href);
+    assert.equal(updated.VERSION,'1.2.0');
     const suffix=` · ${updated.formatSendTime(at)}`;
     assert.equal(updated.makePayload(e,'discord',at).content,`${cached.makePayload(e,'generic',at).text.slice(0,-suffix.length)} @everyone${suffix}`);
     assert.deepEqual(updated.makePayload(e,'discord',at).allowed_mentions,{parse:['everyone']});

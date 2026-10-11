@@ -44,6 +44,18 @@
         "tests/runtime.mjs": "19727cddd1f4ff5e0e31a831e998dbabb2c825e98796023a4a7937791f226b93",
         "tests/safety.test.mjs": "28b328432bcb7b6a78d9c41ee632ed1e1d1fd51c0869d761bf9061d8cfeedb01",
         "tests/window.test.mjs": "30358f633953a0634c8b169ec1d45be8a9a1ce6678f56a344f3c30b2ca9d6505"
+      },
+      "preserved_paths": {
+        "extensions/index.ts": "extensions/index_v1.5.1.ts"
+      },
+      "active": {
+        "version": "1.6.0",
+        "entrypoint": "extensions/index.ts",
+        "files": {
+          "extensions/index.ts": "2fbe92d4c31496beabc324f0b2431e960b34ff0207a808486c1f3dd4b143144c",
+          "extensions/index_v1.6.0.ts": "6f1569b8e4d0d770c4b7d43c6e4468fe0e589a448dada0f745223776d72f61bd",
+          "src/analysis_v1.6.0.mjs": "7734bc797541a7feb8b6cc4bb50ea45771495b5faa5363b9c9880691540452b4"
+        }
       }
     },
     {
@@ -74,6 +86,23 @@
         "tests/session-policy.test.mjs": "1496470df0d80dbb7bef765f295c150b7c9d062e2f5638233e409a42388c6aec",
         "tests/timestamp.test.mjs": "8bed4c3ccd9e73f851b57540738d7de493b9ffaa310ef825d51fa3c78434532b",
         "tests/transport.test.mjs": "88a6cd8641f59d9f5a3c4414463245e1c5e5e891d8fe8519c5057110071fb56b"
+      },
+      "preserved_paths": {
+        "extensions/index.ts": "extensions/index_v1.1.1.ts",
+        "src/core.mjs": "src/core_entry_v1.1.1.mjs"
+      },
+      "active": {
+        "version": "1.2.0",
+        "entrypoint": "extensions/index.ts",
+        "files": {
+          "extensions/index.ts": "5941c6060572644584e7384b9eaecefbb29818215f5e157f261fb9b4498b93bf",
+          "extensions/index_v1.2.0.ts": "b3c2cae89995e5746de171c5b728364f6490df6d47f419c0f2f80ff82ad59da8",
+          "src/core.mjs": "22fd3ad76fecbf64520da6aae16dc2fdc83951584a87b695b1ef394682224ad2",
+          "src/core_v1.2.0.mjs": "723dbac34804513b79c4c44aa16c5a149716d3ad077d3d2c81ba1d6d8db3f695",
+          "src/goal-policy_v1.2.0.mjs": "46338a23de311bf57ef38f5107b53b2170d42c59129bb6b18bfee619222a7d71",
+          "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
+          "src/presentation_v1.2.0.mjs": "17fdf84d26a22d92222a23d3f7cdd281a81ed9a474f658cddfde85a7047f4a7b"
+        }
       }
     },
     {

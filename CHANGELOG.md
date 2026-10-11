@@ -1,5 +1,12 @@
 # 更新紀錄
 
+## 0.2.0
+
+- ACM 1.6.0：`/acm-analysis` 改為判讀／觀察／建議；最近最多五次縮減、後五次模型回應；少於三次／缺證據／歷史比例未知不提供數值調參；技術累計與證據留 JSON。記錄新版縮減的 route／比例，不改滑動算法或自動調參。
+- Webhook 1.2.0：選用相容 Goal 0.54.11；active／wait／retry 不通知，只在 complete／blocked／額度或預算停止後確認閒置。三秒防抖、送前與 DNS 後重驗、終態轉換去重；手動 pause／clear 不冒稱完成，不補送歷史。
+- 一般回合與 Goal 停止事件可分別選擇；原總開關／對話選擇／秘密／收據保持，更新不自動開啟通知。未知 Goal schema 保守阻擋。
+- 保全初版 runtime Hash，新增版本檔與明確 active manifest；加入真實 Goal 套件＋Pi mock wire 的雙載入順序相容回歸，無真實模型／POST。
+
 ## 0.1.0
 
 - 首次整合 ACM 1.5.1、Webhook 1.1.1、Theme 0.2.0，一個不固定版本 Git 安裝／更新入口。

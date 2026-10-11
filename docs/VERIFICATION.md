@@ -1,4 +1,14 @@
-# 0.1.0 驗證範圍
+# 驗證範圍
+
+## 0.2.0 新增 Gates
+
+- ACM 最近五次／後五回應、三次最低樣本、歷史前置證據、已知模型／比例連續範圍、未知比例／截斷／觀察未完／缺邊界、跨路由不誤歸因、readonly／不洩漏內容。runtime 正確保存 analysisPolicy metadata，不改 selector／校準算法。
+- Goal 0.54.11 dev-only 固定相容輸入；實際 Goal＋Pi 1.1.0 AgentSession mock wire，Goal-first／Webhook-first 都不通知中間回合，goal_complete 的 complete→null 持久狀態與 terminate tool batch 可通知一次。
+- Goal active／external wait／server-error recovery、確定 blocked／usage／budget stop、pause／clear、未知 schema、啟動不補送、resume 新終態、普通回合、busy／queue／input、masterOff／event opt-out／tree、DNS 期間新工作取消等。Goal 状態只是通知判斷，不接管它的續跑。
+- 三秒防抖與送前重驗均有測試；所有傳送為 mocked DNS／HTTPS，不對真實端點 POST。已提交 HTTP 的撤回與第三方端點／裝置送達不在保證範圍。
+- 原版不可變 runtime／聲明由 preserved_paths 綁原 Hash；active 新版 manifest 明確，不靠檔名新舊猜權威。依舊完整回歸、隔離安裝／更新／migration、公開隱私與三OS CI Gate。
+
+## 0.1.0 基線
 
 結果必須以 exact commit、輸入 Hash、log 與 CI evidence 為準，不能只因存在檔案就宣稱通過。
 
