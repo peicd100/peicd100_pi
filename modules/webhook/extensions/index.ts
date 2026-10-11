@@ -1,2 +1,2 @@
 // Stable entrypoint; historical factories remain immutable for provenance.
-export { default } from './index_v1.2.0.js';
+export { default } from './index_v1.2.1.js';

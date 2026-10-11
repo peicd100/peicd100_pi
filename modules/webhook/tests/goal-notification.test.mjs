@@ -79,7 +79,7 @@ test('new work or changed Goal during DNS cannot submit a stale POST; durable cl
  let release,entered;const started=new Promise(r=>entered=r);
  t.mock.method(dns,'lookup',async()=>{entered();return new Promise(r=>release=()=>r([{address:'8.8.8.8',family:4}]));});syncBuiltinESMExports();
  f.goal();await f.begin();f.goal('complete');await f.finish();t.mock.timers.tick(3000);await started;
- f.goal();await f.event('agent_start');release();await f.drain();
+ f.goal();await f.event('agent_start');assert.equal((await f.status()).automatic_pending,true,'Cancelled owned operation remains pending until the receipt is finished');release();await f.drain();
  // quiet.cancel invalidates state immediately; wait for the owned operation's receipt.
  for(let i=0;i<2000;i++){const rows=await f.store.recent();if(rows[0]?.state==='FAILED_PRECHECK')break;await immediate();}
  assert.equal(f.sent.length,0);assert.equal((await f.store.recent())[0].state,'FAILED_PRECHECK');

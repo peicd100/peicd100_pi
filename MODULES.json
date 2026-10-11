@@ -92,18 +92,37 @@
         "src/core.mjs": "src/core_entry_v1.1.1.mjs"
       },
       "active": {
-        "version": "1.2.0",
+        "version": "1.2.1",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "5941c6060572644584e7384b9eaecefbb29818215f5e157f261fb9b4498b93bf",
-          "extensions/index_v1.2.0.ts": "b3c2cae89995e5746de171c5b728364f6490df6d47f419c0f2f80ff82ad59da8",
-          "src/core.mjs": "22fd3ad76fecbf64520da6aae16dc2fdc83951584a87b695b1ef394682224ad2",
-          "src/core_v1.2.0.mjs": "723dbac34804513b79c4c44aa16c5a149716d3ad077d3d2c81ba1d6d8db3f695",
+          "extensions/index.ts": "7de08d5a9744817ff2ddaf4323e9a47189703fbdcaeb1bbb65e028bb94196fb5",
+          "extensions/index_v1.2.1.ts": "a5134ef37e097ee82eeb21896fb439329394cedbe13c90e481b56852eab81f09",
+          "src/core.mjs": "418f0dd83e347fd5b990b55866e6b5f4602772b0608fb7cd249b5b6fce41813f",
+          "src/core_v1.2.1.mjs": "6b40602950864d49df5667673de95248a71963a033cd4e06f6a596ec5ce9718d",
           "src/goal-policy_v1.2.0.mjs": "46338a23de311bf57ef38f5107b53b2170d42c59129bb6b18bfee619222a7d71",
           "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
           "src/presentation_v1.2.0.mjs": "17fdf84d26a22d92222a23d3f7cdd281a81ed9a474f658cddfde85a7047f4a7b"
         }
-      }
+      },
+      "historical_releases": [
+        {
+          "version": "1.2.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "5941c6060572644584e7384b9eaecefbb29818215f5e157f261fb9b4498b93bf",
+            "extensions/index_v1.2.0.ts": "b3c2cae89995e5746de171c5b728364f6490df6d47f419c0f2f80ff82ad59da8",
+            "src/core.mjs": "22fd3ad76fecbf64520da6aae16dc2fdc83951584a87b695b1ef394682224ad2",
+            "src/core_v1.2.0.mjs": "723dbac34804513b79c4c44aa16c5a149716d3ad077d3d2c81ba1d6d8db3f695",
+            "src/goal-policy_v1.2.0.mjs": "46338a23de311bf57ef38f5107b53b2170d42c59129bb6b18bfee619222a7d71",
+            "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
+            "src/presentation_v1.2.0.mjs": "17fdf84d26a22d92222a23d3f7cdd281a81ed9a474f658cddfde85a7047f4a7b"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.2.0.ts",
+            "src/core.mjs": "src/core_entry_v1.2.0.mjs"
+          }
+        }
+      ]
     },
     {
       "module": "theme",
