@@ -9,7 +9,7 @@ const {loadExtensionsCached,clearExtensionCache}=await fromHost('dist/core/exten
 const source=fileURLToPath(new URL('../',import.meta.url));
 
 test('same-process reload selects versioned core despite a cached legacy core.mjs; no POST or session restart',async()=>{
-  const root=await mkdtemp(join(tmpdir(),'pi-webhook-reload-'));
+  const base=await mkdtemp(join(tmpdir(),'pi-webhook-reload-')),root=join(base,'modules','webhook');
   const oldDir=process.env.PI_CODING_AGENT_DIR;
   process.env.PI_CODING_AGENT_DIR=join(root,'private-store');
   try {
@@ -33,7 +33,7 @@ test('same-process reload selects versioned core despite a cached legacy core.mj
     };
     const status=async extension=>{
       const notices=[];
-      await extension.commands.get('webhook-status').handler('json',{mode:'sdk',ui:{notify:text=>notices.push(text)}});
+      await (extension.commands.get('webhook-status(piecd100)')??extension.commands.get('webhook-status')).handler('json',{mode:'sdk',ui:{notify:text=>notices.push(text)}});
       return JSON.parse(notices.at(-1));
     };
     assert.equal((await status(await load())).loaded_version,'fixture-old');
@@ -41,12 +41,13 @@ test('same-process reload selects versioned core despite a cached legacy core.mj
     const e={id:'fixture',sessionId:'fixture',sessionName:'Main',cwd:'/workspace/YouTube',outcome:'completed'};
     const at=new Date('2026-10-09T03:04:05Z');
     assert.equal(cached.makePayload(e,'discord',at).content.includes(' @everyone'),false);
-    for(const name of ['src/core_v1.5.0.mjs','src/session-policy_v1.5.0.mjs','src/atomic-file_v1.2.2.mjs','src/core.mjs','src/goal-policy_v1.4.0.mjs','src/quiet-gate_v1.2.0.mjs','src/presentation_v1.5.0.mjs','extensions/index_v1.5.0.ts','extensions/index.ts'])
+    await mkdir(join(base,'src'));await writeFile(join(base,'src/commands_v0.7.0.mjs'),await readFile(fileURLToPath(new URL('../../../src/commands_v0.7.0.mjs',import.meta.url))));
+    for(const name of ['src/core_v1.6.0.mjs','src/session-policy_v1.5.0.mjs','src/atomic-file_v1.2.2.mjs','src/core.mjs','src/goal-policy_v1.4.0.mjs','src/quiet-gate_v1.2.0.mjs','src/presentation_v1.5.0.mjs','src/presentation_v1.6.0.mjs','extensions/index_v1.6.0.ts','extensions/index.ts'])
       await writeFile(join(root,name),await readFile(join(source,name)));
     clearExtensionCache();
-    assert.equal((await status(await load())).loaded_version,'1.5.0');
-    const updated=await import(pathToFileURL(join(root,'src/core_v1.5.0.mjs')).href);
-    assert.equal(updated.VERSION,'1.5.0');
+    assert.equal((await status(await load())).loaded_version,'1.6.0');
+    const updated=await import(pathToFileURL(join(root,'src/core_v1.6.0.mjs')).href);
+    assert.equal(updated.VERSION,'1.6.0');
     const suffix=` · ${updated.formatSendTime(at)}`;
     assert.equal(updated.makePayload(e,'discord',at).content,`${cached.makePayload(e,'generic',at).text.slice(0,-suffix.length)} @everyone${suffix}`);
     assert.deepEqual(updated.makePayload(e,'discord',at).allowed_mentions,{parse:['everyone']});
@@ -54,6 +55,6 @@ test('same-process reload selects versioned core despite a cached legacy core.mj
   } finally {
     clearExtensionCache();
     if(oldDir===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=oldDir;
-    await rm(root,{recursive:true,force:true});
+    await rm(base,{recursive:true,force:true});
   }
 });

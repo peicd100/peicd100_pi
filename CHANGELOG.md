@@ -1,5 +1,14 @@
 # 更新紀錄
 
+## 0.7.0
+
+- 所有自有 slash command 統一 literal `(piecd100)` 後綴，無 bare alias；共同 adapter、manifest 掛載與 loader／package Gate 作為未來新增插件規則。Pi／第三方指令不改。
+- ACM 1.8.0：保留最近五次縮減判讀，新增最近十輪模型回應逐檔成功讀取／同範圍同內容重讀／其中已移出結果後重讀表；較早歷史只作比較，寫入／恢復另標、缺證據不當成 0，不判浪費或自動改比例。
+- ACM 互動設定改兩階段：目前狀態與兩數字輸入→差異預覽確認；取消／同值／模型、對話或設定漂移不寫、不 reload。明確參數保留，儲存原子同步 native budget，原比例不因更新變更。
+- Webhook 1.6.0：新增真正所有對話總開關，獨立 private global.json／revision／CAS；可忙碌設定、送出前跨程序重驗、off→on 不沿用舊候選，明確測試同受阻擋。不 grant endpoint、重設事件或修改對話／預設，不 modelabort／重送／補歷史。端點與事件確認使用 CAS，不覆寫後續變更。
+- Activity 0.3.0／Theme 0.4.0：設定選項標目前狀態，保存偏好與 runtime 分開；原活動計時／footer、palette 與安全 reload 保持。各設定介面重讀目前狀態，不回顯 URL path/key。
+- 新增版本路徑，保全 0.6.0 原 factory／facade／runtime Hash 與舊標籤；資料不搬移、不自動開通知、不強制忙碌 reload。
+
 ## 0.6.0
 
 - ACM 1.7.0：最近五次縮減與必要游標／carried read/tool owner metadata 定位，按需擴充讀取（metadata/body各最多100000）；無關舊紀錄截斷不再誤標 INCOMPLETE，真正缺依賴／budget上限仍保守，read-only/noLLM/比例不改。

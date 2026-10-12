@@ -89,7 +89,7 @@ test('public Pi loader exposes no ACM model tools or skill, commands stay UI-onl
   const f = await fixture();
   try {
     assert.equal(f.session.getActiveToolNames().some(n => n.startsWith('acm_')), false);
-    assert.deepEqual([...f.extensions.extensions[0].commands.keys()], ['acm-status', 'acm-analysis', 'acm-config', 'acm-setup']);
+    assert.deepEqual([...f.extensions.extensions[0].commands.keys()], ['acm-status', 'acm-analysis', 'acm-config', 'acm-setup'].map(n=>n+'(piecd100)'));
   } finally { await f.teardown(); }
 });
 
@@ -105,7 +105,7 @@ test('threshold footer stays stable as context grows while /acm-status retains n
     await f.session.prompt('Read-only compact-status fixture.');
     assert.equal(statuses.get('acm-passive'), 'ACM 80%→70%');
     assert.doesNotMatch(statuses.get('acm-passive'), /k|\/|summary/);
-    const command = f.extensions.extensions[0].commands.get('acm-status');
+    const command = f.extensions.extensions[0].commands.get('acm-status(piecd100)');
     await command.handler('json', { ui: uiContext, model: f.model, sessionManager: f.session.sessionManager,
       getContextUsage: () => f.session.getContextUsage() });
     const detail = JSON.parse(notices.at(-1));
@@ -194,7 +194,7 @@ test('same-request Main usage trains calibration; native footer view and branch 
     await f.session.prompt('A short continuation of this exact fixture.');
     assert.equal(samples().length, 2);
     const ctx = { ui, model: f.model, sessionManager: f.session.sessionManager, getContextUsage: () => f.session.getContextUsage() };
-    await f.extensions.extensions[0].commands.get('acm-status').handler('json', ctx);
+    await f.extensions.extensions[0].commands.get('acm-status(piecd100)').handler('json', ctx);
     const detail = JSON.parse(notices.at(-1));
     assert.equal(detail.phase, 'native-Pi-current-context');
     assert.ok(detail.calibration.factor >= 1.47 - 1e-8);
@@ -206,7 +206,7 @@ test('same-request Main usage trains calibration; native footer view and branch 
     assert.equal(samples().length, 2);
     const resumed = await fixture({ sessionManager: f.session.sessionManager, modelRuntime: f.modelRuntime, uiContext: ui });
     try {
-      await resumed.extensions.extensions[0].commands.get('acm-status').handler('json', ctx);
+      await resumed.extensions.extensions[0].commands.get('acm-status(piecd100)').handler('json', ctx);
       assert.equal(JSON.parse(notices.at(-1)).calibration.samples, 2);
     } finally { await resumed.teardown(); }
     assert.equal(summaries(), 0);
@@ -354,7 +354,7 @@ test('request-time display stays native even when calibrated estimate differs, u
     const callback = f.extensions.extensions[0].handlers.get('context_with_system')[0];
     await callback({ messages: requests[0].messages }, ctx);
     assert.equal(statuses.get('acm-passive'), 'ACM 80%→70%');
-    await f.extensions.extensions[0].commands.get('acm-status').handler('json', ctx);
+    await f.extensions.extensions[0].commands.get('acm-status(piecd100)').handler('json', ctx);
     const detail = JSON.parse(notices.at(-1));
     assert.equal(detail.displaySource, 'effective-ACM-settings');
     assert.equal(detail.nativePiView.percent, 40.8);
@@ -510,9 +510,9 @@ test('config display is read-only, needs no confirmation and makes no model requ
   try {
     const file = await readFile(join(f.temp, 'settings.json'), 'utf8');
     const branch = JSON.stringify(f.session.sessionManager.getBranch());
-    await f.configCommand('/acm-config');
+    await f.configCommand('/acm-config(piecd100)');
     assert.match(notices.at(-1), /80％.*70％/);
-    assert.match(notices.at(-1), /acm-config reset/);
+    assert.match(notices.at(-1), /acm-config\(piecd100\) reset/);
     assert.equal(await readFile(join(f.temp, 'settings.json'), 'utf8'), file);
     assert.equal(JSON.stringify(f.session.sessionManager.getBranch()), branch);
     assert.equal(requests.length, 0);
@@ -592,10 +592,10 @@ test('invalid percentages, busy session and pending messages cannot change setti
     const file = await readFile(join(f.temp, 'settings.json'), 'utf8');
     const branch = JSON.stringify(f.session.sessionManager.getBranch());
     for (const args of ['80', '80 80', '70 80', '100 70', '80 0', '-1 70', 'NaN 70', 'Infinity 70', '0x50 70', '80 70 extra']) {
-      await f.configCommand('/acm-config ' + args);
+      await f.configCommand('/acm-config(piecd100) ' + args);
       assert.equal(await readFile(join(f.temp, 'settings.json'), 'utf8'), file);
     }
-    const command = f.extensions.extensions[0].commands.get('acm-config');
+    const command = f.extensions.extensions[0].commands.get('acm-config(piecd100)');
     for (const [idle, pending] of [[false, false], [true, true]]) {
       await command.handler('85 75', { ui: { notify: text => notices.push(text) }, isIdle: () => idle, hasPendingMessages: () => pending });
       assert.match(notices.at(-1), /佇列清空/);
@@ -615,7 +615,7 @@ test('config persists ratios, synchronizes native settings and both extensions t
   try {
     const state = JSON.stringify(branchState(seeded.manager.getBranch()).state);
     const raw = JSON.stringify(seeded.manager.getBranch());
-    await f.configCommand('/acm-config 85 75');
+    await f.configCommand('/acm-config(piecd100) 85 75');
     assert.deepEqual(f.settingsManager.getSettings().acm, { triggerPercent: 85, targetPercent: 75 });
     const saved = JSON.parse(await readFile(join(f.temp, 'settings.json'), 'utf8'));
     assert.equal(saved.compaction.reserveTokens, 40800);
@@ -625,9 +625,9 @@ test('config persists ratios, synchronizes native settings and both extensions t
     assert.equal(JSON.stringify(branchState(seeded.manager.getBranch()).state), state);
     assert.equal(JSON.stringify(seeded.manager.getBranch()), raw, 'changing config cannot append a boundary, restore or rewrite raw entries');
     assert.equal(captured.length, 0);
-    await f.configCommand('/acm-status json');
+    await f.configCommand('/acm-status(piecd100) json');
     const status = JSON.parse(notices.at(-1));
-    assert.equal(status.version, '1.7.0');
+    assert.equal(status.version, '1.8.0');
     assert.equal(status.footer, 'ACM 85%→75%');
     assert.equal(status.policy.triggerRatio, 0.85);
     assert.equal(status.policy.targetRatio, 0.75);
@@ -636,7 +636,7 @@ test('config persists ratios, synchronizes native settings and both extensions t
     assert.equal(captured.length, 1);
     assertPairing(captured[0].messages);
     const beforeReset = JSON.stringify(branchState(seeded.manager.getBranch()).state);
-    await f.configCommand('/acm-config reset');
+    await f.configCommand('/acm-config(piecd100) reset');
     assert.deepEqual(f.settingsManager.getSettings().acm, { triggerPercent: 70, targetPercent: 55 });
     assert.equal(f.settingsManager.getCompactionSettings(f.model).reserveTokens, 81600);
     assert.equal(f.settingsManager.getCompactionSettings(f.model).keepRecentTokens, 149600);
@@ -654,7 +654,7 @@ test('lowering ratios defers sliding until the next healthy request and preserve
   const summaries = mockStream(f, (m, context) => assistant(m, [{ type: 'text', text: 'lower threshold continuation' }], healthyUsage(context)), captured);
   try {
     const raw = JSON.stringify(seeded.manager.getBranch());
-    await f.configCommand('/acm-config 75 65');
+    await f.configCommand('/acm-config(piecd100) 75 65');
     assert.equal(JSON.stringify(seeded.manager.getBranch()), raw);
     assert.equal(captured.length, 0);
     assert.equal(f.settingsManager.getCompactionSettings(f.model).reserveTokens, 68000);
@@ -679,7 +679,7 @@ test('reload failure rolls back the original settings without changing history o
     const file = await readFile(join(f.temp, 'settings.json'), 'utf8');
     const raw = JSON.stringify(f.session.sessionManager.getBranch());
     await f.session.bindExtensions({ commandContextActions: { waitForIdle: async () => {}, reload: async () => { throw new Error('Injected reload failure'); } } });
-    await f.configCommand('/acm-config 85 75');
+    await f.configCommand('/acm-config(piecd100) 85 75');
     assert.equal(await readFile(join(f.temp, 'settings.json'), 'utf8'), file);
     assert.deepEqual(f.settingsManager.getSettings().acm, JSON.parse(file).acm);
     assert.equal(JSON.stringify(f.session.sessionManager.getBranch()), raw);
@@ -694,9 +694,9 @@ test('中文狀態與唯讀分析透過真正 SDK 指令執行，不改分支或
   const summaries=mockStream(f,m=>assistant(m,[{type:'text',text:'禁止呼叫'}]),captured);
   try {
     const before=JSON.stringify(f.session.sessionManager.getBranch());
-    await f.session.prompt('/acm-status');assert.match(notices.at(-1),/ACM 狀態/);
-    await f.session.prompt('/acm-analysis');assert.match(notices.at(-1),/ACM 唯讀分析/);
-    await f.session.prompt('/acm-analysis json');assert.equal(JSON.parse(notices.at(-1)).schema_version,1);
+    await f.session.prompt('/acm-status(piecd100)');assert.match(notices.at(-1),/ACM 狀態/);
+    await f.session.prompt('/acm-analysis(piecd100)');assert.match(notices.at(-1),/ACM 唯讀分析/);
+    await f.session.prompt('/acm-analysis(piecd100) json');assert.equal(JSON.parse(notices.at(-1)).schema_version,1);
     assert.equal(JSON.stringify(f.session.sessionManager.getBranch()),before);assert.equal(captured.length,0);assert.equal(summaries(),0);
   } finally {await f.teardown();}
 });

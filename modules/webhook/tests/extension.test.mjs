@@ -20,7 +20,7 @@ async function fixture(run) {
 const sessionManager={getSessionId:()=> 'fixture-session',getSessionName:()=> 'Fixture',getSessionFile:()=> '/tmp/fixture-session.jsonl',getBranch:()=>[{type:'message',id:'final-entry',message:{role:'assistant',stopReason:'stop',content:[{type:'text',text:'private answer not inspected'}]}}]};
 
 test('public Pi loader exposes only webhook command, no tools/model requests or old agent_end notification',()=>fixture(async extension=>{
-  assert.equal(extension.tools.size,0);assert.deepEqual([...extension.commands.keys()],['webhook','webhook-status','webhook-setup','webhook-test','webhook-on','webhook-off','webhook-events','webhook-clear','webhook-default']);
+  assert.equal(extension.tools.size,0);assert.deepEqual([...extension.commands.keys()],['webhook','webhook-status','webhook-setup','webhook-test','webhook-on','webhook-off','webhook-events','webhook-clear','webhook-default','webhook-global'].map(n=>n+'(piecd100)'));
   assert.equal(extension.handlers.has('agent_end'),false);
   assert.equal(extension.handlers.has('agent_settled'),true);
 }));
@@ -32,12 +32,12 @@ test('unconfigured completed settlement skips mechanically; status masked, secre
   await extension.handlers.get('agent_before_settle')[0]({outcome:'completed'},ctx);
   await extension.handlers.get('agent_settled')[0]({},ctx);
   assert.equal(notices.length,0);
-  await extension.commands.get('webhook-status').handler('json',ctx);
+  await extension.commands.get('webhook-status(piecd100)').handler('json',ctx);
   assert.equal(JSON.parse(notices.at(-1)).configured,false);
-  assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.5.0');
-  await extension.commands.get('webhook').handler('key dummy-do-not-echo',ctx);
+  assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.6.0');
+  await extension.commands.get('webhook(piecd100)').handler('key dummy-do-not-echo',ctx);
   assert.ok(!notices.at(-1).includes('dummy-do-not-echo'));
-  await extension.commands.get('webhook-setup').handler('',ctx);
+  await extension.commands.get('webhook-setup(piecd100)').handler('',ctx);
   assert.match(notices.at(-1),/互動式 TUI/);
   await extension.handlers.get('session_shutdown')[0]({},ctx);
 }));
@@ -52,8 +52,8 @@ test('masked URL dialog draws no secret, cancels without config write or network
       assert.ok(!captured.includes('private-secret'));assert.ok(!captured.includes('token=dummy'));assert.match(captured,/\*{5}/);
       component.handleInput('\u001b');component.dispose();return result;
     }}};
-  await extension.commands.get('webhook-setup').handler('',ctx);
-  assert.ok(captured);assert.equal(notices.length,0);
+  await extension.commands.get('webhook-setup(piecd100)').handler('',ctx);
+  assert.ok(captured);assert.equal(notices.length,1);assert.match(notices[0],/端點：未設定/);
 }));
 
 const configPath=root=>join(root,'config/webhook-notifier/config.json');
@@ -86,7 +86,7 @@ function setupUI(format,values,enable=true) {
 test('Discord setup selects format first and asks only URL, persists empty key without POST',t=>fixture(async(extension,root)=>{
   const calls=mockSetupNetwork(t);
   const {ui,stages,notices}=setupUI('discord',['https://notify.example.invalid/discord-fixture']);
-  await extension.commands.get('webhook-setup').handler('',{mode:'tui',cwd:root,sessionManager,ui});
+  await extension.commands.get('webhook-setup(piecd100)').handler('',{mode:'tui',cwd:root,sessionManager,ui});
   assert.deepEqual(stages,['format','url','confirm']);assert.equal(calls(),1);
   const config=JSON.parse(await readFile(configPath(root),'utf8'));
   assert.equal(config.format,'discord');assert.equal(config.key,'');assert.equal(config.enabled,true);
@@ -95,23 +95,23 @@ test('Discord setup selects format first and asks only URL, persists empty key w
 for(const format of ['slack','generic'])test(`${format} setup keeps optional Bearer key after format and URL`,t=>fixture(async(extension,root)=>{
   mockSetupNetwork(t);const key=format==='slack'?'':'dummy-fixture-only';
   const {ui,stages}=setupUI(format,['https://notify.example.invalid/fixture',key]);
-  await extension.commands.get('webhook-setup').handler('',{mode:'tui',cwd:root,sessionManager,ui});
+  await extension.commands.get('webhook-setup(piecd100)').handler('',{mode:'tui',cwd:root,sessionManager,ui});
   assert.deepEqual(stages,['format','url','key','confirm']);
   const config=JSON.parse(await readFile(configPath(root),'utf8'));assert.equal(config.format,format);assert.equal(config.key,key);
 }));
 test('cancel format performs no input, DNS or config write',t=>fixture(async(extension,root)=>{
   const calls=mockSetupNetwork(t);const {ui,stages,notices}=setupUI(undefined,[]);
-  await extension.commands.get('webhook-setup').handler('',{mode:'tui',cwd:root,sessionManager,ui});
-  assert.deepEqual(stages,['format']);assert.equal(calls(),0);assert.equal(notices.length,0);
+  await extension.commands.get('webhook-setup(piecd100)').handler('',{mode:'tui',cwd:root,sessionManager,ui});
+  assert.deepEqual(stages,['format']);assert.equal(calls(),0);assert.equal(notices.length,1);assert.match(notices[0],/端點：未設定/);
   await assert.rejects(readFile(configPath(root)),{code:'ENOENT'});
 }));
 test('declining Discord enable preserves previous config including its key',t=>fixture(async(extension,root)=>{
   mockSetupNetwork(t);await mkdir(join(root,'config/webhook-notifier'),{recursive:true});
   const before=JSON.stringify({version:1,enabled:false,url:'https://notify.example.invalid/old',key:'dummy-existing-key',format:'generic',notifyOn:['completed','error']});
-  await writeFile(configPath(root),before);
+  await writeFile(configPath(root),before,{mode:0o600});
   const {ui,stages,notices}=setupUI('discord',['https://notify.example.invalid/new'],false);
-  await extension.commands.get('webhook-setup').handler('',{mode:'tui',cwd:root,sessionManager,ui});
-  assert.deepEqual(stages,['format','url','confirm']);assert.equal(notices.length,0);
+  await extension.commands.get('webhook-setup(piecd100)').handler('',{mode:'tui',cwd:root,sessionManager,ui});
+  assert.deepEqual(stages,['format','url','confirm']);assert.equal(notices.length,1);assert(!JSON.stringify(notices).includes('dummy-existing-key'));
   assert.equal(await readFile(configPath(root),'utf8'),before);
 }));
 
@@ -128,18 +128,18 @@ test('hyphen test command dispatches an actual POST through mocked HTTPS, with d
   const store=new Store(join(root,'config/webhook-notifier'));
   await store.writeConfig({version:1,enabled:true,url:'https://notify.example.invalid/test',key:'',format:'discord',notifyOn:['error']});
   assert.equal((await store.readConfig()).enabled,true,'Fixture must pass the same private-store checks as setup');
-  await extension.commands.get('webhook-test').handler('',ctx);
-  await extension.commands.get('webhook-test').handler('',ctx);
+  await extension.commands.get('webhook-test(piecd100)').handler('',ctx);
+  await extension.commands.get('webhook-test(piecd100)').handler('',ctx);
   assert.equal(sent.length,2);assert.notEqual(sent[0].id,sent[1].id);
   for(const message of sent){assert.match(message.body.content,/Pi 測試通知/);assert.match(message.body.content,/@everyone/);assert.deepEqual(message.body.allowed_mentions,{parse:['everyone']});}
   await store.writeConfig({...await store.readConfig(),enabled:false});
-  await extension.commands.get('webhook-test').handler('',ctx);
+  await extension.commands.get('webhook-test(piecd100)').handler('',ctx);
   assert.equal(sent.length,2,'Disabled configuration must never dispatch');
 }));
 
 test('中文狀態為預設，原始 JSON 識別碼可明確取得且不寫設定',()=>fixture(async extension=>{
   const notices=[],ctx={mode:'sdk',ui:{notify:text=>notices.push(text)}};
-  await extension.commands.get('webhook-status').handler('',ctx);assert.match(notices.at(-1),/端點權限：未設定/);
-  await extension.commands.get('webhook-status').handler('json',ctx);assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.5.0');
+  await extension.commands.get('webhook-status(piecd100)').handler('',ctx);assert.match(notices.at(-1),/端點權限：未設定/);
+  await extension.commands.get('webhook-status(piecd100)').handler('json',ctx);assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.6.0');
   for(const c of extension.commands.values())assert.match(c.description,/[\u3400-\u9fff]/);
 }));

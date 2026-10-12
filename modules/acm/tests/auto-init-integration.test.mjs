@@ -54,7 +54,7 @@ test('conflict decline keeps bytes and emits no request; explicit setup can late
  let accept=false;await fixture({compaction:{enabled:false}},async f=>{
   await wait(()=>f.dialogs===1);await new Promise(r=>setTimeout(r,30));const before=await readFile(join(f.root,'settings.json'),'utf8');assert.equal(f.reloads,0);assert.equal(f.requests,0);
   await f.session.prompt('blocked greeting');assert.equal(f.requests,0);assert.deepEqual(f.errors,[],'Expected setup mismatch should not dump producer/guard stacks');assert.equal(await readFile(join(f.root,'settings.json'),'utf8'),before);assert.equal(f.dialogs,1,'No same-state repeat prompt');
-  accept=true;await f.session.prompt('/acm-setup');assert.equal(f.reloads,1);assert.equal(f.dialogs,2);assert.equal(f.settingsManager.getCompactionSettings(f.model).enabled,true);assert.equal(f.requests,0);
+  accept=true;await f.session.prompt('/acm-setup(piecd100)');assert.equal(f.reloads,1);assert.equal(f.dialogs,2);assert.equal(f.settingsManager.getCompactionSettings(f.model).enabled,true);assert.equal(f.requests,0);
  },{confirm:()=>accept});
 });
 test('busy model selection defers disk mutation until the stream settles',()=>fixture({},async f=>{

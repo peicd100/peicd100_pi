@@ -9,7 +9,7 @@ async function fixture(t,run){
   const loaded=await loadExtensions([path],root);assert.deepEqual(loaded.errors,[]);const extension=loaded.extensions[0],widgets=[],notices=[];let renders=0,id='a',leaf='first',idle=true,branch=[];
   const ctx={mode:'tui',cwd:root,isIdle:()=>idle,hasPendingMessages:()=>false,sessionManager:{getSessionId:()=>id,getSessionFile:()=>undefined,getLeafId:()=>leaf,getBranch:()=>branch},ui:{notify:s=>notices.push(s),theme:{fg:(_c,s)=>s},setWidget:(key,factory,options)=>{widgets.push({key,factory,options,component:factory?.({requestRender:()=>renders++},ctx.ui.theme)});}}};
   const emit=async(name,event={})=>{for(const h of extension.handlers.get(name)??[])await h(event,ctx);};
-  await run({ctx,loaded,extension,widgets,notices,emit,render:width=>widgets.at(-1).component.render(width),renders:()=>renders,setId:v=>id=v,setIdle:v=>idle=v,setBranch:v=>{branch=v;leaf=String(Number(leaf)||0)+'next';},command:args=>extension.commands.get('pi-activity').handler(args,ctx)});
+  await run({ctx,loaded,extension,widgets,notices,emit,render:width=>widgets.at(-1).component.render(width),renders:()=>renders,setId:v=>id=v,setIdle:v=>idle=v,setBranch:v=>{branch=v;leaf=String(Number(leaf)||0)+'next';},command:args=>extension.commands.get('pi-activity(piecd100)').handler(args,ctx)});
   await emit('session_shutdown');
  }finally{if(previous===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=previous;t.mock.timers.reset();await rm(root,{recursive:true,force:true});}
 }

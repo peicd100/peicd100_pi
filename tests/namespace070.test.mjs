@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {namespaceAPI} from '../src/commands_v0.7.0.mjs';
+test('future adapter namespaces arbitrary new owned names, internal dispatch/UI and scoped lookup; native host command stays untouched',async()=>{
+ const commands=new Map(),sent=[],notices=[],native={registerCommand:(name,options)=>commands.set(name,options),getCommands:()=>[{name:'goal'},...[...commands].map(([name])=>({name}))],sendUserMessage:s=>sent.push(s)};
+ let selection,displayed;const pi=namespaceAPI(native);pi.registerCommand('future-feature',{description:'使用 /future-feature',handler:async(_args,ctx)=>{selection=await ctx.ui.select('選擇 /future-feature',['/future-feature','/goal']);ctx.ui.notify('/future-feature 或 /goal');}});
+ assert.deepEqual([...commands.keys()],['future-feature(piecd100)']);assert.match(commands.values().next().value.description,/\/future-feature\(piecd100\)/);assert.deepEqual(native.getCommands().map(c=>c.name),['goal','future-feature(piecd100)']);assert.deepEqual(pi.getCommands().map(c=>c.name),['goal','future-feature']);
+ pi.sendUserMessage('/future-feature auto');assert.deepEqual(sent,['/future-feature(piecd100) auto']);await commands.get('future-feature(piecd100)').handler('',{ui:{select:async(_title,options)=>{displayed=options;return options[0];},notify:s=>notices.push(s)}});assert.equal(selection,'/future-feature');assert.deepEqual(displayed,['/future-feature(piecd100)','/goal']);assert.deepEqual(notices,['/future-feature(piecd100) 或 /goal']);
+});

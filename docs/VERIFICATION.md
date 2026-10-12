@@ -1,5 +1,16 @@
 # 驗證範圍
 
+## 0.7.0 namespace / ten-response reads / global / settings Gates
+
+- 實際 loader 四資源／16 自有 commands 皆帶 literal `(piecd100)`、無 bare alias／模型工具；共同 adapter 處理既有自動 setup 與提示，Pi／第三方 commands 不改，所有新模組須 manifest 掛載與共用 namespace。
+- 最近十個 owning assistant responses 計次、較早 baseline 不計新讀取總數；四讀／二相同重讀／一移出後重讀例，range/content/error/carry/route/寫入後/recovery/外部路徑/未知輸出與 budget 缺史保守，沒有 body／mutation／額外讀磁碟或 LLM。舊五次縮減判讀仍回歸。
+- ACM 兩階段 input→preview／confirm；合法 pair 一次保存 native budgets／保留 unrelated settings／reload；取消、空值、非法、same、busy、disk/model/session drift 不寫或 reload。原明確參數與 no-summary/pairing/cursor/校準保持。
+- Webhook global private state／CAS／permissions／missing implicit compatibility 與 malformed fail-closed；global off 包含 manual test、跨程序 DNS 中 off→on／awaited preDispatch 後改值取消舊送出、claim 保持不重試；global/default/current 相互獨立、可 busy/no modelabort/no URL/key/events/snapshot 變動；endpoint／events stale CAS 不覆寫／清除。
+- Activity／Theme／Webhook 設定選項註目前狀態；saved vs runtime、未知與 reload 限制可見、cancel/noop 保持資料。原 FooterComponent、hidden observation／timer、palette、Theme reload／stale-context 回歸。
+- 新版本 factories／facades 與共同 runtime 原 Hash manifest；same-process legacy ESM→新版、不捆綁宿主、UTF-8／公開隱私／pack／隔離 Git install＋remote／三 OS exact-SHA CI Gate。
+
+以下段落是歷史版本驗證範圍；不作新版的開關或命名執行規範。所有結果仍以 exact commit／terminal log／CI evidence 為準。
+
 ## 0.6.0 controls / analysis / visibility / graphite Gates
 
 - ACM依recent5+前置checkpoint／cursor/carriedread/owner metadata定位，不靠無關omitted判INCOMPLETE；metadata/body各100000hardbound，依賴不存在/budget不足/ratio未知/同routeepochs/after5觀察未完整保守，noLLM/sideeffects，95/90保持。

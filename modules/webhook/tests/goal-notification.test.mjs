@@ -28,7 +28,7 @@ async function fixture(t,run) {
  const extension=loaded.extensions[0];
  const event=async(name,value={})=>{for(const h of extension.handlers.get(name)??[])await h(value,ctx);};
  const goal=(status='active',extra={})=>manager.appendCustomEntry('goal-state',{goal:{id:'g',text:'PRIVATE OBJECTIVE',status,startedAt:1,updatedAt:++seq,iteration:0,tokensUsed:0,timeUsedSeconds:0,baselineTokens:0,...extra}});
- const status=async()=>{await extension.commands.get('webhook-status').handler('json',ctx);return JSON.parse(notices.at(-1));};
+ const status=async()=>{await extension.commands.get('webhook-status(piecd100)').handler('json',ctx);return JSON.parse(notices.at(-1));};
  const drain=async()=>{for(let i=0;i<2000;i++){await immediate();if(!(await status()).automatic_pending)return;}throw new Error('Automatic notification did not settle');};
  const begin=()=>event('agent_start');
  const finish=async(outcome='completed',stopReason='stop')=>{const id=manager.appendMessage(message(stopReason));await event('turn_end',{outcome,messageEntryId:id});await event('agent_before_settle',{outcome});await event('agent_settled');return id;};
@@ -86,7 +86,7 @@ test('new work or changed Goal during DNS cannot submit a stale POST; durable cl
 }));
 test('manual pause without model message or settled boundary is observed once, aborted operation signal does not suppress the explicit stop',t=>fixture(t,async f=>{
  f.goal();f.goal('paused');const c=new AbortController();c.abort();f.ctx.signal=c.signal;
- t.mock.timers.tick(1000);await immediate();await f.tick(3000);assert.equal(f.sent.length,1);assert.equal(f.sent[0].payload.goal_status,'paused');assert.match(f.sent[0].payload.text,/尚未完成/);
+ t.mock.timers.tick(1000);for(let n=0;n<2000;n++){await immediate();if((await f.status()).automatic_pending)break;}assert.equal((await f.status()).automatic_pending,true);await f.tick(3000);assert.equal(f.sent.length,1);assert.equal(f.sent[0].payload.goal_status,'paused');assert.match(f.sent[0].payload.text,/尚未完成/);
  f.goal('paused');await f.tick(10000);assert.equal(f.sent.length,1);
 }));
 test('waiting coalesces repeated persistence, resume and later waiting create a new notification, startup does not backfill waiting or paused',t=>fixture(t,async f=>{
