@@ -1,10 +1,10 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {analyzeBranch,formatAnalysis} from '../src/analysis_v1.8.0.mjs';
+import test from 'node:test';import assert from 'node:assert/strict';import {join} from 'node:path';import {analyzeBranch,formatAnalysis} from '../src/analysis_v1.8.0.mjs';
 const route={provider:'fixture',api:'fixture',model:'m'},p={triggerPercent:95,targetPercent:90};
 const a=(id,content=[])=>({id,type:'message',message:{role:'assistant',...route,stopReason:content.length?'toolUse':'stop',content}});
 const read=(id,path='src/main.ts',offset=1,limit=100,text='DO_NOT_LEAK',error=false)=>[a('a'+id,[{type:'toolCall',name:'functions.read',id,arguments:{path,offset,limit}}]),{id:'r'+id,type:'message',message:{role:'toolResult',toolCallId:id,toolName:'read',isError:error,content:[{type:'text',text}]}}];
 test('four reads / two unchanged repeats / one excluded-result post-cut reread; nested counts, not sums; no bodies or mutation',()=>{
  const b=[...read('1'),...read('2'),...read('3','src/main.ts',101),{id:'s',type:'custom',customType:'acm-passive',data:{cursorId:'a4',carriedIds:[],anchorIds:[],analysisPolicy:{version:1,route:['fixture','fixture','m'],percentages:p}}},...read('4')],before=JSON.stringify(b),r=analyzeBranch(b,{cwd:'/project'});
- assert.deepEqual(r.recent_reads.rows[0],{file:'src/main.ts',reads:4,repeated_reads:2,post_slide_repeats:1,write_followup_repeats:0,recovery_path_candidates:0,unverified_outputs:0});assert.equal(JSON.stringify(b),before);assert(!JSON.stringify(r).includes('DO_NOT_LEAK'));assert.match(formatAnalysis(r,p),/不能相加/);
+ assert.deepEqual(r.recent_reads.rows[0],{file:join('src','main.ts'),reads:4,repeated_reads:2,post_slide_repeats:1,write_followup_repeats:0,recovery_path_candidates:0,unverified_outputs:0});assert.equal(JSON.stringify(b),before);assert(!JSON.stringify(r).includes('DO_NOT_LEAK'));assert.match(formatAnalysis(r,p),/不能相加/);
 });
 test('only last ten owning assistant responses count; older baseline still makes first recent read a repeat',()=>{
  const b=[...read('old')];for(let i=0;i<10;i++)b.push(a('filler'+i));b.push(...read('recent'));
