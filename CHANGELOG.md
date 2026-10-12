@@ -1,5 +1,12 @@
 # 更新紀錄
 
+## 0.6.0
+
+- ACM 1.7.0：最近五次縮減與必要游標／carried read/tool owner metadata 定位，按需擴充讀取（metadata/body各最多100000）；無關舊紀錄截斷不再誤標 INCOMPLETE，真正缺依賴／budget上限仍保守，read-only/noLLM/比例不改。
+- Activity 0.2.0：保留實際原生 FooterComponent/statistics/statuses，活動列最後獨立行；未知／第三方footer不搶，fallback widget。中文顯示／隱藏選單保存偏好，hidden持續觀察但無每秒重繪，時間不重設、reload不猜歷史。
+- Webhook 1.5.0：三開關操作 default（future only）／on／off（current only），授權端點可busy切當前選擇，不modelabort／不resetevents。legacyoff只在idle明確確認**當前分支的端點指紋授權**，不把舊全域enabled偷偷打開、其他對話不受影響；v1 policy向後讀取、新v2 consent不含secret。
+- Theme 0.3.2：只把pending block改較明亮#303030石墨灰，success/error/其餘保持；immutable palette、factory/entries/oldtags原Hash保全。
+
 ## 0.4.1
 
 - Theme 0.3.1 僅將執行中工具背景 `toolPendingBg` 改為 `#1A1A1A`；成功、錯誤與其他配色全部保持。保全舊 palette Hash，native Theme 渲染與單 key diff 回歸驗證；其他模組、資料、主題保存與安全 reload 不變。

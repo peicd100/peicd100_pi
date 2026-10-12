@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 `0.4.1`；套件／GitHub repo：`peicd100_pi`。把 ACM、Webhook、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，原指令與套件外資料位置不改。
+版本 `0.6.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Webhook、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，原指令與套件外資料位置不改。
 
 ## 安裝一次，之後更新
 
@@ -35,7 +35,7 @@ Theme 的主題 JSON 是另一個原生 theme 資源。停用 Theme 指令入口
 
 ### Activity：獨立活動列
 
-TUI 啟動後顯示在輸入框下方、原 footer 上方，獨占一行，不跟 ACM／用量／進度混排：
+TUI 啟動後保留**實際 Pi 原生 FooterComponent**（不重建統計／費用），活動列在原生資訊與所有 status 插件下面，最後獨占一行。只經公開 Container.children 有界定位並 compose，不改 Pi；若第三方自訂 footer 或未知布局無法安全保留，回退輸入框下方 widget，不搶占對方，`/pi-activity status` 可查看。
 
 ```text
 活動｜執行指令｜最後活動 12 秒前｜目前動作 2 分 08 秒
@@ -45,13 +45,13 @@ TUI 啟動後顯示在輸入框下方、原 footer 上方，獨占一行，不�
 
 Pi 沒有供 extension 使用的明確 auto-retry 事件，失敗後只能顯示「等待恢復／再次請求」，不猜重試次數／原因，不解析 prompt、工具參數、結果、命令或 Goal 私人內容。這不是進程心跳／所有背景程序完成偵測；UI 本身凍結時，列也不能繼續更新。
 
-新對話、切樹或 reload 重設本次觀察；無歷史時間證據就顯示「載入後尚無活動紀錄」，不猜前次工作已跑多久。窄終端／ANSI／中文按可見欄位截短，保持一行。關閉／reload 清理 timer／widget；SDK／print／RPC 不啟動。`/pi-activity off` 本次暫時隱藏，`on` 顯示；reload／新對話恢復預設。永久停用用 `pi config`；既有明確 extensions includes 不會偷偷加入新資源，請自行啟用 Activity。
+新對話、切樹或 reload 重設本次觀察；無歷史時間證據就顯示「載入後尚無活動紀錄」，不猜前次工作已跑多久。窄終端／ANSI／中文按可見欄位截短，保持一行。關閉／reload 清理 timer／widget；SDK／print／RPC 不啟動。`/pi-activity` 中文顯示／隱藏選單，`off` 隱藏、`on` 顯示並保存偏好，reload／新對話沿用。隱藏不重設本次時間或停止事件觀察，但移除自有顯示／每秒重繪；再顯示可看最新活動。背景沒有新模型請求。永久停用用 `pi config`；既有明確 extensions includes 不會偷偷加入新資源，請自行啟用 Activity。
 
 ### ACM
 
 新安裝／reset 預設 70／55，已保存自訂值沿用。Footer 顯示有效門檻，例如 `ACM 95%→90%`；使用率由 Pi 原生 footer 顯示。`/acm-status json`、`/acm-analysis json` 保留技術欄位。
 
-保護系統、最新使用者訊息、任務錨點與最近完整工具批次，維持配對、原始紀錄／簽章、路由隔離校準與單調游標。只在有效對應回覆後提交滑動邊界，不呼叫額外模型產生摘要。分析唯讀，目前分支最多掃描 10,000 筆，保留前置讀取證據；判讀以最近最多 **5 次成功縮減 × 每次後續 5 次模型回應**為主。不同模型／已記錄比例只取最近連續範圍，不混著評分。
+保護系統、最新使用者訊息、任務錨點與最近完整工具批次，維持配對、原始紀錄／簽章、路由隔離校準與單調游標。只在有效對應回覆後提交滑動邊界，不呼叫額外模型產生摘要。分析唯讀，先以最多 100,000 筆**僅 metadata**索引定位最近縮減及前置游標／carried read／tool-call owner；從原 10,000 筆起始範圍補讀必要連續區間，payload 最多 100,000 筆，超預算或真正缺依賴仍保守。較早無關紀錄未掃描不再讓完整的近期證據變成 INCOMPLETE，缺邊界與缺依賴分別顯示；判讀以最近最多 **5 次成功縮減 × 每次後續 5 次模型回應**為主。不同模型／已記錄比例只取最近連續範圍，不混著評分。
 
 `/acm-analysis` 先顯示「判讀、觀察、建議」，少於 3 次、歷史比例未知、證據不足或觀察尚未完整時只建議維持設定。新版縮減會記錄當時模型與比例，不推測舊比例。Token／快取／費用累計與證據 ID 留在 `json`，不是訂閱額度或浪費證明。重讀可能是驗證或恢復，不能當成浪費率。
 
@@ -61,9 +61,17 @@ TUI 閒置時同步目前模型預算；明確自訂預算、停用設定或專�
 
 ### Webhook
 
-初次設定或明確 `/webhook-on`：一般 `notifyOn` 回到**只有完成**；Goal 回到**完成、等待、暫停、受阻、額度／預算停止**。`/webhook-on` 會重設事件偏好，即使原本已開啟；之後可 `/webhook-events` 自訂。`off` 保留選擇；更新不改既有偏好或開關。
+**開關只有三操作**，`/webhook` 開中文選單：
 
-總開關、新對話預設、此對話選擇互相獨立。新對話預設關閉；已有設定與既有對話選擇保持。總開關關閉連明確測試也阻擋；測試只越過此對話關閉。更新／載入不打開通知或補送歷史。
+- `/webhook-default [on|off]`：設定新對話預設（初始 off），不改既有對話 snapshot。
+- `/webhook-on`：只開啟當前對話。
+- `/webhook-off`：只關閉當前對話。
+
+已授權端點的當前開／關可以在模型／工具執行中切換，僅保存非模型上下文的 policy，**不中斷工作**；off 取消尚未提交的通知，已提交 HTTP 無法保證撤回。defaults/端點/事件等有互動設定仍遵守各自安全條件。
+
+沒有第四個可操作全域總開關。舊 config.enabled 保留為**端點傳送權限**兼容：舊 false 絕不自動打開；當前 on 在閒置 TUI 明確確認後，僅在當前分支 v2 policy 保存非秘密的端點 URL 指紋授權（原 config.enabled 仍 false，因此其他對話不受影響）。busy 拒絕並提示、不中止工作；確認中 endpoint/session 變更不提交、換端點後指紋失效。已授權 on/off 不重寫 URL/key/events/config/default/其他對話。setup 是端點權限設定，不是第四開關；/webhook-session 已退役，原保存 branch policy 仍沿用。更新／載入不開通知、不補送歷史。
+
+初次或重新 `/webhook-setup` 一般 complete-only、Goal 六事件預設；**on/off/default 不再重設事件**，`/webhook-events` 可獨立自訂。`/webhook-test` 是明確真 POST，可越過當前 off 但不能越過未授權端點，三操作不發測試通知。
 
 Discord 優先且只填端點；Slack／一般 JSON 可填 Bearer 金鑰。秘密只在遮蔽設定視窗輸入，不放指令參數。HTTPS 公開 DNS／443／TLS、metadata-only、防重送、不自動重試、送出時間與 UTC 偏移保持。未知收據不可刪除來重試。
 
@@ -79,11 +87,11 @@ Windows 檔案暫時占用時，僅重試同一次本機原子替換（最多 6 
 - `complete` 通知目標完成；`blocked`、`usage_limited`、`budget_limited` 通知真正停止、需要處理，不誤稱完成。
 - pause 不當成完成但會有暫停通知；clear 不通知。未知／不支援狀態保守阻擋。已完成後自動清除 active state 的紀錄仍能辨識，但啟動／更新不補送歷史。
 - 同一 Goal 同一次終態轉換只通知一次；resume 後的新終態是另一個事件。沒有 Goal 時仍使用一般回合偏好，等待 Pi 重試與佇列真正結束後才通知。
-- `/webhook-events` 可分別選一般回合與 Goal 停止事件；舊設定未含 `goalNotifyOn` 時預設完成／等待／暫停／受阻／額度與預算停止，但仍需既有 master 與 session 開啟，不會自動開啟通知。
+- `/webhook-events` 可分別選一般回合與 Goal 停止事件；舊設定未含 `goalNotifyOn` 時預設完成／等待／暫停／受阻／額度與預算停止，但仍需端點已授權與此對話開啟，不會自動開啟通知。
 
 TUI 會以一秒、leaf-change-only 的唯讀觀察器辨識 Goal 停止（手動 pause 未必有 agent_settled），不啟動模型、不修改 Goal。三秒閒置穩定後送出，醒來／resume／clear／新工作或 DNS 期間狀態變動即取消；同一 waiting／paused 持續寫入只通知一次，恢復後再次停下可新通知。啟動不補送歷史；observer 在 shutdown／reload 清理，nonTUI 不啟動。
 
-已保存明確的四事件 `goalNotifyOn` 不會因 update 被覆寫；要套用六事件預設，載入新版後明確 `/webhook-on`（不改 URL/key/對話開關），或用 `/webhook-events` 選新完整預設。
+已保存明確的四事件 `goalNotifyOn` 不會因 update 被覆寫；要套用六事件預設，載入新版後用 `/webhook-events` 選完整六項；`/webhook-on` 現在只開當前對話，不重設事件。
 
 相容是經此版本狀態格式與 Pi 1.1.0 測試，不保證未來 Goal schema／所有工作流插件；不是其他背景程式的全域完成偵測器。
 
@@ -95,12 +103,13 @@ TUI 會以一秒、leaf-change-only 的唯讀觀察器辨識 Goal 停止（手�
 
 主題選擇由官方 API 保存，模板不在啟動時自動選用。原自訂主題仍可用；另選主題後，停用不覆寫較新選擇。
 
-執行中工具背景 `#1A1A1A`（稍亮的黑），成功背景仍 `#000000`。淡紫標題／連結 `#C7A0E8`、錯誤玫瑰紅 `#E07A86`、工具錯誤背景 `#3A2329`；模型正文與程式碼保留原色／語法色。不使用不穩定包色轉換、不改 Pi 本體或加模型背景。自動亮暗配對、專案固定主題或缺失原紀錄時拒絕不完整還原。256 色終端會近似，不控制終端機整體背景。
+執行中工具背景 `#303030`（較明亮石墨灰），成功背景仍 `#000000`。淡紫標題／連結 `#C7A0E8`、錯誤玫瑰紅 `#E07A86`、工具錯誤背景 `#3A2329`；模型正文與程式碼保留原色／語法色。不使用不穩定包色轉換、不改 Pi 本體或加模型背景。自動亮暗配對、專案固定主題或缺失原紀錄時拒絕不完整還原。256 色終端會近似，不控制終端機整體背景。
 
 ## 資料仍在原位置
 
 - ACM：Pi `<agent-dir>/settings.json` 的 `acm`／`compaction`，與原 session entries。
 - Webhook：`<agent-dir>/config/webhook-notifier/` 的 config、preferences、events／receipts。
+- Activity：`<agent-dir>/config/activity-display/preferences.json`（只含顯示布林偏好，不寫 session/模型上下文）。
 - Theme：`<agent-dir>/themes/pi-theme-user.json`、`<agent-dir>/config/pi-theme/toggle.json` 與原 theme 選擇。
 
 不搬移、清除或提交資料。設定由執行時檔案／session policy 決定，套件副本不充當 credential store。Windows chmod 不等於 ACL 證明。

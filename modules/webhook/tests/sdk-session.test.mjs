@@ -11,7 +11,7 @@ import {syncBuiltinESMExports} from 'node:module';
 import {createAssistantMessageEventStream,InMemoryCredentialStore} from '@earendil-works/pi-ai';
 import {fromHost} from './runtime.mjs';
 import {Store} from '../src/core.mjs';
-import {readSessionPolicy,sessionEnabled,SESSION_POLICY_TYPE} from '../src/session-policy_v1.1.0.mjs';
+import {readSessionPolicy,sessionEnabled,SESSION_POLICY_TYPE} from '../src/session-policy_v1.5.0.mjs';
 const core=await fromHost('dist/index.js');
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js');
 const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
@@ -35,13 +35,13 @@ test('actual AgentSession TUI binding persists private policy, commands never ca
   assert.equal(sessionEnabled(readSessionPolicy(manager.getBranch())),false);
   await session.prompt('/webhook-default on');assert.equal(requests,0);assert.equal(sessionEnabled(readSessionPolicy(manager.getBranch())),false);
   await session.prompt('PRIVATE_PROMPT_FIXTURE');assert.equal(requests,1);assert.equal(sent.length,0);
-  await session.prompt('/webhook-session on');assert.equal(requests,1);await session.prompt('PRIVATE_PROMPT_FIXTURE');
+  await session.prompt('/webhook-on');assert.equal(requests,1);await session.prompt('PRIVATE_PROMPT_FIXTURE');
   for(let n=0;n<500&&sent.length===0;n++)await new Promise(r=>setTimeout(r,10));
   await session.prompt('/webhook-status json');
   while(JSON.parse(notices.at(-1)).automatic_pending){await new Promise(r=>setTimeout(r,10));await session.prompt('/webhook-status json');}
   assert.equal(sent.length,1);
   assert(!JSON.stringify(sent).includes('PRIVATE_'));await session.reload();assert.equal(sessionEnabled(readSessionPolicy(manager.getBranch())),true);assert.equal(sent.length,1,'Reload never backfills/resends old terminal');
-  await session.prompt('/webhook-default off');assert.equal(sessionEnabled(readSessionPolicy(manager.getBranch())),true);await session.prompt('/webhook-session default');assert.equal(sessionEnabled(readSessionPolicy(manager.getBranch())),false);
+  await session.prompt('/webhook-default off');assert.equal(sessionEnabled(readSessionPolicy(manager.getBranch())),true);await session.prompt('/webhook-off');assert.equal(sessionEnabled(readSessionPolicy(manager.getBranch())),false);
   assert.equal(requests,2);assert.deepEqual(errors,[]);assert.equal((await store.recent()).length,1);
  } finally {session?.dispose();t.mock.restoreAll();syncBuiltinESMExports();if(old===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=old;await rm(root,{recursive:true,force:true});}
 });

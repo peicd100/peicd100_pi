@@ -49,14 +49,28 @@
         "extensions/index.ts": "extensions/index_v1.5.1.ts"
       },
       "active": {
-        "version": "1.6.0",
+        "version": "1.7.0",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "2fbe92d4c31496beabc324f0b2431e960b34ff0207a808486c1f3dd4b143144c",
-          "extensions/index_v1.6.0.ts": "6f1569b8e4d0d770c4b7d43c6e4468fe0e589a448dada0f745223776d72f61bd",
-          "src/analysis_v1.6.0.mjs": "7734bc797541a7feb8b6cc4bb50ea45771495b5faa5363b9c9880691540452b4"
+          "extensions/index.ts": "ac7d80ff35450dac17c0b192d4b751d869599c8ab8b5187dc5bd51de233ae1e2",
+          "extensions/index_v1.7.0.ts": "b1f3239627c2a41eb5de9fc4e20cd17792f6c02ab98a52b5d324f664d7dca21e",
+          "src/analysis_v1.7.0.mjs": "d9f48c433ad797aa432c92d12598a06587365b012abe9674e73d4765b94082b9"
         }
-      }
+      },
+      "historical_releases": [
+        {
+          "version": "1.6.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "2fbe92d4c31496beabc324f0b2431e960b34ff0207a808486c1f3dd4b143144c",
+            "extensions/index_v1.6.0.ts": "6f1569b8e4d0d770c4b7d43c6e4468fe0e589a448dada0f745223776d72f61bd",
+            "src/analysis_v1.6.0.mjs": "7734bc797541a7feb8b6cc4bb50ea45771495b5faa5363b9c9880691540452b4"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.6.0.ts"
+          }
+        }
+      ]
     },
     {
       "module": "webhook",
@@ -92,17 +106,18 @@
         "src/core.mjs": "src/core_entry_v1.1.1.mjs"
       },
       "active": {
-        "version": "1.4.0",
+        "version": "1.5.0",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "2fae6904c0429276bd3166b56e7972429820bbaf7ff7b2d8235cd7045999b8b2",
-          "extensions/index_v1.4.0.ts": "446d4163a51a852953392716cd88115371c72bf4f945e0b455f96cece0b30507",
-          "src/core.mjs": "c1573edb9841dd2c4dd7bf084ba496c6b8047bbfb7082e89bca132513c99b2b6",
-          "src/core_v1.4.0.mjs": "fd232c1d65fe9ffc85d414511d63380f86f551ff46db6188589c85841fdead16",
+          "extensions/index.ts": "7c9cdd231d82278d2afbe3a356c0ada4f3dc515aea03afe1172ee9ee8e70028a",
+          "extensions/index_v1.5.0.ts": "5a8955c4e71fed3bb57ccac84c78e47d838c7fbb195bb09965d73de1f759191d",
           "src/atomic-file_v1.2.2.mjs": "c7c8d21cd76892a2ac16644bb2881bf4cbc148ec3c830c9e82e375b6cd0087a9",
+          "src/core.mjs": "adbd286be97845dc525d6ef6a4b66b9b18d2be6c39526219e301e82daa663c7a",
+          "src/core_v1.5.0.mjs": "c1e7ae16c8df6cb90a7b091b97fc31cb2a9d83a1afdef4779eb7be284ea66120",
           "src/goal-policy_v1.4.0.mjs": "d1c06428d7215834c53d4bbc87c2f0d5be16ba6cd9b6693484102fcb7cafb3a7",
+          "src/presentation_v1.5.0.mjs": "ed991b553d8256dc07899884cd0dcde966ae25e898641fdbb5681c089e80cde1",
           "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
-          "src/presentation_v1.4.0.mjs": "be0477a77b8a3ff916bd4f6d7b966f004661399ddcb9958850bd4b7712d39691"
+          "src/session-policy_v1.5.0.mjs": "50699ad27755b1ef6f4ae116b09c0dc3a75eb2f9987dfafe3aec862b116bdb11"
         }
       },
       "historical_releases": [
@@ -175,6 +190,24 @@
             "extensions/index.ts": "extensions/entry_v1.3.0.ts",
             "src/core.mjs": "src/core_entry_v1.3.0.mjs"
           }
+        },
+        {
+          "version": "1.4.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "2fae6904c0429276bd3166b56e7972429820bbaf7ff7b2d8235cd7045999b8b2",
+            "extensions/index_v1.4.0.ts": "446d4163a51a852953392716cd88115371c72bf4f945e0b455f96cece0b30507",
+            "src/core.mjs": "c1573edb9841dd2c4dd7bf084ba496c6b8047bbfb7082e89bca132513c99b2b6",
+            "src/core_v1.4.0.mjs": "fd232c1d65fe9ffc85d414511d63380f86f551ff46db6188589c85841fdead16",
+            "src/atomic-file_v1.2.2.mjs": "c7c8d21cd76892a2ac16644bb2881bf4cbc148ec3c830c9e82e375b6cd0087a9",
+            "src/goal-policy_v1.4.0.mjs": "d1c06428d7215834c53d4bbc87c2f0d5be16ba6cd9b6693484102fcb7cafb3a7",
+            "src/quiet-gate_v1.2.0.mjs": "7f31d77036888ef39545f6b76aacbc304ab77c5ed3c5ea4be6af80c709377dc8",
+            "src/presentation_v1.4.0.mjs": "be0477a77b8a3ff916bd4f6d7b966f004661399ddcb9958850bd4b7712d39691"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.4.0.ts",
+            "src/core.mjs": "src/core_entry_v1.4.0.mjs"
+          }
         }
       ]
     },
@@ -204,13 +237,13 @@
         "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.3.0.json"
       },
       "active": {
-        "version": "0.3.1",
+        "version": "0.3.2",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "94884bf7188808d1222a1596e41c8cfd406df01f187360c52490c5096ae27c12",
-          "extensions/index_v0.3.1.ts": "6a499bfb5d812dc99fa458338fe09f8e2dd5b5e96e6d9e6644fa4724d7ada7ad",
+          "extensions/index.ts": "a1a328837042a846bb4b6f5457efba194d73656cd0dc0b9c565b4b14c0d3c829",
+          "extensions/index_v0.3.2.ts": "9ddbd322a0c6a80abb8e4447a03b815d641d31b77b0050d0865c7fd93cae6306",
           "src/toggle_v0.2.0.mjs": "cb28323b479896310085132b20d60ff72d2706e3522cc80e52fea17d3e8c30a5",
-          "themes/pi-theme-docker-look.json": "853de1c69f5988d1eeb5c59cf2fddeea21d3898d834e3cb49159248c6e6f3638"
+          "themes/pi-theme-docker-look.json": "ca7707232d5aa29bb78478e8b3784e81f270a9652aa19ab59fa834218e190465"
         }
       },
       "historical_releases": [
@@ -227,6 +260,20 @@
             "extensions/index.ts": "extensions/entry_v0.3.0.ts",
             "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.3.0.json"
           }
+        },
+        {
+          "version": "0.3.1",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "94884bf7188808d1222a1596e41c8cfd406df01f187360c52490c5096ae27c12",
+            "extensions/index_v0.3.1.ts": "6a499bfb5d812dc99fa458338fe09f8e2dd5b5e96e6d9e6644fa4724d7ada7ad",
+            "src/toggle_v0.2.0.mjs": "cb28323b479896310085132b20d60ff72d2706e3522cc80e52fea17d3e8c30a5",
+            "themes/pi-theme-docker-look.json": "853de1c69f5988d1eeb5c59cf2fddeea21d3898d834e3cb49159248c6e6f3638"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v0.3.1.ts",
+            "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.3.1.json"
+          }
         }
       ]
     },
@@ -236,14 +283,29 @@
       "origin": "first-party peicd100_pi",
       "files": {},
       "active": {
-        "version": "0.1.0",
+        "version": "0.2.0",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "3183a977fdace6bd58768f2cff9368b5b708118ab0bf2f90924d27994f46d2d6",
-          "extensions/index_v0.1.0.ts": "fd08f29834aca6438e8fd552af3b5f2e96d3ba57e443f4ab3ca73888e57649b2",
-          "src/state_v0.1.0.mjs": "c797689f96d87e4b8847b720737ca7e63ce87401c824930eac31ee86047da1cd"
+          "extensions/index.ts": "f1db7fa629665cfa432304feb5746ed677c890941dee300118cd94b05bdc2ff2",
+          "extensions/index_v0.2.0.ts": "be6f476b2bfb81991a6ae950a2ecdcfc87b08a3859dd00f29928e8b7c3c41abb",
+          "src/state_v0.1.0.mjs": "c797689f96d87e4b8847b720737ca7e63ce87401c824930eac31ee86047da1cd",
+          "src/visibility_v0.2.0.mjs": "7cbbe08c377b6c065c303f9af913a37dd2840fae9d0a5e2529edb57e57d1a9c8"
         }
-      }
+      },
+      "historical_releases": [
+        {
+          "version": "0.1.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "3183a977fdace6bd58768f2cff9368b5b708118ab0bf2f90924d27994f46d2d6",
+            "extensions/index_v0.1.0.ts": "fd08f29834aca6438e8fd552af3b5f2e96d3ba57e443f4ab3ca73888e57649b2",
+            "src/state_v0.1.0.mjs": "c797689f96d87e4b8847b720737ca7e63ce87401c824930eac31ee86047da1cd"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v0.1.0.ts"
+          }
+        }
+      ]
     }
   ]
 }

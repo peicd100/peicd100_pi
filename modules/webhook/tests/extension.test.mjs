@@ -20,7 +20,7 @@ async function fixture(run) {
 const sessionManager={getSessionId:()=> 'fixture-session',getSessionName:()=> 'Fixture',getSessionFile:()=> '/tmp/fixture-session.jsonl',getBranch:()=>[{type:'message',id:'final-entry',message:{role:'assistant',stopReason:'stop',content:[{type:'text',text:'private answer not inspected'}]}}]};
 
 test('public Pi loader exposes only webhook command, no tools/model requests or old agent_end notification',()=>fixture(async extension=>{
-  assert.equal(extension.tools.size,0);assert.deepEqual([...extension.commands.keys()],['webhook','webhook-status','webhook-setup','webhook-test','webhook-on','webhook-off','webhook-events','webhook-clear','webhook-default','webhook-session']);
+  assert.equal(extension.tools.size,0);assert.deepEqual([...extension.commands.keys()],['webhook','webhook-status','webhook-setup','webhook-test','webhook-on','webhook-off','webhook-events','webhook-clear','webhook-default']);
   assert.equal(extension.handlers.has('agent_end'),false);
   assert.equal(extension.handlers.has('agent_settled'),true);
 }));
@@ -34,7 +34,7 @@ test('unconfigured completed settlement skips mechanically; status masked, secre
   assert.equal(notices.length,0);
   await extension.commands.get('webhook-status').handler('json',ctx);
   assert.equal(JSON.parse(notices.at(-1)).configured,false);
-  assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.4.0');
+  assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.5.0');
   await extension.commands.get('webhook').handler('key dummy-do-not-echo',ctx);
   assert.ok(!notices.at(-1).includes('dummy-do-not-echo'));
   await extension.commands.get('webhook-setup').handler('',ctx);
@@ -90,7 +90,7 @@ test('Discord setup selects format first and asks only URL, persists empty key w
   assert.deepEqual(stages,['format','url','confirm']);assert.equal(calls(),1);
   const config=JSON.parse(await readFile(configPath(root),'utf8'));
   assert.equal(config.format,'discord');assert.equal(config.key,'');assert.equal(config.enabled,true);
-  assert.deepEqual(config.notifyOn,['completed']);assert.deepEqual(config.goalNotifyOn,['complete','waiting','paused','blocked','usage_limited','budget_limited']);assert.match(notices.at(-1),/已設定並開啟/);
+  assert.deepEqual(config.notifyOn,['completed']);assert.deepEqual(config.goalNotifyOn,['complete','waiting','paused','blocked','usage_limited','budget_limited']);assert.match(notices.at(-1),/端點已設定並明確授權/);
 }));
 for(const format of ['slack','generic'])test(`${format} setup keeps optional Bearer key after format and URL`,t=>fixture(async(extension,root)=>{
   mockSetupNetwork(t);const key=format==='slack'?'':'dummy-fixture-only';
@@ -132,14 +132,14 @@ test('hyphen test command dispatches an actual POST through mocked HTTPS, with d
   await extension.commands.get('webhook-test').handler('',ctx);
   assert.equal(sent.length,2);assert.notEqual(sent[0].id,sent[1].id);
   for(const message of sent){assert.match(message.body.content,/Pi 測試通知/);assert.match(message.body.content,/@everyone/);assert.deepEqual(message.body.allowed_mentions,{parse:['everyone']});}
-  await extension.commands.get('webhook-off').handler('',ctx);
+  await store.writeConfig({...await store.readConfig(),enabled:false});
   await extension.commands.get('webhook-test').handler('',ctx);
   assert.equal(sent.length,2,'Disabled configuration must never dispatch');
 }));
 
 test('中文狀態為預設，原始 JSON 識別碼可明確取得且不寫設定',()=>fixture(async extension=>{
   const notices=[],ctx={mode:'sdk',ui:{notify:text=>notices.push(text)}};
-  await extension.commands.get('webhook-status').handler('',ctx);assert.match(notices.at(-1),/全域總開關：關閉/);
-  await extension.commands.get('webhook-status').handler('json',ctx);assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.4.0');
+  await extension.commands.get('webhook-status').handler('',ctx);assert.match(notices.at(-1),/端點權限：未設定/);
+  await extension.commands.get('webhook-status').handler('json',ctx);assert.equal(JSON.parse(notices.at(-1)).loaded_version,'1.5.0');
   for(const c of extension.commands.values())assert.match(c.description,/[\u3400-\u9fff]/);
 }));

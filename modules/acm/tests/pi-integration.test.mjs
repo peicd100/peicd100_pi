@@ -627,7 +627,7 @@ test('config persists ratios, synchronizes native settings and both extensions t
     assert.equal(captured.length, 0);
     await f.configCommand('/acm-status json');
     const status = JSON.parse(notices.at(-1));
-    assert.equal(status.version, '1.6.0');
+    assert.equal(status.version, '1.7.0');
     assert.equal(status.footer, 'ACM 85%→75%');
     assert.equal(status.policy.triggerRatio, 0.85);
     assert.equal(status.policy.targetRatio, 0.75);

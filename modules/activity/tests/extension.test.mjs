@@ -4,13 +4,14 @@ const {loadExtensions}=await fromHost('dist/core/extensions/loader.js'),{visible
 const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
 async function fixture(t,run){
  const root=await mkdtemp(join(tmpdir(),'activity widget '));t.mock.timers.enable({apis:['setInterval']});
+ const previous=process.env.PI_CODING_AGENT_DIR;process.env.PI_CODING_AGENT_DIR=root;
  try{
   const loaded=await loadExtensions([path],root);assert.deepEqual(loaded.errors,[]);const extension=loaded.extensions[0],widgets=[],notices=[];let renders=0,id='a',leaf='first',idle=true,branch=[];
   const ctx={mode:'tui',cwd:root,isIdle:()=>idle,hasPendingMessages:()=>false,sessionManager:{getSessionId:()=>id,getSessionFile:()=>undefined,getLeafId:()=>leaf,getBranch:()=>branch},ui:{notify:s=>notices.push(s),theme:{fg:(_c,s)=>s},setWidget:(key,factory,options)=>{widgets.push({key,factory,options,component:factory?.({requestRender:()=>renders++},ctx.ui.theme)});}}};
   const emit=async(name,event={})=>{for(const h of extension.handlers.get(name)??[])await h(event,ctx);};
   await run({ctx,loaded,extension,widgets,notices,emit,render:width=>widgets.at(-1).component.render(width),renders:()=>renders,setId:v=>id=v,setIdle:v=>idle=v,setBranch:v=>{branch=v;leaf=String(Number(leaf)||0)+'next';},command:args=>extension.commands.get('pi-activity').handler(args,ctx)});
   await emit('session_shutdown');
- }finally{t.mock.timers.reset();await rm(root,{recursive:true,force:true});}
+ }finally{if(previous===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=previous;t.mock.timers.reset();await rm(root,{recursive:true,force:true});}
 }
 test('factory does not start timer or set footer; TUI session creates exactly one belowEditor line, resize-safe',t=>fixture(t,async f=>{
  assert.equal(f.widgets.length,0);assert.equal(f.extension.tools.size,0);assert.equal(f.extension.footerFactory,undefined);t.mock.timers.tick(3000);assert.equal(f.renders(),0);

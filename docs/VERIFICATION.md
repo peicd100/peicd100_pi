@@ -1,5 +1,14 @@
 # 驗證範圍
 
+## 0.6.0 controls / analysis / visibility / graphite Gates
+
+- ACM依recent5+前置checkpoint／cursor/carriedread/owner metadata定位，不靠無關omitted判INCOMPLETE；metadata/body各100000hardbound，依賴不存在/budget不足/ratio未知/同routeepochs/after5觀察未完整保守，noLLM/sideeffects，95/90保持。
+- 實際nativeFooterComponent與公開Container：原行逐字等價（cwd/branch/stats/status插件），最後只加活動row，narrow/ANSI/theme/userfooterconflict不搶；show/hide私有prefs持久、hide no timer但eventwatch/time保持、reload/shutdown/factorynonTUI乾淨。
+- Webhook只有3控制，中文選單、currenton/off可busy/no modelabort/no eventsreset/defaultsnapshot不變，DNS後cancel；legacycfgfalse確認僅當前branchv2 endpointURLfingerprint，不globalenabledtoggle或動credential/rawcfg/sibling，cancel/stale/endpointchange不授權；舊v1保持，malformedv2failclosed。
+- Theme新舊palette只有pending#303030 diff，nativeRGB48,48,48、success0/error58,35,41；原runtime/versionedJSON Hash保全。
+- targeted→full/pubprivacy/hash/pkg/pack/install→devexactheadmanual3OS→sameSHAmain/newtag/remote→backup/install/datahash/factories；mockonly。
+
+
 ## 0.4.0 Goal 停止 Gates
 
 - 新adapter六defaults、等待資料schema未知failclosed、原Goalactive不mutation、stopepisode合併／resume新episode、clear不通知、complete→null。
