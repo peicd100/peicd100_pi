@@ -1,5 +1,14 @@
 # 更新紀錄
 
+## 0.8.0
+
+- Notify 2.0：自有 Webhook 命令改為 Notify 八指令，移除 global／events 選單與舊 alias，只留新對話預設及當前對話 on/off；legacy global-off／端點 permission／branch選擇保守遷移，不偷偷啟用或移除原資料／收據。
+- Telegram Bot／Discord／Slack／generic profiles 分開保存，一次一種 selected；revision／CAS／跨程序 DNS 與 preDispatch freshcheck，切換不補送／轉送舊候選／自動測試。Telegram固定HTTPS/plaintext、HTTP＋APIok確認、secret-safe response與no retry。
+- 固定通知完成與需處理的確定停止，Goal自恢復wait／retryquiet；真正native取消、Goalpaused／blocked／usagebudget與各loadorder皆回歸。標題第一行對話名稱｜需要處理／已完成，狀態／可安全停止原因／下一步／UTC8實際送出時間；no @everyone／extraLLM。
+- ACM 1.8.1：唯讀分析逐檔表置頂、共用路徑一次／同名補父目錄／Unicode對齊／窄螢幕卡片；同模型比例縮減摘要置後、不同統計窗口／較早比較明示；JSON完整資料／原分析不變。
+- Activity 0.3.1：未保存偏好預設隱藏／無repaintticker，saved偏好保留；工作中on/off立即切換/noabort／reload，hidden事件觀察保持。Theme配色／原nativefooter與ACM無summary/guard/比例等安全契約不變。
+- 已發布 runtime／facade／原tag保留 Hash，新版本不覆蓋舊檔，resources paths與private資料路徑不強制搬移。
+
 ## 0.7.0
 
 - 所有自有 slash command 統一 literal `(piecd100)` 後綴，無 bare alias；共同 adapter、manifest 掛載與 loader／package Gate 作為未來新增插件規則。Pi／第三方指令不改。

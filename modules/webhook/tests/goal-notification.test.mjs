@@ -13,7 +13,7 @@ import {Store} from '../src/core_v1.2.2.mjs';
 import {fromHost} from './runtime.mjs';
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js');
 const {SessionManager}=await fromHost('dist/core/session-manager.js');
-const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
+const path=fileURLToPath(new URL('../extensions/index_v1.6.0.ts',import.meta.url));
 const config={version:1,enabled:true,url:'https://notify.example.invalid/test',key:'dummy-only',format:'generic',notifyOn:['completed','error']};
 const message=(stopReason='stop')=>({role:'assistant',provider:'fixture',api:'fixture',model:'fixture',timestamp:Date.now(),stopReason,content:[{type:'text',text:'PRIVATE RESPONSE'}]});
 async function fixture(t,run) {

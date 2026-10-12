@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 `0.7.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Webhook、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
+版本 `0.8.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Notify、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
 
 ## 安裝一次，之後更新
 
@@ -25,7 +25,7 @@ pi update git:github.com/peicd100/peicd100_pi
 | 資源 | 功能 | 指令 |
 | --- | --- | --- |
 | `extensions/acm.ts` | 無摘要上下文滑動＋獨立 no-summary guard | `/acm-status(piecd100)`、`/acm-analysis(piecd100)`、`/acm-config(piecd100)`、`/acm-setup(piecd100)` |
-| `extensions/webhook.ts` | 必要資訊通知、防重送與對話偏好 | `/webhook(piecd100)`、`/webhook-status(piecd100)`、`/webhook-setup(piecd100)`、`/webhook-test(piecd100)`、`/webhook-on(piecd100)`、`/webhook-off(piecd100)`、`/webhook-events(piecd100)`、`/webhook-clear(piecd100)`、`/webhook-default(piecd100)`、`/webhook-global(piecd100)` |
+| `extensions/webhook.ts`（保留資源路徑） | Notify：單一方式、固定停止通知、防重送與對話偏好 | `/notify(piecd100)`、`/notify-setup(piecd100)`、`/notify-on(piecd100)`、`/notify-off(piecd100)`、`/notify-default(piecd100)`、`/notify-status(piecd100)`、`/notify-test(piecd100)`、`/notify-clear(piecd100)` |
 | `extensions/theme.ts` | 中文模板啟用／停用還原，成功變更後安全自動 reload | `/pi-theme(piecd100)` |
 | `extensions/activity.ts` | 獨立單行活動觀察，不取代 footer | `/pi-activity(piecd100) [on|off|status|json]` |
 
@@ -39,7 +39,7 @@ Theme 的主題 JSON 是另一個原生 theme 資源。停用 Theme 指令入口
 
 ### Activity：獨立活動列
 
-TUI 啟動後保留**實際 Pi 原生 FooterComponent**（不重建統計／費用），活動列在原生資訊與所有 status 插件下面，最後獨占一行。只經公開 Container.children 有界定位並 compose，不改 Pi；若第三方自訂 footer 或未知布局無法安全保留，回退輸入框下方 widget，不搶占對方，`/pi-activity(piecd100) status` 可查看。
+未保存偏好時，活動列**預設關閉**，不啟動每秒重繪；已保存的顯示／隱藏偏好優先。啟用後保留**實際 Pi 原生 FooterComponent**（不重建統計／費用），活動列在原生資訊與所有 status 插件下面，最後獨占一行。只經公開 Container.children 有界定位並 compose，不改 Pi；若第三方自訂 footer 或未知布局無法安全保留，回退輸入框下方 widget，不搶占對方，`/pi-activity(piecd100) status` 可查看。
 
 ```text
 活動｜執行指令｜最後活動 12 秒前｜目前動作 2 分 08 秒
@@ -49,7 +49,7 @@ TUI 啟動後保留**實際 Pi 原生 FooterComponent**（不重建統計／費�
 
 Pi 沒有供 extension 使用的明確 auto-retry 事件，失敗後只能顯示「等待恢復／再次請求」，不猜重試次數／原因，不解析 prompt、工具參數、結果、命令或 Goal 私人內容。這不是進程心跳／所有背景程序完成偵測；UI 本身凍結時，列也不能繼續更新。
 
-新對話、切樹或 reload 重設本次觀察；無歷史時間證據就顯示「載入後尚無活動紀錄」，不猜前次工作已跑多久。窄終端／ANSI／中文按可見欄位截短，保持一行。關閉／reload 清理 timer／widget；SDK／print／RPC 不啟動。`/pi-activity(piecd100)` 中文顯示／隱藏選單，`off` 隱藏、`on` 顯示並保存偏好，reload／新對話沿用。隱藏不重設本次時間或停止事件觀察，但移除自有顯示／每秒重繪；再顯示可看最新活動。背景沒有新模型請求。永久停用用 `pi config`；既有明確 extensions includes 不會偷偷加入新資源，請自行啟用 Activity。
+新對話、切樹或 reload 重設本次觀察；無歷史時間證據就顯示「載入後尚無活動紀錄」，不猜前次工作已跑多久。窄終端／ANSI／中文按可見欄位截短，保持一行。關閉／reload 清理 timer／widget；SDK／print／RPC 不啟動。`/pi-activity(piecd100)` 中文顯示／隱藏選單，`off` 隱藏、`on` 顯示並保存偏好，reload／新對話沿用。工作執行中也可立即切換，不 abort／重試／reload、不新增模型請求。隱藏不重設本次時間或停止事件觀察，但移除自有顯示／每秒重繪；再顯示可看最新活動。背景沒有新模型請求。永久停用用 `pi config`；既有明確 extensions includes 不會偷偷加入新資源，請自行啟用 Activity。
 
 ### ACM
 
@@ -59,7 +59,7 @@ Pi 沒有供 extension 使用的明確 auto-retry 事件，失敗後只能顯示
 
 `/acm-analysis(piecd100)` 先顯示「判讀、觀察、建議」，少於 3 次、歷史比例未知、證據不足或觀察尚未完整時只建議維持設定。新版縮減會記錄當時模型與比例，不推測舊比例。Token／快取／費用累計與證據 ID 留在 `json`，不是訂閱額度或浪費證明。重讀可能是驗證或恢復，不能當成浪費率。
 
-另附**最近 10 輪模型回應**逐檔表（含工具呼叫輪）：成功讀取次數、同檔／同範圍／同可見輸出的重讀次數，以及其中舊結果已被提交縮減移出後的重讀候選。較早成功讀取可作比較基準，但不算進最近 10 輪的讀取總數。三欄是包含關係，不能相加；寫入後與恢復檔另標，不推斷動機。不同區段／內容、失敗讀取不當成相同重讀；不猜 bash 間接讀取與沒有完整結果的 nested calls。歷史／窗口不足或無法比較時明示 unknown／候選下限，0 不當成確定沒有。一般畫面最多列 20 檔，`json` 保留此有界窗口全表；不另讀磁碟。
+另附**最近 10 輪模型回應**逐檔表（含工具呼叫輪）：成功讀取次數、同檔／同範圍／同可見輸出的重讀次數，以及其中舊結果已被提交縮減移出後的重讀候選。較早成功讀取可作比較基準，但不算進最近 10 輪的讀取總數。三欄是包含關係，不能相加；寫入後與恢復檔另標，不推斷動機。不同區段／內容、失敗讀取不當成相同重讀；不猜 bash 間接讀取與沒有完整結果的 nested calls。歷史／窗口不足或無法比較時明示 unknown／候選下限，0 不當成確定沒有。一般畫面最多列 20 檔，表格置頂、共用路徑只列一次，同名檔補父目錄；依終端顯示寬度對齊、窄螢幕改逐檔卡片。縮減摘要置後並明示不同統計範圍。`json` 保留此有界窗口全表、完整路徑、證據與原判讀／建議；不另讀磁碟。
 
 `/acm-config(piecd100)` 在閒置 TUI 先顯示目前比例、輸入「觸發 保留」兩個數字，再預覽前後差異確認。須 `0 < 保留 < 觸發 < 100`，差距小於 5 會提醒；取消／同值／確認期間模型、對話或設定變更，不寫入或 reload。確認後一次保存比例與 native budget，再官方 reload。明確參數 `[70 55|reset]` 保留；目前自訂 95／90 不會因更新改動。
 
@@ -67,44 +67,43 @@ Pi 沒有供 extension 使用的明確 auto-retry 事件，失敗後只能顯示
 
 TUI 閒置時同步目前模型預算；明確自訂預算、停用設定或專案衝突不擅自覆蓋。未知模型／宿主以保守規則處理，必要內容過大時停止，不轉成摘要。停用整個 ACM 後會回到 Pi／其他插件的上下文行為，原生摘要可能恢復；不自動還原曾保存的模型預算。
 
-### Webhook
+### Notify：單一通知方式
 
-`/webhook(piecd100)` 顯示目前總開關／預設／當前選擇／端點授權與實際生效狀態，再開四操作選單：
+`/notify(piecd100)` 主選單顯示目前方式、已保存／當前對話／實際生效狀態，並切換 **Telegram Bot／Discord／Slack／一般 Webhook**。一次只啟用一種，各方式設定分別保存；切回不重填。沿用 `extensions/webhook.ts` 資源與原私有資料目錄，避免既有 filters／收據失效；舊 Webhook factory 保留歷史 Hash，但現行不註冊舊指令／global／events／channel alias。
 
-- `/webhook-global(piecd100) [on|off]`：**真正全域總開關**，影響所有對話及明確測試。
-- `/webhook-default(piecd100) [on|off]`：新對話預設（初始 off），不改既有 snapshot。
-- `/webhook-on(piecd100)`：只開啟當前對話，不更動事件。
-- `/webhook-off(piecd100)`：只關閉當前對話，不更動事件。
+| 指令 | 功能 |
+|---|---|
+| `/notify(piecd100)` | 主選單、切換方式；標示目前與已保存設定 |
+| `/notify-setup(piecd100)` | 遮蔽設定目前方式；首次可選方式 |
+| `/notify-on(piecd100)`、`/notify-off(piecd100)` | 當前對話開／關，保存選擇；已授權時可執行中切換、不 abort 或 reload |
+| `/notify-default(piecd100) [on\|off]` | 新對話預設，初始 off；不改既有 snapshot |
+| `/notify-status(piecd100) [json]` | 方式、授權、對話、實際生效與安全收據；不顯示 Token／Chat ID／完整 URL |
+| `/notify-test(piecd100)` | 明確真實 POST 測試；可越過當前對話 off，但仍需連線授權 |
+| `/notify-clear(piecd100)` | 閒置確認後清除目前 Notify 方式設定，不清其他 profiles／預設／收據 |
 
-全域與新對話預設、已授權的當前開關可在模型／工具執行中設定，**不中斷模型工作**。三種偏好互相獨立；全域關閉最高優先，送出前含 DNS 後重新讀取跨對話保存值及 revision，即使關閉後再開啟也不沿用舊通知。全域 on 不補送既有終態、不授權端點、不替對話開啟通知；off 阻擋未提交 POST，已提交 HTTP 無法保證撤回。
+Telegram：遮蔽輸入 Bot Token 和 Chat ID；私聊先對 Bot `/start`，群組須加入 Bot 並允許發訊息。只向固定 `api.telegram.org` HTTPS `/bot<TOKEN>/sendMessage` 發送 plain JSON/text，不用 parse_mode、不跟隨 redirects；HTTP 成功且回應 `ok:true` 才記 ACCEPTED，API拒絕／截斷／超時／送達未知不自動重送。成功代表 API 接受，不保證裝置已顯示。
 
-新總開關獨立保存在 `global.json`，缺檔視為允許既有選擇（不是自動啟用端點／對話）；錯誤格式或權限無法驗證則 fail closed。舊 config.enabled 仍是**端點傳送權限**，舊 false 不自動打開；當前 on 必須閒置 TUI 明確確認，僅於當前分支 v2 policy 保存非秘密端點指紋授權，不改 config.enabled 或其他對話。換端點後指紋失效。端點／事件／清除仍須閒置並核對確認時的設定，不能覆寫後來的變更。舊 webhook-session 已退役，原 branch policy 沿用；更新／載入不開通知。
+切換已配置且已授權方式可工作中執行；新連線設定／清除／舊權限確認須閒置。保存使用 revision／CAS；跨程序 DNS 與 awaited preDispatch 後即時重驗，甚至 A→B→A 也拒絕舊候選。不自動測試、不改對話／新預設、不補送、不把舊通知轉送新方式；已提交 HTTP 不能承諾撤回。
 
-初次或重新 `/webhook-setup(piecd100)` 一般 complete-only、Goal 六事件預設；**on/off/default 不再重設事件**，`/webhook-events(piecd100)` 可獨立自訂。`/webhook-test(piecd100)` 是明確真 POST，可越過當前 off，但不能越過全域 off 或未授權端點，任何開關操作都不發測試通知；明確測試也受全域總開關限制。
+**事件固定，沒有 events 選單**：正常完成、確定無法自動恢復的 error／取消、Goal完成／手動暫停／受阻／額度或預算停止通知；Goal wait、retry、恢復中的暫時錯誤保持安靜。使用公開 Goal0.54.11 metadata＋真正 `agent_settled`／idle／無queuedwork＋3秒防抖，送前重驗；不依沉默猜停止、不呼叫 Goal 或模型、不把 paused／blocked 當完成。Native Escape abort 即使沒有 before-settle 仍依明確 final aborted 狀態通知。Startup／reload／切樹不補送歷史。
 
-Discord 優先且只填端點；Slack／一般 JSON 可填 Bearer 金鑰。秘密只在遮蔽設定視窗輸入，不放指令參數。HTTPS 公開 DNS／443／TLS、metadata-only、防重送、不自動重試、送出時間與 UTC 偏移保持。未知收據不可刪除來重試。
+各方式共用模板：
 
-通知以真正收尾為準，閒置 **3 秒**只是防抖，不以沉默猜完成；送出前與 DNS 之後都重驗 session／leaf、閒置與佇列、設定與開關。新輸入／新回合／切樹／reload／關閉會取消尚未提交的通知；已提交 HTTP 不能保證撤回，不重送。
+```text
+🔔 <Pi 已保存的對話名稱>｜需要處理
 
-Windows 檔案暫時占用時，僅重試同一次本機原子替換（最多 6 次重試／累計等待 630ms）；不刪除目標、不重送 HTTP，持續錯誤仍保留未知收據。這不是 provider／Webhook request retry。
+狀態：受阻
+原因：目標已標記受阻；未提供可安全顯示的詳細停止原因。
+下一步：檢查阻塞條件，處理後手動繼續。
 
-取消後仍等待自有送出操作／收據寫入收尾，`/webhook-status(piecd100)` 不會提早顯示沒有待處理通知。
+時間：<實際送出日期時間，UTC+8>
+```
 
-選用相容 `@narumitw/pi-goal 0.54.11`（非執行依賴、不改 Goal 套件）：
-- Goal 仍正常 `active` 執行／暫時重試不通知；**已明確進入等待**（含暫時伺服器錯誤重試用盡後的 indefinite wait）會通知「尚未完成、等待中」，不是完成或當機。
-- `paused`（手動暫停／中止、自動回應上限、無進展保護或工具不可用等）通知「尚未完成、已暫停」。停止原因與 Goal 私人內容不傳送；需要詳細原因請回 Pi `/goal` 查看。
-- `complete` 通知目標完成；`blocked`、`usage_limited`、`budget_limited` 通知真正停止、需要處理，不誤稱完成。
-- pause 不當成完成但會有暫停通知；clear 不通知。未知／不支援狀態保守阻擋。已完成後自動清除 active state 的紀錄仍能辨識，但啟動／更新不補送歷史。
-- 同一 Goal 同一次終態轉換只通知一次；resume 後的新終態是另一個事件。沒有 Goal 時仍使用一般回合偏好，等待 Pi 重試與佇列真正結束後才通知。
-- `/webhook-events(piecd100)` 可分別選一般回合與 Goal 停止事件；舊設定未含 `goalNotifyOn` 時預設完成／等待／暫停／受阻／額度與預算停止，但仍需端點已授權與此對話開啟，不會自動開啟通知。
+正常完成用 `✅ <對話名稱>｜已完成`；未命名顯示「未命名對話（短 ID）」。原因只用可驗證的停止類別／長度限制等結構資訊，沒有可安全公開的詳細原因就明示，不讀對話／檔案內容、objective、raw error、金鑰或私人路徑，不用模型生成文案。Discord `allowed_mentions.parse=[]`，不加 `@everyone`；所有模式去除全體提及與控制字元。
 
-TUI 會以一秒、leaf-change-only 的唯讀觀察器辨識 Goal 停止（手動 pause 未必有 agent_settled），不啟動模型、不修改 Goal。三秒閒置穩定後送出，醒來／resume／clear／新工作或 DNS 期間狀態變動即取消；同一 waiting／paused 持續寫入只通知一次，恢復後再次停下可新通知。啟動不補送歷史；observer 在 shutdown／reload 清理，nonTUI 不啟動。
+遷移：第一次 TUI session／明確操作原子建立 `notify.json`，將 legacy格式投影為一個 profile，原 `config.json`／`global.json`／事件選擇／收據只讀保全，不當新執行政策。原 global off／連線未授權維持 blockedpermission，原分支不偷偷啟用；需閒置明確 `notify-on` 當前分支授權或 setup。新registry存在後忽略舊global，事件舊值也不再控制新固定政策。壞／未知資料 fail closed、不能猜或自動覆蓋；清除 Notify profile 不把原legacy來源重新啟用。
 
-已保存明確的四事件 `goalNotifyOn` 不會因 update 被覆寫；要套用六事件預設，載入新版後用 `/webhook-events(piecd100)` 選完整六項；`/webhook-on(piecd100)` 現在只開當前對話，不重設事件。
-
-相容是經此版本狀態格式與 Pi 1.1.0 測試，不保證未來 Goal schema／所有工作流插件；不是其他背景程式的全域完成偵測器。
-
-`/webhook-test(piecd100)` 是你明確要求的**真實 POST**，Discord 保留 `@everyone`。SDK／print／RPC 不自動通知。成功表示端點接受，不保證裝置已顯示。`--no-session` 或尚未保存的空對話不承諾跨程序恢復。
+SDK／print／RPC 不自動通知或在factory啟動觀察器。跨程序原子 claim 與舊 notification identity 保留；每個終態最多一次，送達未知不重用 claim；Windows只重試同一次本機atomicrename，不重送HTTP。Secret／URL不可輸入slash參數；private files／backup不進publicGit。
 
 ### Theme
 
@@ -117,7 +116,7 @@ TUI 會以一秒、leaf-change-only 的唯讀觀察器辨識 Goal 停止（手�
 ## 資料仍在原位置
 
 - ACM：Pi `<agent-dir>/settings.json` 的 `acm`／`compaction`，與原 session entries。
-- Webhook：`<agent-dir>/config/webhook-notifier/` 的 config、preferences、global.json（總開關）、events／receipts。
+- Notify：`<agent-dir>/config/webhook-notifier/`（沿用），新增 private `notify.json` profiles／selected revision，原 config／preferences／global／events／receipts 保留遷移與防重送證據。
 - Activity：`<agent-dir>/config/activity-display/preferences.json`（只含顯示布林偏好，不寫 session/模型上下文）。
 - Theme：`<agent-dir>/themes/pi-theme-user.json`、`<agent-dir>/config/pi-theme/toggle.json` 與原 theme 選擇。
 

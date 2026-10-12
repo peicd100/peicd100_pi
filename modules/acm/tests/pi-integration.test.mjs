@@ -627,7 +627,7 @@ test('config persists ratios, synchronizes native settings and both extensions t
     assert.equal(captured.length, 0);
     await f.configCommand('/acm-status(piecd100) json');
     const status = JSON.parse(notices.at(-1));
-    assert.equal(status.version, '1.8.0');
+    assert.equal(status.version, '1.8.1');
     assert.equal(status.footer, 'ACM 85%→75%');
     assert.equal(status.policy.triggerRatio, 0.85);
     assert.equal(status.policy.targetRatio, 0.75);
@@ -695,7 +695,7 @@ test('中文狀態與唯讀分析透過真正 SDK 指令執行，不改分支或
   try {
     const before=JSON.stringify(f.session.sessionManager.getBranch());
     await f.session.prompt('/acm-status(piecd100)');assert.match(notices.at(-1),/ACM 狀態/);
-    await f.session.prompt('/acm-analysis(piecd100)');assert.match(notices.at(-1),/ACM 唯讀分析/);
+    await f.session.prompt('/acm-analysis(piecd100)');assert.match(notices.at(-1),/ACM 分析｜最近/);
     await f.session.prompt('/acm-analysis(piecd100) json');assert.equal(JSON.parse(notices.at(-1)).schema_version,1);
     assert.equal(JSON.stringify(f.session.sessionManager.getBranch()),before);assert.equal(captured.length,0);assert.equal(summaries(),0);
   } finally {await f.teardown();}

@@ -1,3 +1,13 @@
+# 0.8.0 驗證範圍
+
+- Current Notify2.0＋ACM1.8.1／Activity0.3.1；below0.7驗證僅historical，不是現行global/events/mention政策。
+- Purecore profiles/legacyglobaloff/read-onlyprojection/materialize/CAS/selectedclear/defaultsnapshot/claimprivacy；Telegramfixedhost/token/chatID/publicDNS/HTTP+APIok/boundedbody/noredirect/no rawsecretlog；status8commands/maskedUI/switchcancel/staleconfirm/busycurrent/default。
+- Mock Goal native paused/blocked/usagebudget/complete/dedup，waitquiet／retry/unknown/startup/backfill/queued/input/dnsreroute守衛；真正Goal0.54.11＋AgentSession兩loadorder/503waitresume/cancel，真正nativeEscape before-settleskip、busy on/off no modelabort/extra requests。
+- 同格式titlefirstline／suffix／reasoncategory/next/UTC8/noeveryone，JSON安全metadata不包含private response/objective/rawreason/token。完整readstats/ACMbudget/window/guard/Theme/nativefooter/Activityfreshdefaultoff/runtimeonoff/nativewidth全部回歸。
+- Packagehistory/active/sharedSHA/privacy/UTF8/nohostdeps；isolated genuine tag/branch install/load/update/remove/migrate/rawfixturedata保持；pack。正式本機/full/三OS CI 結果見 task evidence，未驗不可推測通過；test only mocked network/models。
+
+## Historical verification (old release contracts)
+
 # 驗證範圍
 
 ## 0.7.0 namespace / ten-response reads / global / settings Gates

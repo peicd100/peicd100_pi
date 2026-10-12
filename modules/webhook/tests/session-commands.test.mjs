@@ -14,7 +14,7 @@ import {fromHost} from './runtime.mjs';
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js');
 const {SessionManager}=await fromHost('dist/core/session-manager.js');
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
+const path=fileURLToPath(new URL('../extensions/index_v1.6.0.ts',import.meta.url));
 const config={version:1,enabled:true,url:'https://notify.example.invalid/fixture',key:'dummy-only',format:'generic',notifyOn:['completed']};
 const assistant=()=>({role:'assistant',api:'fixture',provider:'fixture',model:'fixture',timestamp:Date.now(),content:[{type:'text',text:'DO NOT TRANSMIT ANSWER'}],stopReason:'stop',usage:{input:1,output:1,cacheRead:0,cacheWrite:0,totalTokens:2,cost:{input:0,output:0,cacheRead:0,cacheWrite:0,total:0}}});
 async function fixture(run){

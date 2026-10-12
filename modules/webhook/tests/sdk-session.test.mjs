@@ -14,7 +14,7 @@ import {Store} from '../src/core.mjs';
 import {readSessionPolicy,sessionEnabled,SESSION_POLICY_TYPE} from '../src/session-policy_v1.5.0.mjs';
 const core=await fromHost('dist/index.js');
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js');
-const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
+const path=fileURLToPath(new URL('../extensions/index_v1.6.0.ts',import.meta.url));
 test('actual AgentSession TUI binding persists private policy, commands never call models, reload and automatic dedup work without real network',async t=>{
  const root=await mkdtemp(join(tmpdir(),'webhook actual SDK ')),old=process.env.PI_CODING_AGENT_DIR;process.env.PI_CODING_AGENT_DIR=root;let session;
  const sent=[],notices=[],errors=[];let requests=0;

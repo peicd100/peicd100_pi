@@ -11,7 +11,7 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { fromHost } from './runtime.mjs';
 const { loadExtensions }=await fromHost('dist/core/extensions/loader.js');
-const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
+const path=fileURLToPath(new URL('../extensions/index_v1.6.0.ts',import.meta.url));
 async function fixture(run) {
   const root=await mkdtemp(join(tmpdir(),'pi-webhook-extension-'));const old=process.env.PI_CODING_AGENT_DIR;process.env.PI_CODING_AGENT_DIR=root;
   try {const loaded=await loadExtensions([path],root);assert.deepEqual(loaded.errors,[]);await run(loaded.extensions[0],root);}

@@ -13,7 +13,7 @@ import {Store} from '../src/core_v1.2.2.mjs';
 import {fromHost} from './runtime.mjs';
 const core=await fromHost('dist/index.js'),{loadExtensions}=await fromHost('dist/core/extensions/loader.js');
 const require=createRequire(import.meta.url),goalPath=join(dirname(require.resolve('@narumitw/pi-goal/package.json')),'dist/index.ts');
-const webhookPath=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
+const webhookPath=fileURLToPath(new URL('../extensions/index_v1.6.0.ts',import.meta.url));
 const activityPath=fileURLToPath(new URL('../../activity/extensions/index.ts',import.meta.url));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function until(predicate){for(let i=0;i<1000;i++){if(await predicate())return;await sleep(10);}throw new Error('Timed out waiting for mocked Goal lifecycle');}

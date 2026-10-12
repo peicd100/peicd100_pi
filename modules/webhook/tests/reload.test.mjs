@@ -43,7 +43,7 @@ test('same-process reload selects versioned core despite a cached legacy core.mj
     assert.equal(cached.makePayload(e,'discord',at).content.includes(' @everyone'),false);
     await mkdir(join(base,'src'));await writeFile(join(base,'src/commands_v0.7.0.mjs'),await readFile(fileURLToPath(new URL('../../../src/commands_v0.7.0.mjs',import.meta.url))));
     for(const name of ['src/core_v1.6.0.mjs','src/session-policy_v1.5.0.mjs','src/atomic-file_v1.2.2.mjs','src/core.mjs','src/goal-policy_v1.4.0.mjs','src/quiet-gate_v1.2.0.mjs','src/presentation_v1.5.0.mjs','src/presentation_v1.6.0.mjs','extensions/index_v1.6.0.ts','extensions/index.ts'])
-      await writeFile(join(root,name),await readFile(join(source,name)));
+      await writeFile(join(root,name),await readFile(join(source,name==='extensions/index.ts'?'extensions/entry_v1.6.0.ts':name)));
     clearExtensionCache();
     assert.equal((await status(await load())).loaded_version,'1.6.0');
     const updated=await import(pathToFileURL(join(root,'src/core_v1.6.0.mjs')).href);
