@@ -49,15 +49,14 @@
         "extensions/index.ts": "extensions/index_v1.5.1.ts"
       },
       "active": {
-        "version": "1.8.1",
+        "version": "1.8.2",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "6f0a91207b87bf5405746b6aa94f41606a4d9146dd3e305647fc5c4f38a043cb",
-          "extensions/index_v1.8.1.ts": "c467de9ce59cdc8ee84a32aa3fa29b8676758919bb54aa1d693ba6c6879cb578",
-          "src/analysis_v1.8.1.mjs": "c7e46a038ef3072787b6610943922f5e2b2f0d89962ae649a26ba9460f97cc14",
-          "src/analysis_v1.8.0.mjs": "55ad738b88dcbb4b6ee8f626cf64c33418fb422f25ab87fe0d38f9bbee5a797d",
-          "src/analysis_detail_v1.8.0.mjs": "cdd442425e2ce4ce0d6c1a82f35754440897fe58b099e6b9d3620dfb90544b61",
-          "src/presentation_v1.8.0.mjs": "510f641897073f360fb8b95f197256b9c3d88fa656838c844d67a954c2ebdb84"
+          "extensions/index.ts": "5865a9693ef4378540064828fab1f3daebbc93bbd414c7f048ef3e133e9ce05a",
+          "extensions/index_v1.8.2.ts": "06e33d8356b1074952784798f4e29850629e55dce8bd9dbe9d0aec1b854f7c49",
+          "src/analysis_v1.8.2.mjs": "60e82ee9e0327c69b14ac120eb4e23a49051cfec40b6938c3faa440262aeb7eb",
+          "src/analysis_window_v1.8.2.mjs": "4de649b939e63a54ef3e89c21de22744fa063b16ad98acb8b444b5cd54975d1d",
+          "src/analysis_detail_v1.8.2.mjs": "c553a453697f069dfb433117f25ed792c9e0cc7351ab55443a3883d467f72af5"
         }
       },
       "historical_releases": [
@@ -97,6 +96,21 @@
           },
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v1.8.0.ts"
+          }
+        },
+        {
+          "version": "1.8.1",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "6f0a91207b87bf5405746b6aa94f41606a4d9146dd3e305647fc5c4f38a043cb",
+            "extensions/index_v1.8.1.ts": "c467de9ce59cdc8ee84a32aa3fa29b8676758919bb54aa1d693ba6c6879cb578",
+            "src/analysis_v1.8.1.mjs": "c7e46a038ef3072787b6610943922f5e2b2f0d89962ae649a26ba9460f97cc14",
+            "src/analysis_v1.8.0.mjs": "55ad738b88dcbb4b6ee8f626cf64c33418fb422f25ab87fe0d38f9bbee5a797d",
+            "src/analysis_detail_v1.8.0.mjs": "cdd442425e2ce4ce0d6c1a82f35754440897fe58b099e6b9d3620dfb90544b61",
+            "src/presentation_v1.8.0.mjs": "510f641897073f360fb8b95f197256b9c3d88fa656838c844d67a954c2ebdb84"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.8.1.ts"
           }
         }
       ]
@@ -314,13 +328,13 @@
         "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.3.0.json"
       },
       "active": {
-        "version": "0.4.0",
+        "version": "0.4.1",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "20f163bc49be8af725495f050af838bbe01b1d76510fc00db10f7186dbc3f2e0",
-          "extensions/index_v0.4.0.ts": "1b51cc644691a0f1f1cc6a1fec3305c24ba74f74c18007d1f9bcb94aa8d0b2db",
+          "extensions/index.ts": "eb1f7ddb5a82ad34222b549a8b6f07929642d7615c46702e450e5d07dba38dd9",
+          "extensions/index_v0.4.1.ts": "d3feafd3f3bd6335e5708c6a30b98b20579f33cb4ac1851c014e8e5d5858d9c5",
           "src/toggle_v0.2.0.mjs": "cb28323b479896310085132b20d60ff72d2706e3522cc80e52fea17d3e8c30a5",
-          "themes/pi-theme-docker-look.json": "ca7707232d5aa29bb78478e8b3784e81f270a9652aa19ab59fa834218e190465"
+          "themes/pi-theme-docker-look.json": "1a08423e7e377a13ff5464f288b3a74b955188321a87015913239fd250e28352"
         }
       },
       "historical_releases": [
@@ -362,7 +376,22 @@
             "themes/pi-theme-docker-look.json": "ca7707232d5aa29bb78478e8b3784e81f270a9652aa19ab59fa834218e190465"
           },
           "preserved_paths": {
-            "extensions/index.ts": "extensions/entry_v0.3.2.ts"
+            "extensions/index.ts": "extensions/entry_v0.3.2.ts",
+            "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.4.0.json"
+          }
+        },
+        {
+          "version": "0.4.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "20f163bc49be8af725495f050af838bbe01b1d76510fc00db10f7186dbc3f2e0",
+            "extensions/index_v0.4.0.ts": "1b51cc644691a0f1f1cc6a1fec3305c24ba74f74c18007d1f9bcb94aa8d0b2db",
+            "src/toggle_v0.2.0.mjs": "cb28323b479896310085132b20d60ff72d2706e3522cc80e52fea17d3e8c30a5",
+            "themes/pi-theme-docker-look.json": "ca7707232d5aa29bb78478e8b3784e81f270a9652aa19ab59fa834218e190465"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v0.4.0.ts",
+            "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.4.0.json"
           }
         }
       ]

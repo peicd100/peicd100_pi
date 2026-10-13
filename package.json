@@ -1,6 +1,6 @@
 {
   "name": "peicd100_pi",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "private": true,
   "type": "module",
   "description": "PEICD100 Pi 工具箱：ACM、Webhook、主題模板與獨立活動列，單一安裝與更新",

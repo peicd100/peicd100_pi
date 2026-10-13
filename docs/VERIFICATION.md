@@ -1,3 +1,11 @@
+# 0.8.2 current verification scope
+
+- ACM1.8.2 recent_reads schema2/40successcuts跨route/oldestcommit exclusive/owningcompletebatch/olderbaselineonly/noop/dedup/failure/native/missing/cap/noDisk/noModel；legacy5cut×5response sameRoute/policy assessment identity保持，展示filterroute/0differentfromwholehistory。
+- UI Unicode/nativewidth/narrowcards/commonpath/basename/privacy/limit20/JSON互不mutate回歸；Theme0.4.1 exactlyonepalettekey#303030→#404040/nativeANSI64/error+success unchanged/historicalpalette保全。
+- 正式full/CI3OS/pub/update以task evidence為準；舊release/runtime/tag/privateprefs/data原SHA保護，不forcedreload；其餘0.8.1功能原324回歸。
+
+## Historical verification
+
 # 0.8.1 當前驗證範圍
 
 - Notify2.0.1 manual retry-exhausted exception，其他0.8功能不變；下面舊版紀錄僅historical。

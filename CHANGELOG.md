@@ -1,5 +1,11 @@
 # 更新紀錄
 
+## 0.8.2
+
+- ACM1.8.2 read表改最近40次成功提交縮減以來，跨route/policy，過往read僅baseline，不計40輪或40倍window；no-op/失敗取消不算。原近期同模型比例判讀獨立保持，顯示route與filter0說明，避免誤稱沒有歷史縮減。newJSONschema2和bounds/incomplete資訊。
+- Theme0.4.1執行中toolPendingBg只調為#404040，其餘palette/成功錯誤/設定不改。
+- 新versionedruntime/facade/舊paletteHash保全，新增40cut/baseline/wholebatch/native/dedup/cap/不同model與palette唯一差異回歸；no模型/磁碟補讀/auto調參/live reload。
+
 ## 0.8.1
 
 - Notify 2.0.1：修正提供者重試已耗盡、Goal仍記為 waiting 且無自動恢復期限時被靜音；辨識已驗 `Provider retries exhausted` 結構marker，通知「對話名稱｜需要處理」、安全耗盡原因與 follow-up／`/goal resume` 下一步，不洩漏完整錯誤或 request ID、不額外呼叫模型。

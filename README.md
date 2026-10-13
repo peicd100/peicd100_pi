@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 `0.8.1`；套件／GitHub repo：`peicd100_pi`。把 ACM、Notify、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
+版本 `0.8.2`；套件／GitHub repo：`peicd100_pi`。把 ACM、Notify、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
 
 ## 安裝一次，之後更新
 
@@ -59,7 +59,7 @@ Pi 沒有供 extension 使用的明確 auto-retry 事件，失敗後只能顯示
 
 `/acm-analysis(piecd100)` 先顯示「判讀、觀察、建議」，少於 3 次、歷史比例未知、證據不足或觀察尚未完整時只建議維持設定。新版縮減會記錄當時模型與比例，不推測舊比例。Token／快取／費用累計與證據 ID 留在 `json`，不是訂閱額度或浪費證明。重讀可能是驗證或恢復，不能當成浪費率。
 
-另附**最近 10 輪模型回應**逐檔表（含工具呼叫輪）：成功讀取次數、同檔／同範圍／同可見輸出的重讀次數，以及其中舊結果已被提交縮減移出後的重讀候選。較早成功讀取可作比較基準，但不算進最近 10 輪的讀取總數。三欄是包含關係，不能相加；寫入後與恢復檔另標，不推斷動機。不同區段／內容、失敗讀取不當成相同重讀；不猜 bash 間接讀取與沒有完整結果的 nested calls。歷史／窗口不足或無法比較時明示 unknown／候選下限，0 不當成確定沒有。一般畫面最多列 20 檔，表格置頂、共用路徑只列一次，同名檔補父目錄；依終端顯示寬度對齊、窄螢幕改逐檔卡片。縮減摘要置後並明示不同統計範圍。`json` 保留此有界窗口全表、完整路徑、證據與原判讀／建議；不另讀磁碟。
+另附**最近 40 次成功縮減**逐檔表（含工具呼叫輪）：成功讀取次數、同檔／同範圍／同可見輸出的重讀次數，以及其中舊結果已被提交縮減移出後的重讀候選。較早成功讀取可作比較基準，但不算進最近 40 次成功縮減的讀取總數。三欄是包含關係，不能相加；寫入後與恢復檔另標，不推斷動機。不同區段／內容、失敗讀取不當成相同重讀；不猜 bash 間接讀取與沒有完整結果的 nested calls。歷史／窗口不足或無法比較時明示 unknown／候選下限，0 不當成確定沒有。一般畫面最多列 20 檔，表格置頂、共用路徑只列一次，同名檔補父目錄；依終端顯示寬度對齊、窄螢幕改逐檔卡片。縮減摘要置後並明示不同統計範圍。`json` 保留此有界窗口全表、完整路徑、證據與原判讀／建議；不另讀磁碟。
 
 `/acm-config(piecd100)` 在閒置 TUI 先顯示目前比例、輸入「觸發 保留」兩個數字，再預覽前後差異確認。須 `0 < 保留 < 觸發 < 100`，差距小於 5 會提醒；取消／同值／確認期間模型、對話或設定變更，不寫入或 reload。確認後一次保存比例與 native budget，再官方 reload。明確參數 `[70 55|reset]` 保留；目前自訂 95／90 不會因更新改動。
 
@@ -144,3 +144,8 @@ npm run test:remote
 測試使用隔離 agent-dir、模擬模型／DNS／HTTPS；不改個人設定或送實際通知。正式 Git 安裝只安裝 `gpt-tokenizer`，不捆綁 Pi 宿主。公開 Git 測試需要網路。三系統 CI 與驗證範圍見 `docs/VERIFICATION.md`；發布流程見 `docs/RELEASING.md`。
 
 套件 `private:true` 防止意外 npm publish；GitHub 公開與可安裝不代表一般開源授權，仍為 `UNLICENSED`，來源見 `NOTICE.md`。
+
+### 0.8.2 分析窗口與執行中配色
+- read表以最近40次可驗成功提交縮減（ACMboundary／正式nativecompaction）為準，跨模型／比例；只統計最早所選commit之後發出的完整read呼叫到目前。更早read只作baseline，不加次數；不是40模型回應或40倍Token window。不足40顯示實際數、无cut暫統計可觀察全段。noopmetadata/失敗取消/重複event ID不算。
+- 只successfulread；更早baseline可讓窗口內首read為重讀，postcut因果依原tool結果被committedboundary移出；有界100000entries及1MiB結果budget，cap/缺引用標lowerbound/unknown，不重讀磁碟／extra模型。比例判讀仍獨立近5same-route/policycut×後5responses；顯示route/filter0但觀察有cut時不稱全歷史0。JSON recent_reads schema2明列selectedcuts/start/window/baselinecoverage。
+- Theme0.4.1只有toolPendingBg #303030→#404040，success/error/其他palette、private選擇與prefs不改；來源更新後useridle /reload，不forcedlive。

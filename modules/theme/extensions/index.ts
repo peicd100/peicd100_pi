@@ -1,1 +1,1 @@
-export {default} from './index_v0.4.0.js';
+export {default} from './index_v0.4.1.js';
