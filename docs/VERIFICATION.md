@@ -1,3 +1,13 @@
+# 0.8.1 當前驗證範圍
+
+- Notify2.0.1 manual retry-exhausted exception，其他0.8功能不變；下面舊版紀錄僅historical。
+- Pure schema陽性marker/no resumeAt/readonlystate/safe reason/template；陰性ordinary/timedwait/unknown/invalid/過長/malformed，auto→manual與persist/resumeepisode穩定。
+- Actual Goal0.54.11 **src** runtime provider_retry契約＋Pi AgentSession genuine兩loadorder/503停止等待/followupresumegoalcomplete，模型與HTTP僅mock；dist既有server-wait相容回歸仍保留，不假稱替user改Goal安裝。
+- 每episode一次/跨episode可再次/完成獨立；debounce/input/resume/queued/offon/observer/no historical startup resend／DNS前恢復守衛；通知不包含rawerror/Goalobjective/requestID/private detail。
+- 正式本機/full/三OS結果與同SHA發布更新以task evidence為準，未驗不可推測PASS；歷史runtime/facadehash/Data與API不改，不強制reload。
+
+## Historical release verification
+
 # 0.8.0 驗證範圍
 
 - Current Notify2.0＋ACM1.8.1／Activity0.3.1；below0.7驗證僅historical，不是現行global/events/mention政策。

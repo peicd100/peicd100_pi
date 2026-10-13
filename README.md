@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 `0.8.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Notify、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
+版本 `0.8.1`；套件／GitHub repo：`peicd100_pi`。把 ACM、Notify、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
 
 ## 安裝一次，之後更新
 
@@ -85,7 +85,7 @@ Telegram：遮蔽輸入 Bot Token 和 Chat ID；私聊先對 Bot `/start`，群�
 
 切換已配置且已授權方式可工作中執行；新連線設定／清除／舊權限確認須閒置。保存使用 revision／CAS；跨程序 DNS 與 awaited preDispatch 後即時重驗，甚至 A→B→A 也拒絕舊候選。不自動測試、不改對話／新預設、不補送、不把舊通知轉送新方式；已提交 HTTP 不能承諾撤回。
 
-**事件固定，沒有 events 選單**：正常完成、確定無法自動恢復的 error／取消、Goal完成／手動暫停／受阻／額度或預算停止通知；Goal wait、retry、恢復中的暫時錯誤保持安靜。使用公開 Goal0.54.11 metadata＋真正 `agent_settled`／idle／無queuedwork＋3秒防抖，送前重驗；不依沉默猜停止、不呼叫 Goal 或模型、不把 paused／blocked 當完成。Native Escape abort 即使沒有 before-settle 仍依明確 final aborted 狀態通知。Startup／reload／切樹不補送歷史。
+**事件固定，沒有 events 選單**：正常完成、確定無法自動恢復的 error／取消、Goal完成／手動暫停／受阻／額度或預算停止通知；一般 Goal wait、retry、恢復中的暫時錯誤保持安靜。例外：Goal `active.waiting.reason` 明確為 `Provider retries exhausted`（可附冒號後資訊）且沒有 `resumeAt`，代表提供者重試已耗盡、需 follow-up／`/goal resume`；此時通知「｜需要處理」。有期限即使原因提及耗盡仍保持安靜，不因一般等待沒有期限或模糊錯誤文字就通知。使用公開 Goal0.54.11 metadata＋真正 `agent_settled`／idle／無queuedwork＋3秒防抖，送前重驗；不依沉默猜停止、不呼叫 Goal 或模型、不把 paused／blocked／重試耗盡當完成；Notify只投影 `retry_exhausted`，不修改 Goal、接管恢复或改模型請求。auto→manual等待是新episode，重複persist只通知一次，真正resume後再耗盡可再通知，startup不補送。Native Escape abort 即使沒有 before-settle 仍依明確 final aborted 狀態通知。Startup／reload／切樹不補送歷史。
 
 各方式共用模板：
 

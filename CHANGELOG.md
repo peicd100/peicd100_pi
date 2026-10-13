@@ -1,5 +1,11 @@
 # 更新紀錄
 
+## 0.8.1
+
+- Notify 2.0.1：修正提供者重試已耗盡、Goal仍記為 waiting 且無自動恢復期限時被靜音；辨識已驗 `Provider retries exhausted` 結構marker，通知「對話名稱｜需要處理」、安全耗盡原因與 follow-up／`/goal resume` 下一步，不洩漏完整錯誤或 request ID、不額外呼叫模型。
+- 一般等待／有恢復期限／重試進行中仍不通知；不只因缺deadline或模糊文字就判人工停止。auto→manual 是新通知 episode，重複persist去重；恢復後再耗盡與最終完成分開通知。debounce／queued／input／off-on／DNS／startup不補送保護不變，不修改 Goal 或接管重試。
+- 新版本factory／core／goalpolicy，保留已發布2.0與其他runtime、舊tag/data/resource paths；加入purepolicy/flow/genuineGoal-source與Pi SDK兩載入順序回歸。
+
 ## 0.8.0
 
 - Notify 2.0：自有 Webhook 命令改為 Notify 八指令，移除 global／events 選單與舊 alias，只留新對話預設及當前對話 on/off；legacy global-off／端點 permission／branch選擇保守遷移，不偷偷啟用或移除原資料／收據。
