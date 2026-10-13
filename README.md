@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 `0.9.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Notify、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
+版本 `0.10.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Notify、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
 
 ## 安裝一次，之後更新
 
@@ -150,9 +150,19 @@ npm run test:remote
 - 只successfulread；更早baseline可讓窗口內首read為重讀，postcut因果依原tool結果被committedboundary移出；有界100000entries及1MiB結果budget，cap/缺引用標lowerbound/unknown，不重讀磁碟／extra模型。比例判讀仍獨立近5same-route/policycut×後5responses；顯示route/filter0但觀察有cut時不稱全歷史0。JSON recent_reads schema2明列selectedcuts/start/window/baselinecoverage。
 - Theme0.4.1只有toolPendingBg #303030→#404040，success/error/其他palette、private選擇與prefs不改；來源更新後useridle /reload，不forcedlive。
 
-### /context(peicd100) — 上下文使用預算
+### Historical v0.9.0 /context — ACM使用預算（已退役；以下不是目前執行規則）
 - 這個新指令**精確使用(peicd100)**；其餘既有指令仍(piecd100)，沒有bare或錯拼別名。選單先顯示Pi模型宣告容量、最多可設定=min(model.contextWindow,ACMbasecap)、服務端實際上限UNKNOWN、目前auto/manual預算、模型最大輸出（非目前預留量）與可對照native用量。不是突破上游最大窗口。
 - 預設auto，不主動寫入設定。`/context(peicd100) json`/`status`唯讀、no model/disk補讀/network/probing；互動選auto/128K/272K/500K/1M/custom，K=1000/M=1000000。超目前declared/basecap拒絕，500K/1M灰字選中也不寫（沒有假稱服務端支援）。當Pi資料宣告可支援較大容量才允許對應選項，仍標not-provider-attested；未知無效容量不猜。
 - 明確參數`auto`/`128k`/`272k`/整數（最低4096）視為指定設定；空參數只TUI兩階段select/input→preview/confirm。修改需idle/emptyqueue/模型+endpoint+容量fingerprint/session/diskCAS不變，取消/noop不寫不reload。Settings只改目前模型acm.contextBudgets與compaction.modelOverrides/ownership，保留全域native token budgets/其他模型與其他prefs，拒受信任專案override，未受信任專案不讀。成功後idle reload，失敗CAS rollback不覆蓋後续異動。
 - Single ACM1.9 producer/guard/nativebudget同一effectivecontextCap；128K配95/90→trigger121600/target115200/nativeReserve272000−121600=150400。原Pi footer仍顯示真模型宣告窗口，ACM另標manual預算。預留包含輸出空間，但不保證可輸出model.maxTokens全部上限，不改provider/model.contextWindow/auth/model選擇。過小预算若固定system/latestuser/toolbatch/anchors放不下則停止，不丟必要內容或改AI摘要。調大不復活舊窗口、不直接改歷史、不當場壓縮。
 - 手動預算綁provider/api/model/endpoint/宣告limits fingerprint；變更需重新確認、不沿用舊連線预算；othermodel own或auto。新縮減metadata寫capacity，ratio判讀若同百分比但capacity不同/手動capacity缺歷史則不建議調比例；40次read表保持独立。模型/metadata不是providerattestation，本機catalog gpt6.1-sol272000/maxOutput128000目前500K/1M未確認；不為湊選項改modelcatalog。
+
+### v0.10.0 /context(peicd100) — 直接修改 Pi 模型容量（目前唯一 owner）
+
+- 最新使用者明確改為**直接 Pi**：只改agent `models.json` 的 `providers[目前provider].modelOverrides[目前model].contextWindow`。Pi的ModelRuntime讀到此正式override，再由fresh reload lifecycle啟用同provider/id的新modelmetadata，Pi原生contextWindow／用量％／footer/native threshold都採新值，不改Pi原始碼，不註冊／替換provider，thinkingLevel保持、不改defaultModel/defaultThinking/settings的modelThinkingLevels。
+- **ACM1.10.0** policy容量只等於目前Pi模型窗口，nativeBudget也只Pi窗口；不再base105萬cap或acm.contextBudgets第二層softcap。Legacy預算欄位退役不執行，user明確保存時只移除當前模型的舊紀錄，其他model資料保存inactive；縮減仍按95/90等既有百分比/wholetoolbatch/system/user/anchors/no AI摘要，調大不restore舊span或當場改history。過小保護內容放不下則停止。
+- 官方查核2026-10-13：https://developers.openai.com/api/docs/models/gpt-6.1-sol，OpenAI API GPT-6.1 Sol **1,050,000**上下文/**128,000**最大輸出。與Pi本機272K及**Codex訂閱/代理/連線真上限UNKNOWN**分開；不能把API規格當連線attestation。ReadOnly JSON schema2顯三者、models.json磁碟覆寫與Pi活躍窗口、輸出max不是reserve、可對照nativeusage、交易pending。未知model官方最大就未知，不能猜。
+- UI保持目前/272K/500K/1M/custom/取消；500K/1M不再因Pi目前272K禁用。先保存預覽confirm；擴大或officialunknown另riskconfirm，可能buffer/額度/高成本錯誤，不模型POST探測。已知官方模型超上限拒絕；unknown可手動風險覆寫，不额外ACM cap。K=1000/M=1000000/min4096 safeinteger。`json`/`status`唯讀；`500k`/`1m`等明確參數在TUI同樣確認，非互動寫入需`--confirm-unverified`。不再舊`auto/reset`預算模式，恢復272K可選272k；直接移除models覆寫後idle/reload亦依Pi本身catalog。
+- 雙檔models+settings/nativeownership transaction：settings/model文件join locks+fingerprint/session/endpoint/queue guard，private0600journal/last-backup（原JSONC文字仍保留於備份，保存標準化JSON）/atomicrename/CAS/partialfailure兩檔rollback/no外部變更force。只改所選模型容量與nativeOverride/owned，不其他provider/auth/endpoint/maxTokens/headers/全域tokenbudgets/其他prefs。受信任專案native覆蓋衝突拒絕，untrusted不讀。
+- 保存後**Pi本身**local-onlyrefresh讀實際models.json，驗真正registry容量，不偽造Modelclone；SDK須standardagentDir/modelsPath，讀不到就雙檔CAS rollback。成功提交然後fresh ctx reload/setModel metadata：保留模型identity與thinking；禁止reload後舊ctx操作。若reload失败，已提交且一致配置保留，顯manualreload，不假稱runtime生效，modelsfile與activewindow不同或pendingjournal會停止請求/阻autoInit覆寫。孤児recover要owner PID terminal證據＋兩檔before/after exact；unknown/livingowner/externaledit/unknownlockitems保全、不依age猜。
+- 同model1M95/90 →trigger950000/target900000/reserve50000；這不是舊128Kbudget或模型最大輸出128K全部保留保證。native footer維持真Pi窗口。40cutread/ratio容量epoch判讀保留，新容量不同/缺歷史不建議混调參；Notify2.0.1/Theme0.4.1#404040/Activity0.3.1不改。

@@ -145,9 +145,9 @@ test('guard loads without a tokenizer or base policy and still cancels every sum
     mkdirSync(join(cwd, 'extensions'));
     mkdirSync(join(cwd, 'src'));
     const path = join(cwd, 'extensions', 'no-summary-guard.ts');
-    cpSync(fileURLToPath(new URL('../extensions/no-summary-guard_v1.9.0.ts', import.meta.url)), path);
-    cpSync(fileURLToPath(new URL('../src/config_v1.9.0.mjs', import.meta.url)), join(cwd, 'src', 'config_v1.9.0.mjs'));
-    cpSync(fileURLToPath(new URL('../src/context-budget_v1.9.0.mjs', import.meta.url)), join(cwd, 'src', 'context-budget_v1.9.0.mjs'));
+    cpSync(fileURLToPath(new URL('../extensions/no-summary-guard_v1.10.0.ts', import.meta.url)), path);
+    cpSync(fileURLToPath(new URL('../src/config_v1.10.0.mjs', import.meta.url)), join(cwd, 'src', 'config_v1.10.0.mjs'));
+    cpSync(fileURLToPath(new URL('../src/pi-context_v1.10.0.mjs', import.meta.url)), join(cwd, 'src', 'pi-context_v1.10.0.mjs'));
     const bus = createEventBus();
     const loaded = await loadExtensions([path], cwd, bus);
     assert.deepEqual(loaded.errors, []);

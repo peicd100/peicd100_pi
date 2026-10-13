@@ -1,5 +1,12 @@
 # 更新紀錄
 
+## 0.10.0
+
+- `/context(peicd100)`改為直接Pi models.json/modelOverrides.contextWindow；Pi Registry/active model/原生用量％/footer+ACM/native同新窗口，不再ACM softcap/base105萬限制，舊budgetinactive。500K/1M可選，不改其他model/provider/auth/output/headers/全域nativetoken/prefs。
+- 顯官方GPT6.1SolAPI1.05M(2026-10-13官方source)與Pi272K/磁碟override/真Codex服務Unknown，unknown不猜；兩階段＋擴大風險確認，不Probe模型，不把API規格當端點已驗。
+- 雙檔jointlock/CAS/privatejournal/partialrollback/orphanproof/no force；localrefresh實際PiRegistry驗新覆寫、freshreload啟用metadata同identity/thinking；reloadfailure保留committed一致配置、models/runtime或pending不符停止，而非用stale context假回退。
+- 歷史0.9bundle/guard/facade/runtime/oldtags保留，新增pure/UI/genuineSDK真reload 500K/1M回歸，沿用40read與其他plugin。
+
 ## 0.9.0
 
 - 新增精確`/context(peicd100)`（其餘(piecd100)不改）容量查看／兩階段預算選單／唯讀JSON與明確參數；區分Pi宣告上限與服務端UNKNOWN，不假造500K/1M，超宣告拒絕/no provider探測/model請求。

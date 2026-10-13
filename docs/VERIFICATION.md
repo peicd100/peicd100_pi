@@ -1,3 +1,10 @@
+# v0.10.0 current contract（驗證結論依task markers）
+
+- DirectPi models.json override=current provider/model only／solemodelWindow/noACMsoftcap；官方API1.05M與actualCodexUNKNOWN、500K/1M allowed/riskconfirm／knownofficialovercap拒絕/unknownmanual／source+date+readOnlyJSON。
+- Genuine ModelRuntime讀models.json＋真正AgentSession.reload/freshsetModel同provider/id/thinking；nativecontextWindow/usagePct/footer/producerguard/95-90同新500K/1M，沒有偽造Modelclone當驗證。關鍵pipeline不只看磁碟JSON。
+- Dualfiles jointlock/CAS/rawbefore/privatebackup/journal/partialfailure rollback/liveownerunknown不takeover/orphanverified/reloadfailed committedpair保持+requestbarrier／SDKwrongmodelsPath讀不到回退/其它prefs preserved；no realmodelprobe/providersPOST/noforcedliveupdate。
+- root公版歷史runtime/guard/dynamicdefaultfixtures與舊sourceData不可被新契約復活；以下只historical0.9。
+
 # 0.9.0 current verification scope
 
 - Exactcontext(peicd100)UI-only exception/15ownedcommands/zero modeltool；catalog versus serviceUNKNOWN/272declared/500-1Mreject/metadata1Mallows500withoutproviderattest；model-endpoint-bound settings/nativebudget/producerguard/closedstale/othermodel/globalprefs不改。

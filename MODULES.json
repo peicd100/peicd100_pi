@@ -50,16 +50,17 @@
         "extensions/no-summary-guard.ts": "extensions/no-summary-guard_v1.5.0.ts"
       },
       "active": {
-        "version": "1.9.0",
+        "version": "1.10.0",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "934236ff59f577525abcb07ee8a92c705790a10b0c86f4f4be2ee07afd17a8f1",
-          "extensions/index_v1.9.0.ts": "eda660570acc4d0899e697b40efd2caef1516b3aa89a453963b531349ceb0378",
-          "extensions/no-summary-guard.ts": "d8ab169253603858bd1132c242d90d8c9818f65d83caf56c8ccd84f702456a0e",
-          "extensions/no-summary-guard_v1.9.0.ts": "d9120c95a216a564ebc725a1b67166edb30cdc9b46800ea4db07406774ecdd6c",
-          "src/config_v1.9.0.mjs": "c8d093a68c2c022a37fd7eb80d963dccc8871516158cee7822bf06aeed55c7fd",
-          "src/context-budget_v1.9.0.mjs": "18d0ecd853bbf7b87060ceb043a49709db433769fa60d0fc1858d78817974763",
-          "src/context-command_v1.9.0.mjs": "194ae6a39618abd26ea460f5fffcc203442c612645d5da64dfdabf100c4d9e3a",
+          "extensions/index.ts": "9665a0e6ee7ad0badad2d6bfdd9f4915189423fecd96ace7fd623e45a46fb756",
+          "extensions/index_v1.10.0.ts": "13411bac45de8045d57fbc9975fcaad2d5b08f117b508aafe3cda8253584084d",
+          "extensions/no-summary-guard.ts": "945c3af3011d938bdc5d8cc230ca0cead9256bc7e649cfbb7a5d113e3ca3b6c8",
+          "extensions/no-summary-guard_v1.10.0.ts": "3a984ef6c38578c4bd4f6a2f99e9797b294ca50e4a3cda2c3f33557f6ee3ca40",
+          "src/config_v1.10.0.mjs": "d0c941277379acd539e4dd16e0ee5d47b3f274ab16cbcc6d528120b13a9a0c5a",
+          "src/pi-context_v1.10.0.mjs": "d181ec6ed8296d4fa763d4a7637767389c9285bad9debf29daa890a08073fbcd",
+          "src/pi-context-txn_v1.10.0.mjs": "9d162b2e429054e9711d07147d83dfe71b85337043e2e4521ba7cb24d57f5aaf",
+          "src/pi-context-command_v1.10.0.mjs": "801e1dbd839dc657a0ea6174f369e5658e37b97f3dd863ebab51446d283181a5",
           "src/analysis_v1.9.0.mjs": "f49370755a346c41fc80d6a4532dd9792e24c874bb53c54a4ead55050c2ee84e"
         }
       },
@@ -129,6 +130,24 @@
           },
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v1.8.2.ts"
+          }
+        },
+        {
+          "version": "1.9.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "934236ff59f577525abcb07ee8a92c705790a10b0c86f4f4be2ee07afd17a8f1",
+            "extensions/index_v1.9.0.ts": "eda660570acc4d0899e697b40efd2caef1516b3aa89a453963b531349ceb0378",
+            "extensions/no-summary-guard.ts": "d8ab169253603858bd1132c242d90d8c9818f65d83caf56c8ccd84f702456a0e",
+            "extensions/no-summary-guard_v1.9.0.ts": "d9120c95a216a564ebc725a1b67166edb30cdc9b46800ea4db07406774ecdd6c",
+            "src/config_v1.9.0.mjs": "c8d093a68c2c022a37fd7eb80d963dccc8871516158cee7822bf06aeed55c7fd",
+            "src/context-budget_v1.9.0.mjs": "18d0ecd853bbf7b87060ceb043a49709db433769fa60d0fc1858d78817974763",
+            "src/context-command_v1.9.0.mjs": "194ae6a39618abd26ea460f5fffcc203442c612645d5da64dfdabf100c4d9e3a",
+            "src/analysis_v1.9.0.mjs": "f49370755a346c41fc80d6a4532dd9792e24c874bb53c54a4ead55050c2ee84e"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.9.0.ts",
+            "extensions/no-summary-guard.ts": "extensions/guard_entry_v1.9.0.ts"
           }
         }
       ]

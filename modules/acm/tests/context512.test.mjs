@@ -9,7 +9,7 @@ const { ModelRuntime } = await fromHost('dist/core/model-runtime.js');
 const { InMemoryCredentialStore } = ai;
 const { loadExtensions } = await fromHost('dist/core/extensions/loader.js');
 const { createEventBus } = await fromHost('dist/core/event-bus.js');
-const guard = fileURLToPath(new URL('../extensions/no-summary-guard.ts', import.meta.url));
+const guard = fileURLToPath(new URL('../extensions/no-summary-guard_v1.9.0.ts', import.meta.url));
 const policy = validatePolicy(JSON.parse(readFileSync(new URL('../policy.json', import.meta.url), 'utf8')));
 
 test('max trial cap70/55 and ratios preserve lower-model and historical default limits', () => {

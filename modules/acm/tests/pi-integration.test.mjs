@@ -627,7 +627,7 @@ test('config persists ratios, synchronizes native settings and both extensions t
     assert.equal(captured.length, 0);
     await f.configCommand('/acm-status(piecd100) json');
     const status = JSON.parse(notices.at(-1));
-    assert.equal(status.version, '1.9.0');
+    assert.equal(status.version, '1.10.0');
     assert.equal(status.footer, 'ACM 85%→75%');
     assert.equal(status.policy.triggerRatio, 0.85);
     assert.equal(status.policy.targetRatio, 0.75);
