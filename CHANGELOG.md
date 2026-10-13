@@ -1,5 +1,11 @@
 # 更新紀錄
 
+## 0.9.0
+
+- 新增精確`/context(peicd100)`（其餘(piecd100)不改）容量查看／兩階段預算選單／唯讀JSON與明確參數；區分Pi宣告上限與服務端UNKNOWN，不假造500K/1M，超宣告拒絕/no provider探測/model請求。
+- ACM1.9.0 per-model/endpoint-bound contextbudget＋singleproducer/guard/native同步／atomicCAS/settingsrollback/idle+queued+stale guards/noopcancel/no-restore；不改modelcontextWindow/其他prefs/其他模型/globalnativebudget。新capacitymetadata避免比例判讀混預算，原40cutread保持。
+- 保留全部歷史runtime/facade/原guardHash；新版schema/config/adapter/producerguard與budget/GUI/security/genuineSDK回歸。Notify/Theme4040/Activity原功能不改。
+
 ## 0.8.2
 
 - ACM1.8.2 read表改最近40次成功提交縮減以來，跨route/policy，過往read僅baseline，不計40輪或40倍window；no-op/失敗取消不算。原近期同模型比例判讀獨立保持，顯示route與filter0說明，避免誤稱沒有歷史縮減。newJSONschema2和bounds/incomplete資訊。

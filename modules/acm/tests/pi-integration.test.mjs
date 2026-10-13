@@ -89,7 +89,7 @@ test('public Pi loader exposes no ACM model tools or skill, commands stay UI-onl
   const f = await fixture();
   try {
     assert.equal(f.session.getActiveToolNames().some(n => n.startsWith('acm_')), false);
-    assert.deepEqual([...f.extensions.extensions[0].commands.keys()], ['acm-status', 'acm-analysis', 'acm-config', 'acm-setup'].map(n=>n+'(piecd100)'));
+    assert.deepEqual([...f.extensions.extensions[0].commands.keys()], ['context(peicd100)', ...['acm-status', 'acm-analysis', 'acm-config', 'acm-setup'].map(n=>n+'(piecd100)')]);
   } finally { await f.teardown(); }
 });
 
@@ -627,7 +627,7 @@ test('config persists ratios, synchronizes native settings and both extensions t
     assert.equal(captured.length, 0);
     await f.configCommand('/acm-status(piecd100) json');
     const status = JSON.parse(notices.at(-1));
-    assert.equal(status.version, '1.8.2');
+    assert.equal(status.version, '1.9.0');
     assert.equal(status.footer, 'ACM 85%→75%');
     assert.equal(status.policy.triggerRatio, 0.85);
     assert.equal(status.policy.targetRatio, 0.75);

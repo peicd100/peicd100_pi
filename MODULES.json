@@ -46,17 +46,21 @@
         "tests/window.test.mjs": "30358f633953a0634c8b169ec1d45be8a9a1ce6678f56a344f3c30b2ca9d6505"
       },
       "preserved_paths": {
-        "extensions/index.ts": "extensions/index_v1.5.1.ts"
+        "extensions/index.ts": "extensions/index_v1.5.1.ts",
+        "extensions/no-summary-guard.ts": "extensions/no-summary-guard_v1.5.0.ts"
       },
       "active": {
-        "version": "1.8.2",
+        "version": "1.9.0",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "5865a9693ef4378540064828fab1f3daebbc93bbd414c7f048ef3e133e9ce05a",
-          "extensions/index_v1.8.2.ts": "06e33d8356b1074952784798f4e29850629e55dce8bd9dbe9d0aec1b854f7c49",
-          "src/analysis_v1.8.2.mjs": "60e82ee9e0327c69b14ac120eb4e23a49051cfec40b6938c3faa440262aeb7eb",
-          "src/analysis_window_v1.8.2.mjs": "4de649b939e63a54ef3e89c21de22744fa063b16ad98acb8b444b5cd54975d1d",
-          "src/analysis_detail_v1.8.2.mjs": "c553a453697f069dfb433117f25ed792c9e0cc7351ab55443a3883d467f72af5"
+          "extensions/index.ts": "934236ff59f577525abcb07ee8a92c705790a10b0c86f4f4be2ee07afd17a8f1",
+          "extensions/index_v1.9.0.ts": "eda660570acc4d0899e697b40efd2caef1516b3aa89a453963b531349ceb0378",
+          "extensions/no-summary-guard.ts": "d8ab169253603858bd1132c242d90d8c9818f65d83caf56c8ccd84f702456a0e",
+          "extensions/no-summary-guard_v1.9.0.ts": "d9120c95a216a564ebc725a1b67166edb30cdc9b46800ea4db07406774ecdd6c",
+          "src/config_v1.9.0.mjs": "c8d093a68c2c022a37fd7eb80d963dccc8871516158cee7822bf06aeed55c7fd",
+          "src/context-budget_v1.9.0.mjs": "18d0ecd853bbf7b87060ceb043a49709db433769fa60d0fc1858d78817974763",
+          "src/context-command_v1.9.0.mjs": "194ae6a39618abd26ea460f5fffcc203442c612645d5da64dfdabf100c4d9e3a",
+          "src/analysis_v1.9.0.mjs": "f49370755a346c41fc80d6a4532dd9792e24c874bb53c54a4ead55050c2ee84e"
         }
       },
       "historical_releases": [
@@ -111,6 +115,20 @@
           },
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v1.8.1.ts"
+          }
+        },
+        {
+          "version": "1.8.2",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "5865a9693ef4378540064828fab1f3daebbc93bbd414c7f048ef3e133e9ce05a",
+            "extensions/index_v1.8.2.ts": "06e33d8356b1074952784798f4e29850629e55dce8bd9dbe9d0aec1b854f7c49",
+            "src/analysis_v1.8.2.mjs": "60e82ee9e0327c69b14ac120eb4e23a49051cfec40b6938c3faa440262aeb7eb",
+            "src/analysis_window_v1.8.2.mjs": "4de649b939e63a54ef3e89c21de22744fa063b16ad98acb8b444b5cd54975d1d",
+            "src/analysis_detail_v1.8.2.mjs": "c553a453697f069dfb433117f25ed792c9e0cc7351ab55443a3883d467f72af5"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.8.2.ts"
           }
         }
       ]
@@ -454,6 +472,7 @@
     }
   ],
   "shared_runtime": {
-    "src/commands_v0.7.0.mjs": "57e8efa0edcc01d4d9b970b139d827d15fca29c751bb58fcebcbfbc51a8d44de"
+    "src/commands_v0.7.0.mjs": "57e8efa0edcc01d4d9b970b139d827d15fca29c751bb58fcebcbfbc51a8d44de",
+    "src/commands_v0.9.0.mjs": "46e2c8b6f3e949ed86f955ed6be91e2f2098df65f36f162e6745b070ff5f43d1"
   }
 }

@@ -1,3 +1,9 @@
+# 0.9.0 current verification scope
+
+- Exactcontext(peicd100)UI-only exception/15ownedcommands/zero modeltool；catalog versus serviceUNKNOWN/272declared/500-1Mreject/metadata1Mallows500withoutproviderattest；model-endpoint-bound settings/nativebudget/producerguard/closedstale/othermodel/globalprefs不改。
+- Auto/noop/cancel/2step/explicitparams/JSON/readonlybusyqueue/disk+session+model+endpointCAS/projectoverride/rollbackreload/failure/concurrent dialogs；smallerwindowfullbatch/latestuser/system保护、outputheadroom不是maxOutput guarantee/raisebudget不restore；40read/ratioadvicecapacityscope保持。
+- 正式full/CI3OS/pub/update以taskmarkers證據為準，oldruntime/guard/data/tagsHash保全；下面是historical0.8驗證。
+
 # 0.8.2 current verification scope
 
 - ACM1.8.2 recent_reads schema2/40successcuts跨route/oldestcommit exclusive/owningcompletebatch/olderbaselineonly/noop/dedup/failure/native/missing/cap/noDisk/noModel；legacy5cut×5response sameRoute/policy assessment identity保持，展示filterroute/0differentfromwholehistory。
