@@ -12,9 +12,9 @@ async function fixture(run){
   await run({root,extension,result,store,ctx,choices,notices,setCalls,menus,reloadCalls,settings,themes,setCurrent:n=>{settings.theme=n;theme=themes.get(n);},get theme(){return theme;},command:args=>extension.commands.get('pi-theme(piecd100)').handler(args??'',ctx)});
  }finally{if(old===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=old;await rm(root,{recursive:true,force:true});}
 }
-test('只註冊兩項中文開關，啟動不套用或呼叫模型，也不註冊不穩定文字轉換',()=>fixture(async f=>{
+test('中文主選單含兩項開關與狀態取消，啟動不套用或呼叫模型，不註冊文字轉換',()=>fixture(async f=>{
  assert.deepEqual([...f.extension.commands.keys()],['pi-theme(piecd100)']);assert.equal(f.extension.tools.size,0);assert.equal(f.extension.markdownTransformer,undefined);
- for(const h of f.extension.handlers.get('session_start'))await h({},f.ctx);assert.equal(f.setCalls.length,0);await f.command();assert.deepEqual(f.menus[0].options,['啟用我的模板（目前：未啟用）','停用並還原原本主題（目前：未啟用）']);assert.equal((await f.store.read()).state,null);
+ for(const h of f.extension.handlers.get('session_start'))await h({},f.ctx);assert.equal(f.setCalls.length,0);await f.command();assert.deepEqual(f.menus[0].options,['啟用我的模板（目前：未啟用）','停用並還原原本主題（目前：未啟用）','查看目前設定','取消']);assert.equal((await f.store.read()).state,null);
 }));
 test('啟用保存、重開／重啟紀錄仍在，停用還原啟用前選擇',()=>fixture(async f=>{
  f.setCurrent('dark');f.choices.push('啟用我的模板');await f.command();assert.equal(f.theme.name,TEMPLATE);assert.equal(f.settings.theme,TEMPLATE);assert.equal((await new ToggleStore(f.root).read()).state.previousTheme,'dark');

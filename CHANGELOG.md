@@ -1,5 +1,11 @@
 # 更新紀錄
 
+## 0.11.0
+
+- 新增 Suffix0.1.0 `/suffix(peicd100)` 中文主選單／第一項對話toggle、共用後綴、defaultOff、activebranch開關持久、預覽／狀態。Pi原生input一般userinteractive/rpc提交一次追加、userrole/images原樣、retry/auto不double；私密atomicCAS，queue採提交時快照、history不改、空內容fail-safe。
+- ACM1.11.0新增 `/acm(piecd100)` 直接中文整合主選單，原status/config/context/analysis/setup都保留，不關閉guard。
+- Notify2.1.0主選單第一項當前對話toggle；Theme0.4.2/Activity0.3.2中文選單加入status/cancel。原容量/通知安全/其它runtime不改；新增第五root掛載，歷史Hash保留。
+
 ## 0.10.1
 
 - 顯示only：ACM1.10.1不再於下方附加「· Pi窗口 ...」，保留原比例threshold，讓容量/用量/%只看Pi原生。

@@ -170,3 +170,10 @@ npm run test:remote
 ### v0.10.1 顯示修正（目前狀態列唯一規則）
 
 ACM1.10.1移除追加的「· Pi窗口 ... Token」，只保留原有縮減threshold比例。容量/用量/%看Pi原生顯示；官方API上限、Pi當前值、磁碟覆寫及serviceUNKNOWN仍在/context(peicd100)顯示。DirectPi容量、模型覆寫/nativebudget、選窗/guard/思考與其它plugins完全不改，no新增toggle。0.10.0追加Pi窗口的footer只historical，不再current。新版依然可設定500K/1M、不能保證服務端接受。更新後閒置 /reload。
+
+## 0.11.0 目前中文主選單／後綴提示功能
+
+- `/suffix(peicd100)` 首項本對話開關，編輯共用後綴、新對話預設Off、預覽／狀態；對話及activebranch持久記憶開關，一般interactive/RPC提示於提交時追加一次，不改oldhistory／system、不追加commands／extension自動訊息／retry。內容私密保存、32KiB／atomicCAS；不放秘密。
+- `/notify(piecd100)` 第一項本對話toggle，原通知方式／預設／狀態／explicit測試／清除與快捷保留。
+- `/acm(piecd100)` 整合狀態／比例／Pi容量／分析／原生同步，原快捷保留，no關閉保護；theme/activity既有中文選單加status/cancel。
+- 現在同bundle五rootresource（Suffix0.1.0、ACM1.11.0、Notify2.1.0、Theme0.4.2、Activity0.3.2），原四resource文字僅historical。容量与noPiWindowfooter不改。詳見[後綴規則](docs/SUFFIX.md)。安裝更新後useridle `/reload`。

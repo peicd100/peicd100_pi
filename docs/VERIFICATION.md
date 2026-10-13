@@ -1,3 +1,7 @@
+# 0.11.0 當前驗證契約
+
+Suffix privateCAS/lock/UTF8/bytebound/空拒啟用，inputinteractive/rpc/userrole/images/queue提交一次、extension/commands/retryauto不追加，sessiondefaultOff/分支inherit/restore/defaultfutureonly/共用內容不改history。真五resourceSDK/module選擇/中文主選單首項notify+suffixToggle／ACM直接dispatch/no userloop/原護欄／themeactivitystatuscancel。target/full/package/history/nohostbundled/isolatedinstall/pack/sameSHA CI3OS再promotion。詳見SUFFIX.md，以下0.10.1原容量/footer回歸保持，四resource與15cmd為historical版本數量。
+
 # v0.10.1 footer-only current contract
 
 - ACM footer exact formatFooter(effectiveSettings)，no duplicate Pi窗口；既有threshold比例保留，native capacity/usage%不更改。

@@ -50,10 +50,10 @@
         "extensions/no-summary-guard.ts": "extensions/no-summary-guard_v1.5.0.ts"
       },
       "active": {
-        "version": "1.10.1",
+        "version": "1.11.0",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "7bd784dbb766a3c21cd6f98fcfe7f0a5b7c645109bfe480c0d1b5faeb2ce4852",
+          "extensions/index.ts": "44e3cc0e9643d8f752e6bc5f6901f1d5b7cd2c2591be014e551c6aa2ac67af68",
           "extensions/no-summary-guard.ts": "945c3af3011d938bdc5d8cc230ca0cead9256bc7e649cfbb7a5d113e3ca3b6c8",
           "extensions/no-summary-guard_v1.10.0.ts": "3a984ef6c38578c4bd4f6a2f99e9797b294ca50e4a3cda2c3f33557f6ee3ca40",
           "src/config_v1.10.0.mjs": "d0c941277379acd539e4dd16e0ee5d47b3f274ab16cbcc6d528120b13a9a0c5a",
@@ -61,7 +61,7 @@
           "src/pi-context-txn_v1.10.0.mjs": "9d162b2e429054e9711d07147d83dfe71b85337043e2e4521ba7cb24d57f5aaf",
           "src/pi-context-command_v1.10.0.mjs": "801e1dbd839dc657a0ea6174f369e5658e37b97f3dd863ebab51446d283181a5",
           "src/analysis_v1.9.0.mjs": "f49370755a346c41fc80d6a4532dd9792e24c874bb53c54a4ead55050c2ee84e",
-          "extensions/index_v1.10.1.ts": "e77340c9dc78140560d7a1a84d4800bbed810bc57a6d3c1aca09441d1d48b41c"
+          "extensions/index_v1.11.0.ts": "8f7aa92c5b80aca9e3a10ba118c7dcb45e89cff7ff506ef4d702c70f6457e0ca"
         }
       },
       "historical_releases": [
@@ -167,6 +167,24 @@
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v1.10.0.ts"
           }
+        },
+        {
+          "version": "1.10.1",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "7bd784dbb766a3c21cd6f98fcfe7f0a5b7c645109bfe480c0d1b5faeb2ce4852",
+            "extensions/no-summary-guard.ts": "945c3af3011d938bdc5d8cc230ca0cead9256bc7e649cfbb7a5d113e3ca3b6c8",
+            "extensions/no-summary-guard_v1.10.0.ts": "3a984ef6c38578c4bd4f6a2f99e9797b294ca50e4a3cda2c3f33557f6ee3ca40",
+            "src/config_v1.10.0.mjs": "d0c941277379acd539e4dd16e0ee5d47b3f274ab16cbcc6d528120b13a9a0c5a",
+            "src/pi-context_v1.10.0.mjs": "d181ec6ed8296d4fa763d4a7637767389c9285bad9debf29daa890a08073fbcd",
+            "src/pi-context-txn_v1.10.0.mjs": "9d162b2e429054e9711d07147d83dfe71b85337043e2e4521ba7cb24d57f5aaf",
+            "src/pi-context-command_v1.10.0.mjs": "801e1dbd839dc657a0ea6174f369e5658e37b97f3dd863ebab51446d283181a5",
+            "src/analysis_v1.9.0.mjs": "f49370755a346c41fc80d6a4532dd9792e24c874bb53c54a4ead55050c2ee84e",
+            "extensions/index_v1.10.1.ts": "e77340c9dc78140560d7a1a84d4800bbed810bc57a6d3c1aca09441d1d48b41c"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.10.1.ts"
+          }
         }
       ]
     },
@@ -204,14 +222,14 @@
         "src/core.mjs": "src/core_entry_v1.1.1.mjs"
       },
       "active": {
-        "version": "2.0.1",
+        "version": "2.1.0",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "90d294f83417f5630360067c5bcce6efda9185248cdbbe59dedcffcc4bfd0f00",
-          "extensions/index_v2.0.1.ts": "7b449f850354b246fe9fcfccd46adbc95942ea4ca0bd6d1c99879b6f489ca6c0",
+          "extensions/index.ts": "b27736e5d1bb1cc7d4dda3831fd6f8b991cbe2a56e39b0503ff31c79a9a6b32e",
           "src/core_v2.0.1.mjs": "7143344aacceb480c0de415c9c8fce54184d255242abcaff4616781a8b24ac5f",
           "src/session-policy_v2.0.0.mjs": "54d3c83080a53cb1fb7567bfd40e0fdb0510ae4c0b1e74697da00478b266fda3",
-          "src/goal-policy_v2.0.1.mjs": "28896169b3dc49adfc06449dedde0749dad7c104e69a697e985c6e96be81c331"
+          "src/goal-policy_v2.0.1.mjs": "28896169b3dc49adfc06449dedde0749dad7c104e69a697e985c6e96be81c331",
+          "extensions/index_v2.1.0.ts": "8d0af86c7327382b36f4c19f38e0a2283cb79a9bd0435d2d89163f43a3a06ca4"
         }
       },
       "historical_releases": [
@@ -353,6 +371,20 @@
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v2.0.0.ts"
           }
+        },
+        {
+          "version": "2.0.1",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "90d294f83417f5630360067c5bcce6efda9185248cdbbe59dedcffcc4bfd0f00",
+            "extensions/index_v2.0.1.ts": "7b449f850354b246fe9fcfccd46adbc95942ea4ca0bd6d1c99879b6f489ca6c0",
+            "src/core_v2.0.1.mjs": "7143344aacceb480c0de415c9c8fce54184d255242abcaff4616781a8b24ac5f",
+            "src/session-policy_v2.0.0.mjs": "54d3c83080a53cb1fb7567bfd40e0fdb0510ae4c0b1e74697da00478b266fda3",
+            "src/goal-policy_v2.0.1.mjs": "28896169b3dc49adfc06449dedde0749dad7c104e69a697e985c6e96be81c331"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v2.0.1.ts"
+          }
         }
       ],
       "display_name": "Notify"
@@ -383,13 +415,13 @@
         "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.3.0.json"
       },
       "active": {
-        "version": "0.4.1",
+        "version": "0.4.2",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "eb1f7ddb5a82ad34222b549a8b6f07929642d7615c46702e450e5d07dba38dd9",
-          "extensions/index_v0.4.1.ts": "d3feafd3f3bd6335e5708c6a30b98b20579f33cb4ac1851c014e8e5d5858d9c5",
+          "extensions/index.ts": "1b816f2fce7640ed8f62d42494e01d029a2e828ecd95890207f1b07a4f9c9544",
           "src/toggle_v0.2.0.mjs": "cb28323b479896310085132b20d60ff72d2706e3522cc80e52fea17d3e8c30a5",
-          "themes/pi-theme-docker-look.json": "1a08423e7e377a13ff5464f288b3a74b955188321a87015913239fd250e28352"
+          "themes/pi-theme-docker-look.json": "1a08423e7e377a13ff5464f288b3a74b955188321a87015913239fd250e28352",
+          "extensions/index_v0.4.2.ts": "cddb46aa59b25a911f91aa9f4797221541791ca46dc96bb7c47e26e3643f567b"
         }
       },
       "historical_releases": [
@@ -448,6 +480,19 @@
             "extensions/index.ts": "extensions/entry_v0.4.0.ts",
             "themes/pi-theme-docker-look.json": "themes/pi-theme-docker-look_v0.4.0.json"
           }
+        },
+        {
+          "version": "0.4.1",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "eb1f7ddb5a82ad34222b549a8b6f07929642d7615c46702e450e5d07dba38dd9",
+            "extensions/index_v0.4.1.ts": "d3feafd3f3bd6335e5708c6a30b98b20579f33cb4ac1851c014e8e5d5858d9c5",
+            "src/toggle_v0.2.0.mjs": "cb28323b479896310085132b20d60ff72d2706e3522cc80e52fea17d3e8c30a5",
+            "themes/pi-theme-docker-look.json": "1a08423e7e377a13ff5464f288b3a74b955188321a87015913239fd250e28352"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v0.4.1.ts"
+          }
         }
       ]
     },
@@ -457,13 +502,13 @@
       "origin": "first-party peicd100_pi",
       "files": {},
       "active": {
-        "version": "0.3.1",
+        "version": "0.3.2",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "94884bf7188808d1222a1596e41c8cfd406df01f187360c52490c5096ae27c12",
-          "extensions/index_v0.3.1.ts": "771d4f988d41e650530578584f5fda3227d185ba9f507cb22a1dcb7d79517ac4",
+          "extensions/index.ts": "a1a328837042a846bb4b6f5457efba194d73656cd0dc0b9c565b4b14c0d3c829",
           "src/visibility_v0.3.1.mjs": "da2ea89db700cbe9d0c984b56b04b168236f296baf9ca68a15517a17d0e3aa7f",
-          "src/state_v0.1.0.mjs": "c797689f96d87e4b8847b720737ca7e63ce87401c824930eac31ee86047da1cd"
+          "src/state_v0.1.0.mjs": "c797689f96d87e4b8847b720737ca7e63ce87401c824930eac31ee86047da1cd",
+          "extensions/index_v0.3.2.ts": "9dd28e7bc64384829cf61e84a77e562db51f7b5d0524b173056c7c757d655b9c"
         }
       },
       "historical_releases": [
@@ -504,12 +549,45 @@
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v0.3.0.ts"
           }
+        },
+        {
+          "version": "0.3.1",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "94884bf7188808d1222a1596e41c8cfd406df01f187360c52490c5096ae27c12",
+            "extensions/index_v0.3.1.ts": "771d4f988d41e650530578584f5fda3227d185ba9f507cb22a1dcb7d79517ac4",
+            "src/visibility_v0.3.1.mjs": "da2ea89db700cbe9d0c984b56b04b168236f296baf9ca68a15517a17d0e3aa7f",
+            "src/state_v0.1.0.mjs": "c797689f96d87e4b8847b720737ca7e63ce87401c824930eac31ee86047da1cd"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v0.3.1.ts"
+          }
         }
       ]
+    },
+    {
+      "module": "suffix",
+      "files": {
+        "extensions/index.ts": "3183a977fdace6bd58768f2cff9368b5b708118ab0bf2f90924d27994f46d2d6",
+        "extensions/index_v0.1.0.ts": "62ac5f3ddf1275a955d10d5e5d0f560047c701de3a79aed7f2f05d1e5f35a2d9",
+        "src/core_v0.1.0.mjs": "9c362690d253e7d04937729d0baa6569ace16f0d7fd9daa05569a95fbfd6caa8"
+      },
+      "active": {
+        "version": "0.1.0",
+        "entrypoint": "extensions/index.ts",
+        "files": {
+          "extensions/index.ts": "3183a977fdace6bd58768f2cff9368b5b708118ab0bf2f90924d27994f46d2d6",
+          "extensions/index_v0.1.0.ts": "62ac5f3ddf1275a955d10d5e5d0f560047c701de3a79aed7f2f05d1e5f35a2d9",
+          "src/core_v0.1.0.mjs": "9c362690d253e7d04937729d0baa6569ace16f0d7fd9daa05569a95fbfd6caa8"
+        }
+      },
+      "historical_releases": []
     }
   ],
   "shared_runtime": {
     "src/commands_v0.7.0.mjs": "57e8efa0edcc01d4d9b970b139d827d15fca29c751bb58fcebcbfbc51a8d44de",
-    "src/commands_v0.9.0.mjs": "46e2c8b6f3e949ed86f955ed6be91e2f2098df65f36f162e6745b070ff5f43d1"
+    "src/commands_v0.9.0.mjs": "46e2c8b6f3e949ed86f955ed6be91e2f2098df65f36f162e6745b070ff5f43d1",
+    "src/commands_v0.11.0.mjs": "2b4760e54a0e984303491f5784d47401bdb83a4b736049aa5f693741aed93e00",
+    "src/menu_v0.11.0.mjs": "5c10d4dc9f7b3d85a90ecbb61abdfa08e05f57b3e6e0bcb9dbac3a88faf6b95c"
   }
 }
