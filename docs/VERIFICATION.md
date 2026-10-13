@@ -1,3 +1,9 @@
+# v0.10.1 footer-only current contract
+
+- ACM footer exact formatFooter(effectiveSettings)，no duplicate Pi窗口；既有threshold比例保留，native capacity/usage%不更改。
+- Genuine500K/1M actualModelRuntime/modelsJson/realreload/activeModel/nativewindow/usage％/guard/contextJSON/同identitythinking原回歸保留，新的exactfooter且沒有Pi窗口提示assert。
+- producer版本1.10.1只有version與renderNativeStatus改動；其他runtime來源Hash保持、1.10.0歷史保存。以下0.10.0「footer含Pi窗口」視圖歷史，不可復權。
+
 # v0.10.0 current contract（驗證結論依task markers）
 
 - DirectPi models.json override=current provider/model only／solemodelWindow/noACMsoftcap；官方API1.05M與actualCodexUNKNOWN、500K/1M allowed/riskconfirm／knownofficialovercap拒絕/unknownmanual／source+date+readOnlyJSON。

@@ -1,4 +1,5 @@
-import test from 'node:test';
+import test, { after } from 'node:test';
+import { mkdtempSync, rmSync } from 'node:fs';
 import assert from 'node:assert/strict';
 import { mkdtemp, rm, writeFile, readFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -8,6 +9,16 @@ import { createCounter, assertPairing, MARKER, branchState } from '../src/window
 import { opaqueBasis, COUNTING_RULE } from '../src/calibration_v1.4.3.mjs';
 
 import { ai, fromHost } from './runtime.mjs';
+// All wire-only model fixtures must be independent of the user's real
+// models.json. Config commands still redirect to their own per-session folder.
+const previousTestAgentDir = process.env.PI_CODING_AGENT_DIR;
+const isolatedTestAgentDir = mkdtempSync(join(tmpdir(), 'pi-integration-agent-'));
+process.env.PI_CODING_AGENT_DIR = isolatedTestAgentDir;
+after(() => {
+  if (previousTestAgentDir === undefined) delete process.env.PI_CODING_AGENT_DIR;
+  else process.env.PI_CODING_AGENT_DIR = previousTestAgentDir;
+  rmSync(isolatedTestAgentDir, { recursive: true, force: true });
+});
 const core = await fromHost('dist/index.js');
 const { loadExtensions } = await fromHost('dist/core/extensions/loader.js');
 const extension = process.env.PI_ACM_TEST_EXTENSION_ROOT
@@ -627,7 +638,7 @@ test('config persists ratios, synchronizes native settings and both extensions t
     assert.equal(captured.length, 0);
     await f.configCommand('/acm-status(piecd100) json');
     const status = JSON.parse(notices.at(-1));
-    assert.equal(status.version, '1.10.0');
+    assert.equal(status.version, '1.10.1');
     assert.equal(status.footer, 'ACM 85%→75%');
     assert.equal(status.policy.triggerRatio, 0.85);
     assert.equal(status.policy.targetRatio, 0.75);

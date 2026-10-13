@@ -1,10 +1,23 @@
-import test from 'node:test';
+import test, { after } from 'node:test';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import assert from 'node:assert/strict';
 import { fileURLToPath } from 'node:url';
 import { fromHost } from './runtime.mjs';
 const { loadExtensions } = await fromHost('dist/core/extensions/loader.js');
 const { createEventBus } = await fromHost('dist/core/event-bus.js');
 const path = fileURLToPath(new URL('../extensions/no-summary-guard.ts', import.meta.url));
+// Guard fixtures intentionally have no model identity/override. Never read the
+// real user's models.json when exercising that contract.
+const previousAgentDir = process.env.PI_CODING_AGENT_DIR;
+const isolatedAgentDir = mkdtempSync(join(tmpdir(), 'pi-guard-agent-'));
+process.env.PI_CODING_AGENT_DIR = isolatedAgentDir;
+after(() => {
+  if (previousAgentDir === undefined) delete process.env.PI_CODING_AGENT_DIR;
+  else process.env.PI_CODING_AGENT_DIR = previousAgentDir;
+  rmSync(isolatedAgentDir, { recursive: true, force: true });
+});
 
 test('dependency-free guard alone cancels automatic/overflow/manual compaction and tree summaries', async () => {
   const loaded = await loadExtensions([path], '/tmp');

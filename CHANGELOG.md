@@ -1,5 +1,10 @@
 # 更新紀錄
 
+## 0.10.1
+
+- 顯示only：ACM1.10.1不再於下方附加「· Pi窗口 ...」，保留原比例threshold，讓容量/用量/%只看Pi原生。
+- /context詳細資料、直接Pi設定、實際500K/1M窗口/native/producerguard/模型身分/thinking及其它plugins不變；SDK500K/1M回歸改驗exact原footer且無Pi窗口。保留原版本Hash/history。
+
 ## 0.10.0
 
 - `/context(peicd100)`改為直接Pi models.json/modelOverrides.contextWindow；Pi Registry/active model/原生用量％/footer+ACM/native同新窗口，不再ACM softcap/base105萬限制，舊budgetinactive。500K/1M可選，不改其他model/provider/auth/output/headers/全域nativetoken/prefs。

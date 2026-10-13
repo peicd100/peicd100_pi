@@ -166,3 +166,7 @@ npm run test:remote
 - 雙檔models+settings/nativeownership transaction：settings/model文件join locks+fingerprint/session/endpoint/queue guard，private0600journal/last-backup（原JSONC文字仍保留於備份，保存標準化JSON）/atomicrename/CAS/partialfailure兩檔rollback/no外部變更force。只改所選模型容量與nativeOverride/owned，不其他provider/auth/endpoint/maxTokens/headers/全域tokenbudgets/其他prefs。受信任專案native覆蓋衝突拒絕，untrusted不讀。
 - 保存後**Pi本身**local-onlyrefresh讀實際models.json，驗真正registry容量，不偽造Modelclone；SDK須standardagentDir/modelsPath，讀不到就雙檔CAS rollback。成功提交然後fresh ctx reload/setModel metadata：保留模型identity與thinking；禁止reload後舊ctx操作。若reload失败，已提交且一致配置保留，顯manualreload，不假稱runtime生效，modelsfile與activewindow不同或pendingjournal會停止請求/阻autoInit覆寫。孤児recover要owner PID terminal證據＋兩檔before/after exact；unknown/livingowner/externaledit/unknownlockitems保全、不依age猜。
 - 同model1M95/90 →trigger950000/target900000/reserve50000；這不是舊128Kbudget或模型最大輸出128K全部保留保證。native footer維持真Pi窗口。40cutread/ratio容量epoch判讀保留，新容量不同/缺歷史不建議混调參；Notify2.0.1/Theme0.4.1#404040/Activity0.3.1不改。
+
+### v0.10.1 顯示修正（目前狀態列唯一規則）
+
+ACM1.10.1移除追加的「· Pi窗口 ... Token」，只保留原有縮減threshold比例。容量/用量/%看Pi原生顯示；官方API上限、Pi當前值、磁碟覆寫及serviceUNKNOWN仍在/context(peicd100)顯示。DirectPi容量、模型覆寫/nativebudget、選窗/guard/思考與其它plugins完全不改，no新增toggle。0.10.0追加Pi窗口的footer只historical，不再current。新版依然可設定500K/1M、不能保證服務端接受。更新後閒置 /reload。
