@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { fromHost } from './runtime.mjs';
 const { loadExtensions } = await fromHost('dist/core/extensions/loader.js');
 const { createEventBus } = await fromHost('dist/core/event-bus.js');
-const path = fileURLToPath(new URL('../extensions/no-summary-guard.ts', import.meta.url));
+const path = fileURLToPath(new URL('../extensions/guard_entry_v1.11.0.ts', import.meta.url));
 // Guard fixtures intentionally have no model identity/override. Never read the
 // real user's models.json when exercising that contract.
 const previousAgentDir = process.env.PI_CODING_AGENT_DIR;

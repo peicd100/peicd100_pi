@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 `0.10.0`；套件／GitHub repo：`peicd100_pi`。把 ACM、Notify、Theme、Activity 整合成**一個安裝與更新入口**，內部仍是獨立模組，自有指令統一使用 `(piecd100)` 後綴，套件外資料位置不改。
+版本 **0.12.0**；套件／GitHub repo：`peicd100_pi`。ACM、Notify、Theme、Activity、Suffix 共用一個安裝／更新來源，內部保持五個獨立資源、**六個指令入口**。
 
 ## 安裝一次，之後更新
 
@@ -8,129 +8,97 @@
 
 ```sh
 pi install git:github.com/peicd100/peicd100_pi
-```
-
-不加版本：追蹤穩定 `main`。安裝後重新啟動，或等工作與訊息佇列完成後 `/reload`。
-
-```sh
 pi update git:github.com/peicd100/peicd100_pi
 ```
 
-更新後仍需閒置 `/reload`，不會自動替正在執行的對話換插件。版本標籤只供追查／必要時回退；一般安裝指令不固定版本。
+不加版本就是追蹤穩定 `main`；標籤供追查／回退。安裝或更新後等工作與佇列結束，再 `/reload` 或重新啟動。不會替正在執行的對話強制換 runtime。本機開發可在工具工作區 `pi install ./peicd100_pi`，不要同時安裝同一套件的 Git 來源。
 
-本機開發：在工具工作區執行 `pi install ./peicd100_pi`，不要再安裝同一套件的 Git 來源。
+## 五資源、六入口
 
-## 四個獨立模組、統一自有指令命名
-
-| 資源 | 功能 | 指令 |
+| 資源 | 入口 | 用途 |
 | --- | --- | --- |
-| `extensions/acm.ts` | 無摘要上下文滑動＋獨立 no-summary guard | `/acm-status(piecd100)`、`/acm-analysis(piecd100)`、`/acm-config(piecd100)`、`/acm-setup(piecd100)` |
-| `extensions/webhook.ts`（保留資源路徑） | Notify：單一方式、固定停止通知、防重送與對話偏好 | `/notify(piecd100)`、`/notify-setup(piecd100)`、`/notify-on(piecd100)`、`/notify-off(piecd100)`、`/notify-default(piecd100)`、`/notify-status(piecd100)`、`/notify-test(piecd100)`、`/notify-clear(piecd100)` |
-| `extensions/theme.ts` | 中文模板啟用／停用還原，成功變更後安全自動 reload | `/pi-theme(piecd100)` |
-| `extensions/activity.ts` | 獨立單行活動觀察，不取代 footer | `/pi-activity(piecd100) [on|off|status|json]` |
+| `extensions/acm.ts` | `/acm(piecd100)` | 本對話比例／自動縮減開關、新對話預設、狀態、分析、共用原生同步 |
+| 同一 ACM 資源 | `/context(peicd100)` | **獨立** Pi 模型容量設定，不列入 ACM 選單 |
+| `extensions/webhook.ts` | `/notify(piecd100)` | 通知中文主選單，本對話開關排第一 |
+| `extensions/theme.ts` | `/pi-theme(piecd100)` | 主題模板、還原、狀態與取消 |
+| `extensions/activity.ts` | `/pi-activity(piecd100)` | 活動列顯示／隱藏、狀態與取消 |
+| `extensions/suffix.ts` | `/suffix(peicd100)` | 共用後綴文本、本對話開關、新對話預設、預覽與狀態 |
 
-在終端機 `pi config` 可分別停用四項，按 Tab 切換個人／專案範圍，再閒置 `/reload`。**ACM 主體與 guard 同一資源一起開關**，沒有單獨停用 guard 的公開入口。這不是安全沙盒，其他不可信插件仍可能破壞規則。
+ACM／Notify **不再註冊** `/acm-*`、`/notify-*` 快捷入口；輸入舊入口會被攔下並提示主選單，不當作一般提示送模型。沒有裸指令別名，`context`／`suffix` 精確使用 `(peicd100)`，其餘 `(piecd100)`；Pi／第三方 `/reload`、`/settings`、`/goal` 不改。唯讀自動化仍從同一入口使用 `/acm(piecd100) json`、`analysis`、`analysis-json` 與 `/notify(piecd100) json`，不是額外的註冊指令。
 
-**命名是永久規則**：目前與未來所有本套件自有 slash command 都帶 literal `(piecd100)`；不保留無後綴別名。Pi／第三方的 `/reload`、`/settings`、`/goal` 不改。新插件放在同套件、加入 `package.json` 的 `pi.extensions` 掛載，並使用 `src/commands_v0.7.0.mjs`；package Gate 與 loader 測試會檢查實際名稱。已有明確 resource 篩選不會被偷偷擴充。
+在 `pi config` 可個別停用五資源，Tab 切換個人／專案範圍，再閒置 `/reload`。ACM producer 與獨立 guard 同一資源一起掛載，沒有停用 guard 的選單。這不是安全沙盒，其他不可信插件可能破壞規則。新增插件都必須加入本套件 manifest 與共同命名 adapter／Gate；不擅自擴充使用者明確指定的資源篩選。
 
-各設定介面會標示目前狀態；全域保存偏好與本對話實際生效狀態分開顯示。磁碟與 runtime 不一致須閒置 `/reload`，未知不猜測，秘密不回顯。
+## ACM：對話記憶與新對話預設
 
-Theme 的主題 JSON 是另一個原生 theme 資源。停用 Theme 指令入口不會自動還原配色；如要還原，先 `/pi-theme(piecd100)` 選「停用並還原原本主題」，再停用資源。
+`/acm(piecd100)` 中文主選單順序：
 
-### Activity：獨立活動列
+1. **設定本對話觸發／保留比例**（直接顯示目前數值）
+2. 切換本對話自動縮減
+3. 設定新對話預設是否啟用
+4. 設定新對話預設比例
+5. 查看目前狀態
+6. 讀檔／縮減分析
+7. 共用原生設定同步
+8. 取消
 
-未保存偏好時，活動列**預設關閉**，不啟動每秒重繪；已保存的顯示／隱藏偏好優先。啟用後保留**實際 Pi 原生 FooterComponent**（不重建統計／費用），活動列在原生資訊與所有 status 插件下面，最後獨占一行。只經公開 Container.children 有界定位並 compose，不改 Pi；若第三方自訂 footer 或未知布局無法安全保留，回退輸入框下方 widget，不搶占對方，`/pi-activity(piecd100) status` 可查看。
+首次初始化對話／未存設定的分支時，保存一份預設快照。未設定新版 private 預設時，沿用既有 `settings.acm` 比例與 `compaction.enabled`（缺省啟用、比例 70／55），不是因更新把自訂 95／90 重設。之後以 active branch 的 `peicd100:acm-session-policy` custom entry 為準；恢復／reload 保持，分支繼承分支點，未採用分支不影響目前對話。Custom entry 不送入模型上下文。
 
-```text
-活動｜執行指令｜最後活動 12 秒前｜目前動作 2 分 08 秒
-```
+改新對話預設只影響未初始化的新對話／分支；改本對話比例與開關只追加本分支設定，不寫入其他對話、共用預設、`settings.json` 或 `models.json`。閒置／佇列清空才能修改；比例先輸入、再預覽確認，須 `0 < 保留 < 觸發 < 100`，差距小於 5 提醒。取消、同值、對話／分支／模型／設定異動不覆寫。保存後下一次請求生效，不需要 reload，不立刻裁切或恢復歷史。
 
-每秒只更新 UI，不新增模型請求、session entries 或模型上下文；計時使用單調時鐘。觀察模型有內容的串流、工具開始／進度／結束（含同時與巢狀工具）、上下文整理與 UI 等待，分開顯示最後活動和當前動作時間。工具沒有回傳進度不代表卡死；超過五分鐘只提醒「久未活動，不代表當機」，明確 Goal／UI 等待、已閒置時不警告。
+**停用是停用自動縮減，不是停用安全保護。** 停用時不自動裁切／工具預覽，不提交新游標；已成功裁切的游標仍保持，不恢復已排除的舊上下文。超過本對話觸發比例所界定的安全輸入門檻時停止，不硬送超量內容，不改用 AI 摘要。Native threshold／manual／overflow compaction 與 tree 摘要仍取消。開啟時仍保護 system、最新 user、任務錨點與最近完整工具批次，保留配對與原始紀錄／簽章；只有匹配且健康的 Main 回應、同一分支／比例／模型才提交裁切候選。
 
-Pi 沒有供 extension 使用的明確 auto-retry 事件，失敗後只能顯示「等待恢復／再次請求」，不猜重試次數／原因，不解析 prompt、工具參數、結果、命令或 Goal 私人內容。這不是進程心跳／所有背景程序完成偵測；UI 本身凍結時，列也不能繼續更新。
+### 對話預算與 Pi 原生基準分工
 
-新對話、切樹或 reload 重設本次觀察；無歷史時間證據就顯示「載入後尚無活動紀錄」，不猜前次工作已跑多久。窄終端／ANSI／中文按可見欄位截短，保持一行。關閉／reload 清理 timer／widget；SDK／print／RPC 不啟動。`/pi-activity(piecd100)` 中文顯示／隱藏選單，`off` 隱藏、`on` 顯示並保存偏好，reload／新對話沿用。工作執行中也可立即切換，不 abort／重試／reload、不新增模型請求。隱藏不重設本次時間或停止事件觀察，但移除自有顯示／每秒重繪；再顯示可看最新活動。背景沒有新模型請求。永久停用用 `pi config`；既有明確 extensions includes 不會偷偷加入新資源，請自行啟用 Activity。
+Pi 1.1.0 公開 API **沒有每對話原生 compaction token 設定 setter**，所以不會把對話比例寫成全域／其他對話的預算。ACM 每次請求由 Pi 活躍 `contextWindow` 與本分支比例計算滑動門檻／保留目標；producer 與獨立 guard 核對相同 policy／模型 fingerprint 與一次性批准。不存在 legacy 105 萬第二層軟上限。
 
-### ACM
+Pi `settings.json` 的共用／每模型 native compaction budget 仍是另一個**共用基準**，不是對話比例 owner。啟用時原生基準與模型配置無效仍 fail closed；請明確從 ACM 選單「共用原生設定同步」維護。此動作可能保存共用 native 設定並 reload，但不把本對話比例寫到全域，不改新對話預設。沒有自動送出已移除的 `/acm-setup`，也不生成假的使用者提示。提前 native threshold／overflow 仍取消摘要，真正送出前的 ACM budget 才決定對話窗口。
 
-新安裝／reset 預設 70／55，已保存自訂值沿用。Footer 顯示有效門檻，例如 `ACM 95%→90%`；使用率由 Pi 原生 footer 顯示。`/acm-status(piecd100) json`、`/acm-analysis(piecd100) json` 保留技術欄位。
+Footer 保留 `ACM 95%→90%` 等**本對話**比例，停用加「自動縮減停用」；不追加「Pi窗口」。實際容量／用量／百分比由 Pi 原生顯示。狀態分開列本對話、新對話預設與共用原生基準，不混稱已同步。
 
-保護系統、最新使用者訊息、任務錨點與最近完整工具批次，維持配對、原始紀錄／簽章、路由隔離校準與單調游標。只在有效對應回覆後提交滑動邊界，不呼叫額外模型產生摘要。分析唯讀，先以最多 100,000 筆**僅 metadata**索引定位最近縮減及前置游標／carried read／tool-call owner；從原 10,000 筆起始範圍補讀必要連續區間，payload 最多 100,000 筆，超預算或真正缺依賴仍保守。較早無關紀錄未掃描不再讓完整的近期證據變成 INCOMPLETE，缺邊界與缺依賴分別顯示；判讀以最近最多 **5 次成功縮減 × 每次後續 5 次模型回應**為主。不同模型／已記錄比例只取最近連續範圍，不混著評分。
+### 唯讀分析
 
-`/acm-analysis(piecd100)` 先顯示「判讀、觀察、建議」，少於 3 次、歷史比例未知、證據不足或觀察尚未完整時只建議維持設定。新版縮減會記錄當時模型與比例，不推測舊比例。Token／快取／費用累計與證據 ID 留在 `json`，不是訂閱額度或浪費證明。重讀可能是驗證或恢復，不能當成浪費率。
+選單「讀檔／縮減分析」或同一入口 `analysis`／`analysis-json`；不送模型、不重讀磁碟。最近 **40 次成功縮減**的逐檔成功 read／同範圍重讀／舊結果移出後再讀候選表，不是 40 輪回應；完整 owning tool batch、分段／nested／缺證據／有界窗口規則保持。畫面先表再判讀，最多 20 檔；JSON 保留有界全表及證據。
 
-另附**最近 40 次成功縮減**逐檔表（含工具呼叫輪）：成功讀取次數、同檔／同範圍／同可見輸出的重讀次數，以及其中舊結果已被提交縮減移出後的重讀候選。較早成功讀取可作比較基準，但不算進最近 40 次成功縮減的讀取總數。三欄是包含關係，不能相加；寫入後與恢復檔另標，不推斷動機。不同區段／內容、失敗讀取不當成相同重讀；不猜 bash 間接讀取與沒有完整結果的 nested calls。歷史／窗口不足或無法比較時明示 unknown／候選下限，0 不當成確定沒有。一般畫面最多列 20 檔，表格置頂、共用路徑只列一次，同名檔補父目錄；依終端顯示寬度對齊、窄螢幕改逐檔卡片。縮減摘要置後並明示不同統計範圍。`json` 保留此有界窗口全表、完整路徑、證據與原判讀／建議；不另讀磁碟。
+比例建議另用最近最多 **5 次同模型／比例／相容容量縮減 × 後續 5 次回應**，現在以本對話比例過濾。少於 3 次或歷史／校準不足只建議維持，不用最後一筆陌生路由猜目前值。重讀不是浪費率，Token／cache／費用不是訂閱額度證明；不自動調參或讀回已移出的結果。詳見 `docs/ACM_SESSION.md`。
 
-`/acm-config(piecd100)` 在閒置 TUI 先顯示目前比例、輸入「觸發 保留」兩個數字，再預覽前後差異確認。須 `0 < 保留 < 觸發 < 100`，差距小於 5 會提醒；取消／同值／確認期間模型、對話或設定變更，不寫入或 reload。確認後一次保存比例與 native budget，再官方 reload。明確參數 `[70 55|reset]` 保留；目前自訂 95／90 不會因更新改動。
+## `/context(peicd100)`：獨立 Pi 模型容量
 
-真的常需讀回剛移出的資料且預算有餘裕，才一次提高保留目標 5 個百分點（例如 70／55 → 70／60，兩者仍至少差 5）；若縮減來不及則可單獨降低觸發門檻（70／55 → 65／55）。這些是條件式小幅試驗，不是報表自動推薦最佳值；沒有困擾就不調。
+直接改 `models.json.providers[目前 provider].modelOverrides[目前 model].contextWindow`，由真正 Pi ModelRuntime local-only refresh 與 fresh reload 啟用。模型 identity／thinkingLevel／credentials／其他模型保持；ACM 各分支比例與開關不變，按新 Pi 窗口重新計算請求預算。
 
-TUI 閒置時同步目前模型預算；明確自訂預算、停用設定或專案衝突不擅自覆蓋。未知模型／宿主以保守規則處理，必要內容過大時停止，不轉成摘要。停用整個 ACM 後會回到 Pi／其他插件的上下文行為，原生摘要可能恢復；不自動還原曾保存的模型預算。
+`json`／`status` 唯讀；TUI 目前／272K／500K／1M／自訂／取消，明確參數如 `1m` 仍確認，非互動寫入需 `--confirm-unverified`。K=1000、M=1000000。官方已知超上限拒絕，未知可明確承擔風險，不受當前本機 272K 的第二層 ACM cap 阻擋。
 
-### Notify：單一通知方式
+官方 API GPT-6.1 Sol metadata 查核於 2026-10-13：上下文 1,050,000、最大輸出 128,000（[官方文件](https://developers.openai.com/api/docs/models/gpt-6.1-sol)）。**不是 Codex 訂閱／代理／連線上限證明**，service verification 仍 `UNKNOWN`，不做真模型探測。擴大可能 buffer／上下文／額度／成本錯誤，最大輸出不是全部保留量保證。
 
-`/notify(piecd100)` 主選單顯示目前方式、已保存／當前對話／實際生效狀態，並切換 **Telegram Bot／Discord／Slack／一般 Webhook**。一次只啟用一種，各方式設定分別保存；切回不重填。沿用 `extensions/webhook.ts` 資源與原私有資料目錄，避免既有 filters／收據失效；舊 Webhook factory 保留歷史 Hash，但現行不註冊舊指令／global／events／channel alias。
+Models＋settings native ownership 雙檔 locks／fingerprint／CAS／private journal／atomic rename，pending／外部變更不猜。Pi 本身讀不到新覆寫就安全 CAS 回退；已提交一致配置但 reload 失敗則保留並要求手動 reload，不用 stale context 還原後來的變更。孤兒恢復要 owner terminal 證據，不依 lock 年齡。只選定模型資料，不改其他 provider／auth／header／maxTokens／全域 token budgets；受信任專案衝突拒絕，未受信任專案不讀。
 
-| 指令 | 功能 |
-|---|---|
-| `/notify(piecd100)` | 主選單、切換方式；標示目前與已保存設定 |
-| `/notify-setup(piecd100)` | 遮蔽設定目前方式；首次可選方式 |
-| `/notify-on(piecd100)`、`/notify-off(piecd100)` | 當前對話開／關，保存選擇；已授權時可執行中切換、不 abort 或 reload |
-| `/notify-default(piecd100) [on\|off]` | 新對話預設，初始 off；不改既有 snapshot |
-| `/notify-status(piecd100) [json]` | 方式、授權、對話、實際生效與安全收據；不顯示 Token／Chat ID／完整 URL |
-| `/notify-test(piecd100)` | 明確真實 POST 測試；可越過當前對話 off，但仍需連線授權 |
-| `/notify-clear(piecd100)` | 閒置確認後清除目前 Notify 方式設定，不清其他 profiles／預設／收據 |
+## Notify：只有 `/notify(piecd100)`
 
-Telegram：遮蔽輸入 Bot Token 和 Chat ID；私聊先對 Bot `/start`，群組須加入 Bot 並允許發訊息。只向固定 `api.telegram.org` HTTPS `/bot<TOKEN>/sendMessage` 發送 plain JSON/text，不用 parse_mode、不跟隨 redirects；HTTP 成功且回應 `ok:true` 才記 ACCEPTED，API拒絕／截斷／超時／送達未知不自動重送。成功代表 API 接受，不保證裝置已顯示。
+中文主選單：本對話開關（第一項）、切換單一通知方式、設定目前方式、新對話預設、狀態、明確測試、清除目前方式、取消。Telegram／Discord／Slack／generic HTTPS profiles 與秘密遮蔽輸入保留；一次只有一種 active 方式。已授權開關可工作中切換、不 abort／reload；新連線／清除／舊權限授權需閒置與確認。
 
-切換已配置且已授權方式可工作中執行；新連線設定／清除／舊權限確認須閒置。保存使用 revision／CAS；跨程序 DNS 與 awaited preDispatch 後即時重驗，甚至 A→B→A 也拒絕舊候選。不自動測試、不改對話／新預設、不補送、不把舊通知轉送新方式；已提交 HTTP 不能承諾撤回。
+新對話預設／active branch snapshot／授權 gate 保持。清除只清目前 profile，不清其他方式與 prefs，也不復活 legacy 來源。切換與保存 revision/CAS、awaited DNS／preDispatch 後重驗；不自動測試、補送或把舊通知轉送新方式。明確測試仍需授權，不應輸入秘密到 slash 參數。
 
-**事件固定，沒有 events 選單**：正常完成、確定無法自動恢復的 error／取消、Goal完成／手動暫停／受阻／額度或預算停止通知；一般 Goal wait、retry、恢復中的暫時錯誤保持安靜。例外：Goal `active.waiting.reason` 明確為 `Provider retries exhausted`（可附冒號後資訊）且沒有 `resumeAt`，代表提供者重試已耗盡、需 follow-up／`/goal resume`；此時通知「｜需要處理」。有期限即使原因提及耗盡仍保持安靜，不因一般等待沒有期限或模糊錯誤文字就通知。使用公開 Goal0.54.11 metadata＋真正 `agent_settled`／idle／無queuedwork＋3秒防抖，送前重驗；不依沉默猜停止、不呼叫 Goal 或模型、不把 paused／blocked／重試耗盡當完成；Notify只投影 `retry_exhausted`，不修改 Goal、接管恢复或改模型請求。auto→manual等待是新episode，重複persist只通知一次，真正resume後再耗盡可再通知，startup不補送。Native Escape abort 即使沒有 before-settle 仍依明確 final aborted 狀態通知。Startup／reload／切樹不補送歷史。
+固定 final settled／idle／無佇列／3 秒防抖終態通知；Goal 0.54.11 確定完成、手動等待／受阻／預算或額度停止才投影。一般 wait／retry／恢復暫錯保持安靜。例外只精確 `Provider retries exhausted` 的 active waiting、完全沒有 `resumeAt`，通知需要 follow-up／`/goal resume`，有期限（含 0）仍安靜；不改 Goal、不接管重試。
 
-各方式共用模板：
+跨程序 claim／dedup／UNKNOWN 不重送；Telegram 固定 public HTTPS/TLS、DNS 全地址驗證、不 redirects、plain JSON，HTTP 成功且 API `ok:true` 才 ACCEPTED。所有方式固定安全文案，只對話名稱、可驗證的停止類別／下一步／UTC+8；不讀 prompt、raw error、objective 或秘密，不用模型產生通知、不全體 mentions。Startup／reload／切樹不補送，SDK／print／RPC 不自動通知。
 
-```text
-🔔 <Pi 已保存的對話名稱>｜需要處理
+## Suffix
 
-狀態：受阻
-原因：目標已標記受阻；未提供可安全顯示的詳細停止原因。
-下一步：檢查阻塞條件，處理後手動繼續。
+`/suffix(peicd100)` 第一項本對話開關，共用 UTF-8 後綴文本、新對話預設 Off、預覽／狀態／取消。一般 interactive／RPC 人工提示在提交時追加一次，仍是 user role、images／原生與 ACM token count 保持；佇列凍結提交時文本，重試不 double，commands／bash／extension 自動訊息／舊歷史不加。空文本不可開啟，壞設定不猜內容；可明確關閉。Private 32 KiB／atomic CAS／exclusive lock，不放秘密，見 [後綴規則](docs/SUFFIX.md)。
 
-時間：<實際送出日期時間，UTC+8>
-```
+## Theme／Activity
 
-正常完成用 `✅ <對話名稱>｜已完成`；未命名顯示「未命名對話（短 ID）」。原因只用可驗證的停止類別／長度限制等結構資訊，沒有可安全公開的詳細原因就明示，不讀對話／檔案內容、objective、raw error、金鑰或私人路徑，不用模型生成文案。Discord `allowed_mentions.parse=[]`，不加 `@everyone`；所有模式去除全體提及與控制字元。
+Theme 中文啟用模板／停用還原／狀態／取消。成功保存後 command-only 安全 reload 一次，取消／忙／同值／異動不 reload；reload 失敗保留已保存主題、提醒手動處理，不 stale rollback／循環。啟動不 auto apply，較新主題與未知原紀錄不猜。Pending 背景 `#404040`、success `#000000`，其餘 palette／正文／語法色不改。
 
-遷移：第一次 TUI session／明確操作原子建立 `notify.json`，將 legacy格式投影為一個 profile，原 `config.json`／`global.json`／事件選擇／收據只讀保全，不當新執行政策。原 global off／連線未授權維持 blockedpermission，原分支不偷偷啟用；需閒置明確 `notify-on` 當前分支授權或 setup。新registry存在後忽略舊global，事件舊值也不再控制新固定政策。壞／未知資料 fail closed、不能猜或自動覆蓋；清除 Notify profile 不把原legacy來源重新啟用。
+Activity 未存偏好預設 Off；中文主選單或 `[on|off|status|json]`。獨立單行在原生 footer／status 下方，保留真正 FooterComponent，第三方未知佈局回退 widget。工作中可顯示／隱藏，不 abort／retry／reload／新增模型請求；隱藏停止自有每秒重繪，保留 readonly 背景觀察。使用單調時鐘、中文／ANSI 可見欄寬，久未活動不當成當機，不讀 prompt／工具參數／結果／Goal 私人內容。非 TUI 不啟動 UI timer。
 
-SDK／print／RPC 不自動通知或在factory啟動觀察器。跨程序原子 claim 與舊 notification identity 保留；每個終態最多一次，送達未知不重用 claim；Windows只重試同一次本機atomicrename，不重送HTTP。Secret／URL不可輸入slash參數；private files／backup不進publicGit。
+## 資料、遷移與驗證
 
-### Theme
+- ACM 新對話預設：`<agent-dir>/config/acm/defaults.json`；只有明確改預設才建立，4 KiB／0600／0700／atomic CAS＋joint exclusive lock。每對話開關／比例：原 session custom entries。原 settings.acm 只初次 fallback／共用 native 基準，新版 private 預設存在後不復權。
+- Native capacity／baseline：原 `models.json`／`settings.json`，不由對話比例修改。
+- Notify：原 `config/webhook-notifier/` profiles／revision／authorization／receipts；legacy 資料只遷移／防重送證據。
+- Suffix：`config/suffix/config.json`＋session；Activity：`config/activity-display/preferences.json`；Theme：`themes/pi-theme-user.json`、`config/pi-theme/toggle.json`。
 
-只兩項：啟用我的模板／停用還原。成功變更並保存後，以官方 command-context `reload` **自動重新載入一次**，在 store lock／controller 釋放後執行；不是重新啟動程序。取消、已是同一主題、失敗、非 TUI、工作／佇列／對話變更不 reload。reload 失敗保留已保存主題，提示稍後手動 `/reload`，不拿 stale context 回退主題、不循環重載。僅此 `/pi-theme(piecd100)` 指令改變後會自動 reload，非所有 `/settings` 選擇，也不是套件更新後強制 reload。
-
-主題選擇由官方 API 保存，模板不在啟動時自動選用。原自訂主題仍可用；另選主題後，停用不覆寫較新選擇。
-
-執行中工具背景 `#303030`（較明亮石墨灰），成功背景仍 `#000000`。淡紫標題／連結 `#C7A0E8`、錯誤玫瑰紅 `#E07A86`、工具錯誤背景 `#3A2329`；模型正文與程式碼保留原色／語法色。不使用不穩定包色轉換、不改 Pi 本體或加模型背景。自動亮暗配對、專案固定主題或缺失原紀錄時拒絕不完整還原。256 色終端會近似，不控制終端機整體背景。
-
-## 資料仍在原位置
-
-- ACM：Pi `<agent-dir>/settings.json` 的 `acm`／`compaction`，與原 session entries。
-- Notify：`<agent-dir>/config/webhook-notifier/`（沿用），新增 private `notify.json` profiles／selected revision，原 config／preferences／global／events／receipts 保留遷移與防重送證據。
-- Activity：`<agent-dir>/config/activity-display/preferences.json`（只含顯示布林偏好，不寫 session/模型上下文）。
-- Theme：`<agent-dir>/themes/pi-theme-user.json`、`<agent-dir>/config/pi-theme/toggle.json` 與原 theme 選擇。
-
-不搬移、清除或提交資料。設定由執行時檔案／session policy 決定，套件副本不充當 credential store。Windows chmod 不等於 ACL 證明。
-
-## 已裝三個舊插件：只遷移一次
-
-**不要同時載入整合套件與舊 ACM／Webhook／Theme。** 安裝新套件不會自動替你移除其他來源。
-
-先完成安裝但不要重新啟動／`/reload`，照 `docs/MIGRATION.md` 的唯讀預覽與備份切換流程，或用 `pi remove` 移除原三個來源。舊資料不刪；遷移原篩選選擇，ACM 半套會依安全契約改成主體＋guard 一起載入。
-
-舊三個倉庫／標籤保留歷史；後續只在本倉庫維護，避免四份程式碼同步。0.1.0 保持原功能；0.2.0 新增易讀分析與 Goal 通知相容，不加統一大選單或對話目錄。
-
-## 開發與驗證
+不搬移／清除／提交私人資料，套件不是 credential store，Windows chmod 不等於 ACL 證明。不要同時載入本套件與舊三插件；見 [遷移流程](docs/MIGRATION.md)。原三 repos／標籤只留歷史，所有新 feature 在本套件維護。
 
 ```sh
 npm ci --ignore-scripts --no-audit --no-fund
@@ -141,39 +109,6 @@ npm run test:install
 npm run test:remote
 ```
 
-測試使用隔離 agent-dir、模擬模型／DNS／HTTPS；不改個人設定或送實際通知。正式 Git 安裝只安裝 `gpt-tokenizer`，不捆綁 Pi 宿主。公開 Git 測試需要網路。三系統 CI 與驗證範圍見 `docs/VERIFICATION.md`；發布流程見 `docs/RELEASING.md`。
+隔離 agent-dir／真正 SDK、mock 模型／DNS／HTTPS，不改個人配置、不真實 provider／Notify POST。歷史共享比例與 auto-init 回歸固定不可變 1.11 factory，目前 public 1.12 對話隔離／停用／單入口另有完整 genuine SDK suite；不把舊測試當新的 session budget attestation。新 runtime Hash／原 history Hash／UTF-8／隱私／pack／真 Pi install 與三系統 exact SHA Gate 見 [驗證](docs/VERIFICATION.md)、[發布](docs/RELEASING.md)。
 
-套件 `private:true` 防止意外 npm publish；GitHub 公開與可安裝不代表一般開源授權，仍為 `UNLICENSED`，來源見 `NOTICE.md`。
-
-### 0.8.2 分析窗口與執行中配色
-- read表以最近40次可驗成功提交縮減（ACMboundary／正式nativecompaction）為準，跨模型／比例；只統計最早所選commit之後發出的完整read呼叫到目前。更早read只作baseline，不加次數；不是40模型回應或40倍Token window。不足40顯示實際數、无cut暫統計可觀察全段。noopmetadata/失敗取消/重複event ID不算。
-- 只successfulread；更早baseline可讓窗口內首read為重讀，postcut因果依原tool結果被committedboundary移出；有界100000entries及1MiB結果budget，cap/缺引用標lowerbound/unknown，不重讀磁碟／extra模型。比例判讀仍獨立近5same-route/policycut×後5responses；顯示route/filter0但觀察有cut時不稱全歷史0。JSON recent_reads schema2明列selectedcuts/start/window/baselinecoverage。
-- Theme0.4.1只有toolPendingBg #303030→#404040，success/error/其他palette、private選擇與prefs不改；來源更新後useridle /reload，不forcedlive。
-
-### Historical v0.9.0 /context — ACM使用預算（已退役；以下不是目前執行規則）
-- 這個新指令**精確使用(peicd100)**；其餘既有指令仍(piecd100)，沒有bare或錯拼別名。選單先顯示Pi模型宣告容量、最多可設定=min(model.contextWindow,ACMbasecap)、服務端實際上限UNKNOWN、目前auto/manual預算、模型最大輸出（非目前預留量）與可對照native用量。不是突破上游最大窗口。
-- 預設auto，不主動寫入設定。`/context(peicd100) json`/`status`唯讀、no model/disk補讀/network/probing；互動選auto/128K/272K/500K/1M/custom，K=1000/M=1000000。超目前declared/basecap拒絕，500K/1M灰字選中也不寫（沒有假稱服務端支援）。當Pi資料宣告可支援較大容量才允許對應選項，仍標not-provider-attested；未知無效容量不猜。
-- 明確參數`auto`/`128k`/`272k`/整數（最低4096）視為指定設定；空參數只TUI兩階段select/input→preview/confirm。修改需idle/emptyqueue/模型+endpoint+容量fingerprint/session/diskCAS不變，取消/noop不寫不reload。Settings只改目前模型acm.contextBudgets與compaction.modelOverrides/ownership，保留全域native token budgets/其他模型與其他prefs，拒受信任專案override，未受信任專案不讀。成功後idle reload，失敗CAS rollback不覆蓋後续異動。
-- Single ACM1.9 producer/guard/nativebudget同一effectivecontextCap；128K配95/90→trigger121600/target115200/nativeReserve272000−121600=150400。原Pi footer仍顯示真模型宣告窗口，ACM另標manual預算。預留包含輸出空間，但不保證可輸出model.maxTokens全部上限，不改provider/model.contextWindow/auth/model選擇。過小预算若固定system/latestuser/toolbatch/anchors放不下則停止，不丟必要內容或改AI摘要。調大不復活舊窗口、不直接改歷史、不當場壓縮。
-- 手動預算綁provider/api/model/endpoint/宣告limits fingerprint；變更需重新確認、不沿用舊連線预算；othermodel own或auto。新縮減metadata寫capacity，ratio判讀若同百分比但capacity不同/手動capacity缺歷史則不建議調比例；40次read表保持独立。模型/metadata不是providerattestation，本機catalog gpt6.1-sol272000/maxOutput128000目前500K/1M未確認；不為湊選項改modelcatalog。
-
-### v0.10.0 /context(peicd100) — 直接修改 Pi 模型容量（目前唯一 owner）
-
-- 最新使用者明確改為**直接 Pi**：只改agent `models.json` 的 `providers[目前provider].modelOverrides[目前model].contextWindow`。Pi的ModelRuntime讀到此正式override，再由fresh reload lifecycle啟用同provider/id的新modelmetadata，Pi原生contextWindow／用量％／footer/native threshold都採新值，不改Pi原始碼，不註冊／替換provider，thinkingLevel保持、不改defaultModel/defaultThinking/settings的modelThinkingLevels。
-- **ACM1.10.0** policy容量只等於目前Pi模型窗口，nativeBudget也只Pi窗口；不再base105萬cap或acm.contextBudgets第二層softcap。Legacy預算欄位退役不執行，user明確保存時只移除當前模型的舊紀錄，其他model資料保存inactive；縮減仍按95/90等既有百分比/wholetoolbatch/system/user/anchors/no AI摘要，調大不restore舊span或當場改history。過小保護內容放不下則停止。
-- 官方查核2026-10-13：https://developers.openai.com/api/docs/models/gpt-6.1-sol，OpenAI API GPT-6.1 Sol **1,050,000**上下文/**128,000**最大輸出。與Pi本機272K及**Codex訂閱/代理/連線真上限UNKNOWN**分開；不能把API規格當連線attestation。ReadOnly JSON schema2顯三者、models.json磁碟覆寫與Pi活躍窗口、輸出max不是reserve、可對照nativeusage、交易pending。未知model官方最大就未知，不能猜。
-- UI保持目前/272K/500K/1M/custom/取消；500K/1M不再因Pi目前272K禁用。先保存預覽confirm；擴大或officialunknown另riskconfirm，可能buffer/額度/高成本錯誤，不模型POST探測。已知官方模型超上限拒絕；unknown可手動風險覆寫，不额外ACM cap。K=1000/M=1000000/min4096 safeinteger。`json`/`status`唯讀；`500k`/`1m`等明確參數在TUI同樣確認，非互動寫入需`--confirm-unverified`。不再舊`auto/reset`預算模式，恢復272K可選272k；直接移除models覆寫後idle/reload亦依Pi本身catalog。
-- 雙檔models+settings/nativeownership transaction：settings/model文件join locks+fingerprint/session/endpoint/queue guard，private0600journal/last-backup（原JSONC文字仍保留於備份，保存標準化JSON）/atomicrename/CAS/partialfailure兩檔rollback/no外部變更force。只改所選模型容量與nativeOverride/owned，不其他provider/auth/endpoint/maxTokens/headers/全域tokenbudgets/其他prefs。受信任專案native覆蓋衝突拒絕，untrusted不讀。
-- 保存後**Pi本身**local-onlyrefresh讀實際models.json，驗真正registry容量，不偽造Modelclone；SDK須standardagentDir/modelsPath，讀不到就雙檔CAS rollback。成功提交然後fresh ctx reload/setModel metadata：保留模型identity與thinking；禁止reload後舊ctx操作。若reload失败，已提交且一致配置保留，顯manualreload，不假稱runtime生效，modelsfile與activewindow不同或pendingjournal會停止請求/阻autoInit覆寫。孤児recover要owner PID terminal證據＋兩檔before/after exact；unknown/livingowner/externaledit/unknownlockitems保全、不依age猜。
-- 同model1M95/90 →trigger950000/target900000/reserve50000；這不是舊128Kbudget或模型最大輸出128K全部保留保證。native footer維持真Pi窗口。40cutread/ratio容量epoch判讀保留，新容量不同/缺歷史不建議混调參；Notify2.0.1/Theme0.4.1#404040/Activity0.3.1不改。
-
-### v0.10.1 顯示修正（目前狀態列唯一規則）
-
-ACM1.10.1移除追加的「· Pi窗口 ... Token」，只保留原有縮減threshold比例。容量/用量/%看Pi原生顯示；官方API上限、Pi當前值、磁碟覆寫及serviceUNKNOWN仍在/context(peicd100)顯示。DirectPi容量、模型覆寫/nativebudget、選窗/guard/思考與其它plugins完全不改，no新增toggle。0.10.0追加Pi窗口的footer只historical，不再current。新版依然可設定500K/1M、不能保證服務端接受。更新後閒置 /reload。
-
-## 0.11.0 目前中文主選單／後綴提示功能
-
-- `/suffix(peicd100)` 首項本對話開關，編輯共用後綴、新對話預設Off、預覽／狀態；對話及activebranch持久記憶開關，一般interactive/RPC提示於提交時追加一次，不改oldhistory／system、不追加commands／extension自動訊息／retry。內容私密保存、32KiB／atomicCAS；不放秘密。
-- `/notify(piecd100)` 第一項本對話toggle，原通知方式／預設／狀態／explicit測試／清除與快捷保留。
-- `/acm(piecd100)` 整合狀態／比例／Pi容量／分析／原生同步，原快捷保留，no關閉保護；theme/activity既有中文選單加status/cancel。
-- 現在同bundle五rootresource（Suffix0.1.0、ACM1.11.0、Notify2.1.0、Theme0.4.2、Activity0.3.2），原四resource文字僅historical。容量与noPiWindowfooter不改。詳見[後綴規則](docs/SUFFIX.md)。安裝更新後useridle `/reload`。
+Git 安裝僅 runtime `gpt-tokenizer`，不捆綁 Pi 宿主。`private:true`／`UNLICENSED` 防止意外 npm publish，GitHub 公開不等於一般開源授權，來源見 `NOTICE.md`。版本演進與退役機制見 `CHANGELOG.md`／`MODULES.json`；只有目前 active entries 有執行權威。

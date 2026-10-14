@@ -9,7 +9,7 @@ import { DEFAULT_PERCENTAGES, parseConfigCommand, validatePercentages, policyFor
 import { fromHost } from './runtime.mjs';
 const { loadExtensions } = await fromHost('dist/core/extensions/loader.js');
 const { createEventBus } = await fromHost('dist/core/event-bus.js');
-const guard = fileURLToPath(new URL('../extensions/no-summary-guard.ts', import.meta.url));
+const guard = fileURLToPath(new URL('../extensions/guard_entry_v1.11.0.ts', import.meta.url));
 const base = JSON.parse(readFileSync(new URL('../policy.json', import.meta.url), 'utf8'));
 const model = { provider: 'fixture', id: 'model', contextWindow: 272000 };
 const settings = { theme: 'unchanged', packages: ['fixture-only'], defaultModel: 'untouched',

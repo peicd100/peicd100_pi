@@ -17,7 +17,7 @@ test('same-process reload switches cached95/85 guard and selector to versioned70
   await writeFile(join(root,'src/config.mjs'),await readFile(join(source,'src/config_v1.4.2.mjs')));
   // This regression targets the immutable 1.4→1.5 default migration.
   const guard=await readFile(join(source,'extensions/no-summary-guard_v1.5.0.ts'),'utf8');
-  const path=join(root,'extensions/no-summary-guard.ts');
+  const path=join(root,'extensions/guard_entry_v1.11.0.ts');
   await writeFile(path,guard.replace('../src/config_v1.5.0.mjs','../src/config.mjs'));
   const load=async()=>{const bus=createEventBus();const loaded=await loadExtensionsCached([path],root,bus);assert.deepEqual(loaded.errors,[]);loaded.runtime.getSettings=()=>({});return {bus,loaded,callback:loaded.extensions[0].handlers.get('context_with_system')[0]};};
   const messages=[{role:'user',content:'Fixture only; no model request'}];

@@ -7,7 +7,7 @@ import {fileURLToPath} from 'node:url';
 import {ai,fromHost} from './runtime.mjs';
 const core=await fromHost('dist/index.js');
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js');
-const paths=['../extensions/index.ts','../extensions/no-summary-guard.ts'].map(p=>fileURLToPath(new URL(p,import.meta.url)));
+const paths=['../extensions/entry_v1.11.0.ts','../extensions/guard_entry_v1.11.0.ts'].map(p=>fileURLToPath(new URL(p,import.meta.url)));
 const wait=async predicate=>{for(let n=0;n<500;n++){if(predicate())return;await new Promise(r=>setTimeout(r,10));}throw new Error('Expected auto initialization boundary did not finish');};
 async function fixture(settings,run,{mode='tui',confirm=()=>true,reloadFailure=false,modelOverride={}}={}){
  const root=await mkdtemp(join(tmpdir(),'acm auto TUI ')),old=process.env.PI_CODING_AGENT_DIR;process.env.PI_CODING_AGENT_DIR=root;

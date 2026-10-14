@@ -1,4 +1,15 @@
-# 0.11.0 當前驗證契約
+# 0.12.0 目前唯一驗證契約
+
+- 真五 root resources／六 commands：ACM、Notify 各一主入口，Context 獨立，Suffix/Theme/Activity 保持；zero tools、沒有裸 alias；舊 22 種 bare/namespaced shortcuts handled/no LLM。中文 ACM 第一比例／對話開關／預設開關比例／狀態分析native／取消，不fakeuser；Notify原profile/Goal/SSRF/TLS/claim/授權callback保持。
+- New private defaults strict schema/4KiB/symlink/0600/0700/atomic CAS/exclusive lock/no read side effect；legacy fallback 沿用比例/onoff；active branch policy init/default future-only/two-session independent/restore/disk reopen/no abandoned/malformed latest no fallback。saved branch 不因 private default 之後壞掉改值。
+- 真 AgentSession 95/90 vs60/50 actual wire／健康 cursor，global native 原數值保持；off underlimit 完整送／oversafety pre-aborted transport no wire／no newcrop／oldcursor不restore；wholebatch/system/user/簽章/route calibration維持。Guard只同array一次批准、sessionpolicy+route/capacityFingerprint一致，missing/reuse/changed policy/model仍abort，native/manual/overflow/tree摘要全cancel。
+- Pi1.1公開API無sessioncompaction setter：本對話比例owner只branch；current derived request budgets 由producer+guard核同，shared native baseline validation/explicit setup callback分開，不以clone或全域寫入假稱每對話原生同步。Context真正500K/1M/ModelRuntime/modelsJson/freshreload/native usage比率與identity/thinking回歸；分支百分比不改，按新窗口算。
+- 比例confirm/cancel/invalid/noop/branch/model/settings/defaultCAS/busyqueue／next request生效/no reload；footer本對話比例與off/noPiWindow，state列對話/default/nativebaseline；分析以本branchpercent過濾；隔離install/pack/history/privacy/hash/nohostdeps/3OS同SHA再promotion。
+- 當前新契約由 `tests/acm-session120.test.mjs` genuine SDK 驗，不只是 UI mock；原 shared-config/auto-init 從不可變 `entry_v1.11.0.ts`／old guard 回歸，不能當新版每對話原生 budget attestation。測試 provider wire 尊重 pre-aborted signal，無真provider／NotifyPOST／現場forcedreload／人工TUIpixels／service上限保證。正式通過數／exactSHA/terminal/CI見task artifacts，未完成不推測PASS。
+
+## 以下全部為 historical release scope，不是目前執行權威
+
+# 0.11.0 歷史驗證契約
 
 Suffix privateCAS/lock/UTF8/bytebound/空拒啟用，inputinteractive/rpc/userrole/images/queue提交一次、extension/commands/retryauto不追加，sessiondefaultOff/分支inherit/restore/defaultfutureonly/共用內容不改history。真五resourceSDK/module選擇/中文主選單首項notify+suffixToggle／ACM直接dispatch/no userloop/原護欄／themeactivitystatuscancel。target/full/package/history/nohostbundled/isolatedinstall/pack/sameSHA CI3OS再promotion。詳見SUFFIX.md，以下0.10.1原容量/footer回歸保持，四resource與15cmd為historical版本數量。
 

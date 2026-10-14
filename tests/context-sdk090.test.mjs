@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';import{mkdtemp,rm,readFile,writeFile}from'node:fs/promises';import{tmpdir}from'node:os';import{join}from'node:path';import{fileURLToPath}from'node:url';
 import{fromHost,ai}from'./runtime.mjs';
-const core=await fromHost('dist/index.js'),{loadExtensions}=await fromHost('dist/core/extensions/loader.js'),root=fileURLToPath(new URL('../',import.meta.url)),paths=[join(root,'modules/acm/extensions/bundle_v1.9.0.ts'),...['webhook','theme','activity'].map(n=>join(root,'extensions',n+'.ts'))];
+const core=await fromHost('dist/index.js'),{loadExtensions}=await fromHost('dist/core/extensions/loader.js'),root=fileURLToPath(new URL('../',import.meta.url)),paths=[join(root,'modules/acm/extensions/bundle_v1.9.0.ts'),...['webhook','theme','activity'].map(n=>n==='webhook'?join(root,'modules/webhook/extensions/entry_v2.1.0.ts'):join(root,'extensions',n+'.ts'))];
 async function fixture(fn){const temp=await mkdtemp(join(tmpdir(),'context SDK 中文 ')),old=process.env.PI_CODING_AGENT_DIR;process.env.PI_CODING_AGENT_DIR=temp;try{return await fn(temp);}finally{if(old===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=old;await rm(temp,{recursive:true,force:true});}}
 test('真正AgentSession current model128k budget/producerguard/native remain consistent, physical272k unchanged; /context readOnly has no model or branch side effects',()=>fixture(async temp=>{
  let session;try{

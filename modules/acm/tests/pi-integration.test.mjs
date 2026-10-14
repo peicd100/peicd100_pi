@@ -23,7 +23,7 @@ const core = await fromHost('dist/index.js');
 const { loadExtensions } = await fromHost('dist/core/extensions/loader.js');
 const extension = process.env.PI_ACM_TEST_EXTENSION_ROOT
   ? resolve(process.env.PI_ACM_TEST_EXTENSION_ROOT, 'extensions/index.ts')
-  : fileURLToPath(new URL('../extensions/index.ts', import.meta.url));
+  : fileURLToPath(new URL('../extensions/entry_v1.11.0.ts', import.meta.url));
 const zeroUsage = { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, totalTokens: 0,
   cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 } };
 const assistant = (model, content, usage = zeroUsage) => ({ role: 'assistant', api: model.api,
@@ -31,7 +31,7 @@ const assistant = (model, content, usage = zeroUsage) => ({ role: 'assistant', a
 
 async function fixture({ enabled = true, acm = { triggerPercent: 80, targetPercent: 70 }, fileSettings = false, modelContext = 272000, keepRecentTokens = modelContext === 1050000 ? 735000 : 190400, guardOnly = false, tools = [], sessionManager, uiContext, modelRuntime: reuseRuntime } = {}) {
   const temp = await mkdtemp(join(tmpdir(), 'pi-acm-fixture-'));
-  const guard = fileURLToPath(new URL('../extensions/no-summary-guard.ts', import.meta.url));
+  const guard = fileURLToPath(new URL('../extensions/guard_entry_v1.11.0.ts', import.meta.url));
   let extensions = await loadExtensions(guardOnly ? [guard] : [extension, guard], temp);
   assert.deepEqual(extensions.errors, []);
   assert.equal(extensions.extensions[0].tools.size, 0);

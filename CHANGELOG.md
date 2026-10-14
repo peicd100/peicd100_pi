@@ -1,5 +1,13 @@
 # 更新紀錄
 
+## 0.12.0
+
+- ACM1.12.0 主選單第一項本對話比例；本對話縮減開關、新對話預設開關／比例、狀態、分析、共用原生同步與取消。Private defaults atomic CAS，初始化 branch snapshot／恢復／分支點繼承；改預設只 future-only，改本對話不寫 global settings/models 或其他對話。
+- Producer／獨立 guard 每次共用本分支 policy＋真 Pi 模型窗口衍生的請求預算與 one-shot fingerprint。Pi 1.1.0 無每 session 原生 compaction 設定 API，不冒充同步或覆寫全域；原 shared native validation／明確同步仍保留，native/manual/overflow/tree 摘要全部取消。
+- 關閉只停自動縮減與預覽，不停安全上限／配對／獨立 no-summary guard，不提交新 cursor／不恢復已裁切歷史；健康 Main 才提交且驗 policy/model 沒有變更。Footer 現在是本對話比例／停用標示，仍不追加 Pi窗口。status 分清對話／預設／共用 native；分析篩選用本對話比例。
+- Notify2.2.0／ACM 只各註冊一個中文主入口，移除所有 `/notify-*`／`/acm-*` 快捷；舊 bare／namespaced 輸入 handled 提示，不變一般模型prompt。內部 callback 直接路由，不 synthetic user／modeltool；唯讀 JSON 仍從主入口參數存取。
+- `/context(peicd100)` 保持獨立，不放 ACM 選單，真 Pi models.json 雙檔交易／500K／1M與fresh reload保持；Suffix/Theme/Activity 原入口／功能不改。共五資源六入口；新增 current genuine SDK 對話／wire／off／restore／menu／guard tests，歷史 shared-config/autoinit fixture 固定 immutable1.11 不當新attestation，舊 runtime/tags Hash保全。
+
 ## 0.11.0
 
 - 新增 Suffix0.1.0 `/suffix(peicd100)` 中文主選單／第一項對話toggle、共用後綴、defaultOff、activebranch開關持久、預覽／狀態。Pi原生input一般userinteractive/rpc提交一次追加、userrole/images原樣、retry/auto不double；私密atomicCAS，queue採提交時快照、history不改、空內容fail-safe。
