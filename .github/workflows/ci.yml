@@ -23,6 +23,7 @@ jobs:
       - run: npm ci --ignore-scripts --no-audit --no-fund
       - run: npm run test:target
       - run: npm test
+      - run: npm run test:pi120
       - run: npm run check:package
       - run: npm run test:install
       - run: npm pack --dry-run

@@ -1,6 +1,6 @@
 {
   "name": "peicd100_pi",
-  "version": "0.12.1",
+  "version": "0.13.0",
   "private": true,
   "type": "module",
   "description": "PEICD100 Pi 工具箱：ACM、Webhook、主題模板與獨立活動列，單一安裝與更新",
@@ -66,6 +66,7 @@
   "scripts": {
     "test": "node --test modules/acm/tests/*.test.mjs modules/webhook/tests/*.test.mjs modules/theme/tests/*.test.mjs modules/activity/tests/*.test.mjs tests/*.test.mjs",
     "test:target": "node --test tests/*.test.mjs",
+    "test:pi120": "node scripts/test-sdk120.mjs",
     "check:package": "node scripts/check-package.mjs",
     "test:install": "node scripts/test-install.mjs",
     "test:remote": "node scripts/test-install.mjs --remote",

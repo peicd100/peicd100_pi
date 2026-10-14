@@ -1,1 +1,1 @@
-export {default} from './no-summary-guard_v1.12.0.js';
+export { default } from './no-summary-guard_v1.13.0.ts';

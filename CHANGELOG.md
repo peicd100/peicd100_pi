@@ -1,5 +1,13 @@
 # 更新紀錄
 
+## 0.13.0
+
+- ACM1.13.0 移除共用 native 同步入口、啟動同步提示與原生 token 必須匹配 ACM 的請求驗證；對話／預設開關不再以 Pi compaction.enabled 為初值，既有 branch/private 值保留。ACM 預算、模型容量、whole batch、校準、健康 cursor 與 producer／獨立 guard 一次性批准仍保持。
+- `/context(peicd100)` 只改 models.json 容量，settings 原始 bytes／native／legacy ACM 管理紀錄不變；joint locks／CAS／journal／rollback／fresh ModelRuntime reload 保留。新備份用獨立名稱，不覆蓋既有交易前備份。
+- 主選單新增「檢查／修復 ACM 遺留原生設定」：只預覽不寫；明確確認後依目前模型 ACM 管理紀錄還原已知備份值或移除管理欄位。ordinary fallback 也檢查／預測，但未知來源、使用者改值、其他模型／無關設定保留。先私密備份原始 bytes/mode，再 CAS 保存；有條件回復、stale/model/backup/lock/symlink/pending 拒絕。
+- Pi1.2.0 無單獨靜默 ACM threshold 取消的公開介面，因此不改宿主／攔終端文字；manual／overflow／錯誤繼續顯示，不承諾取消提示全部消失。五資源七入口保持，不另掛修復插件。
+- 新 genuine Pi1.2.0 ACM／Context／公開入口 Gate 加入三OS CI；完整歷史回歸仍以 Pi1.1.0 為基準，immutable1.12.1與舊來源 Hash 保存，不以歷史 wire attestation 冒充全Pi1.2.0支援。
+
 ## 0.12.1
 
 - ACM1.12.1 本對話／新對話預設改單一觸發 n 輸入，1<n<100，可小數與%；explicit 保存 n/n−1，完整相同值不寫，旧保存比例不自動改，取消／stale／private CAS 保持。

@@ -1,10 +1,10 @@
 # PEICD100 Pi 工具箱
 
-版本 **0.12.1**；套件／GitHub repo：`peicd100_pi`。ACM、Notify、Theme、Activity、Suffix 共用一個安裝／更新來源，內部保持五個獨立資源、**七個指令入口**。
+版本 **0.13.0**；套件／GitHub repo：`peicd100_pi`。ACM、Notify、Theme、Activity、Suffix 共用一個安裝／更新來源，內部保持五個獨立資源、**七個指令入口**。
 
 ## 安裝一次，之後更新
 
-需要 Node.js 22.19 以上、Git、Pi；驗證基準 Pi 1.1.0。
+需要 Node.js 22.19 以上、Git、Pi；完整歷史回歸基準 Pi 1.1.0；目前 ACM／Context／七入口契約另驗 Pi 1.2.0。
 
 ```sh
 pi install git:github.com/peicd100/peicd100_pi
@@ -17,7 +17,7 @@ pi update git:github.com/peicd100/peicd100_pi
 
 | 資源 | 入口 | 用途 |
 | --- | --- | --- |
-| `extensions/acm.ts` | `/acm(piecd100)` | 本對話比例／自動縮減開關、新對話預設、狀態、分析、共用原生同步 |
+| `extensions/acm.ts` | `/acm(piecd100)` | 本對話比例／自動縮減開關、新對話預設、狀態、分析、遺留原生設定修復 |
 | 同一 ACM 資源 | `/acm-analysis(piecd100)` | **獨立**讀檔／縮減分析，可附 `json` |
 | 同一 ACM 資源 | `/context(peicd100)` | **獨立** Pi 模型容量設定，不列入 ACM 選單 |
 | `extensions/webhook.ts` | `/notify(piecd100)` | 通知中文主選單，本對話開關排第一 |
@@ -39,10 +39,10 @@ pi update git:github.com/peicd100/peicd100_pi
 4. 設定新對話預設觸發比例
 5. 查看目前狀態
 6. 讀檔／縮減分析
-7. 共用原生設定同步
+7. 檢查／修復 ACM 遺留原生設定
 8. 取消
 
-首次初始化對話／未存設定的分支時，保存一份預設快照。未設定新版 private 預設時，沿用既有 `settings.acm` 比例與 `compaction.enabled`（缺省啟用、比例 70／55），不是因更新把自訂 95／90 重設。之後以 active branch 的 `peicd100:acm-session-policy` custom entry 為準；恢復／reload 保持，分支繼承分支點，未採用分支不影響目前對話。Custom entry 不送入模型上下文。
+首次初始化對話／未存設定的分支時，保存一份預設快照。未設定新版 private 預設時，沿用既有 `settings.acm` 比例（缺省 70／55），開關缺省啟用且與 Pi `compaction.enabled` 分離，不是因更新把自訂 95／90 重設。之後以 active branch 的 `peicd100:acm-session-policy` custom entry 為準；恢復／reload 保持，分支繼承分支點，未採用分支不影響目前對話。Custom entry 不送入模型上下文。
 
 改新對話預設只影響未初始化的新對話／分支；改本對話比例與開關只追加本分支設定，不寫入其他對話、共用預設、`settings.json` 或 `models.json`。閒置／佇列清空才能修改；只輸入單一觸發比例 `n`（可小數或附 `%`），須 `1 < n < 100`；保留目標自動為 `n−1`，例如 `31` → `31%／30%`。先預覽確認並提醒 1 個百分點可能頻繁縮減；不接受舊雙數字輸入。更新／讀取不自動改寫舊保存比例；即使輸入的觸發值相同，只要舊保留值不同，確認後仍保存新 n−1。取消、完整同值、對話／分支／模型／設定異動不覆寫。保存後下一次請求生效，不需要 reload，不立刻裁切或恢復歷史。
 
@@ -50,9 +50,13 @@ pi update git:github.com/peicd100/peicd100_pi
 
 ### 對話預算與 Pi 原生基準分工
 
-Pi 1.1.0 公開 API **沒有每對話原生 compaction token 設定 setter**，所以不會把對話比例寫成全域／其他對話的預算。ACM 每次請求由 Pi 活躍 `contextWindow` 與本分支比例計算滑動門檻／保留目標；producer 與獨立 guard 核對相同 policy／模型 fingerprint 與一次性批准。不存在 legacy 105 萬第二層軟上限。
+Pi 1.1.0／1.2.0 公開 API **沒有每對話原生 compaction token 設定 setter**，所以不會把對話比例寫成全域／其他對話的預算。ACM 每次請求由 Pi 活躍 `contextWindow` 與本分支比例計算滑動門檻／保留目標；producer 與獨立 guard 核對相同 policy／模型 fingerprint 與一次性批准。不存在 legacy 105 萬第二層軟上限。
 
-Pi `settings.json` 的共用／每模型 native compaction budget 仍是另一個**共用基準**，不是對話比例 owner。啟用時原生基準與模型配置無效仍 fail closed；請明確從 ACM 選單「共用原生設定同步」維護。此動作可能保存共用 native 設定並 reload，但不把本對話比例寫到全域，不改新對話預設。沒有自動送出已移除的 `/acm-setup`，也不生成假的使用者提示。提前 native threshold／overflow 仍取消摘要，真正送出前的 ACM budget 才決定對話窗口。
+Pi `settings.json` 的 ordinary／每模型 native compaction budget 是 Pi 自己的共用設定，不是 ACM owner。**原生同步與數值必須匹配 ACM 的驗證已退役**；載入、模型切換、比例／開關／預設、狀態、分析均不寫 native。原生預算不同不阻擋有效的 ACM 請求，但 Pi 自己仍驗其設定格式；模型容量、ACM 比例、實際預算與一次性批准繼續 fail closed。提前 native threshold／overflow 仍取消摘要，ACM 自己判定送出窗口。
+
+選單「檢查／修復 ACM 遺留原生設定」只在明確選擇與確認後操作。目前模型 native 欄位必須與 `acm.autoInit.models` 管理紀錄相符；有容量交易前備份可還原該次備份值（不是最早原值保證），沒有原值可明確選擇移除管理欄位，回到 project／ordinary／Pi 預設。普通 `compaction.reserveTokens`／`keepRecentTokens` 也顯示並預測移除後有效值；來源未知的一般設定、使用者改值、其他模型與無關欄位保持，必要時人工對帳。先保存 private 原始 bytes／mode／receipt，再 CAS 寫入及 reload；選單可有條件回復上次修復，後續修改／不同模型／未知鎖／symlink／pending 容量交易均拒絕。
+
+Pi 1.2.0 沒有辨識 ACM threshold 取消並單獨靜默的公開 result 欄位；**本版不保證取消提示消失**，不 monkey-patch Pi、不攔終端文字、不隱藏 manual／overflow／其他錯誤。
 
 Footer 嚴格只顯示 **`ACM n%`**，例如 `ACM 31%`；n 是本對話觸發設定，不是即時用量。無箭頭／保留目標／停用附註／Pi窗口；停用仍顯示設定，開關與保留詳情從選單／狀態查。實際容量／用量／百分比由 Pi 原生顯示。狀態分開列本對話、新對話預設與共用原生基準，不混稱已同步。
 
@@ -72,7 +76,7 @@ Footer 嚴格只顯示 **`ACM n%`**，例如 `ACM 31%`；n 是本對話觸發設
 
 官方 API GPT-6.1 Sol metadata 查核於 2026-10-13：上下文 1,050,000、最大輸出 128,000（[官方文件](https://developers.openai.com/api/docs/models/gpt-6.1-sol)）。**不是 Codex 訂閱／代理／連線上限證明**，service verification 仍 `UNKNOWN`，不做真模型探測。擴大可能 buffer／上下文／額度／成本錯誤，最大輸出不是全部保留量保證。
 
-Models＋settings native ownership 雙檔 locks／fingerprint／CAS／private journal／atomic rename，pending／外部變更不猜。Pi 本身讀不到新覆寫就安全 CAS 回退；已提交一致配置但 reload 失敗則保留並要求手動 reload，不用 stale context 還原後來的變更。孤兒恢復要 owner terminal 證據，不依 lock 年齡。只選定模型資料，不改其他 provider／auth／header／maxTokens／全域 token budgets；受信任專案衝突拒絕，未受信任專案不讀。
+Models／settings joint locks＋fingerprint／CAS／private journal／atomic rename；**只修改 models 容量，settings 原始 bytes、native 與 ACM legacy 管理紀錄均保持**，settings lock 僅供一致性 Read Barrier；pending／外部變更不猜。Pi 本身讀不到新覆寫就安全 CAS 回退；已提交一致配置但 reload 失敗則保留並要求手動 reload，不用 stale context 還原後來的變更。孤兒恢復要 owner terminal 證據，不依 lock 年齡。只選定模型資料，不改其他 provider／auth／header／maxTokens／全域 token budgets；受信任專案衝突拒絕，未受信任專案不讀。
 
 ## Notify：只有 `/notify(piecd100)`
 
@@ -96,8 +100,8 @@ Activity 未存偏好預設 Off；中文主選單或 `[on|off|status|json]`。�
 
 ## 資料、遷移與驗證
 
-- ACM 新對話預設：`<agent-dir>/config/acm/defaults.json`；只有明確改預設才建立，4 KiB／0600／0700／atomic CAS＋joint exclusive lock。每對話開關／比例：原 session custom entries。原 settings.acm 只初次 fallback／共用 native 基準，新版 private 預設存在後不復權。
-- Native capacity／baseline：原 `models.json`／`settings.json`，不由對話比例修改。
+- ACM 新對話預設：`<agent-dir>/config/acm/defaults.json`；只有明確改預設才建立，4 KiB／0600／0700／atomic CAS＋joint exclusive lock。每對話開關／比例：原 session custom entries。原 settings.acm 比例只作初次 fallback；Pi compaction 開關不再作 ACM 初值，新版 private 預設存在後不復權。
+- Native capacity／設定：`models.json`／`settings.json`；Context 只改前者。遺留修復備份／回復 receipt：private `config/acm/native-repair/`，不提交或分享。
 - Notify：原 `config/webhook-notifier/` profiles／revision／authorization／receipts；legacy 資料只遷移／防重送證據。
 - Suffix：`config/suffix/config.json`＋session；Activity：`config/activity-display/preferences.json`；Theme：`themes/pi-theme-user.json`、`config/pi-theme/toggle.json`。
 
@@ -107,11 +111,12 @@ Activity 未存偏好預設 Off；中文主選單或 `[on|off|status|json]`。�
 npm ci --ignore-scripts --no-audit --no-fund
 npm run test:target
 npm test
+npm run test:pi120
 npm run check:package
 npm run test:install
 npm run test:remote
 ```
 
-隔離 agent-dir／真正 SDK、mock 模型／DNS／HTTPS，不改個人配置、不真實 provider／Notify POST。歷史共享比例與 auto-init 回歸固定不可變 1.11 factory，目前 public 1.12 對話隔離／停用／單入口另有完整 genuine SDK suite；不把舊測試當新的 session budget attestation。新 runtime Hash／原 history Hash／UTF-8／隱私／pack／真 Pi install 與三系統 exact SHA Gate 見 [驗證](docs/VERIFICATION.md)、[發布](docs/RELEASING.md)。
+隔離 agent-dir／真正 SDK、mock 模型／DNS／HTTPS，不改個人配置、不真實 provider／Notify POST。歷史共享比例與 auto-init 回歸固定不可變 1.11 factory，目前 public 1.13 對話隔離／停用／單入口／native 分離／修復另有 genuine SDK suite；Pi 1.2.0 Gate 只驗目前 ACM／Context／公開入口契約，不將不可變 1.11 wire attestation 當作 1.2.0 全套支援證明；不把舊測試當新的 session budget attestation。新 runtime Hash／原 history Hash／UTF-8／隱私／pack／真 Pi install 與三系統 exact SHA Gate 見 [驗證](docs/VERIFICATION.md)、[發布](docs/RELEASING.md)。
 
 Git 安裝僅 runtime `gpt-tokenizer`，不捆綁 Pi 宿主。`private:true`／`UNLICENSED` 防止意外 npm publish，GitHub 公開不等於一般開源授權，來源見 `NOTICE.md`。版本演進與退役機制見 `CHANGELOG.md`／`MODULES.json`；只有目前 active entries 有執行權威。
