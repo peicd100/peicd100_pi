@@ -1,4 +1,4 @@
-# ACM 1.12.0：設定權威與恢復
+# ACM 1.12.1：設定權威與恢復
 
 ## 唯一 owner
 
@@ -44,7 +44,7 @@ Session custom entry（不參與模型上下文）：
 
 ## 命令與併發
 
-ACM 只註冊 `/acm(piecd100)`，Context 仍獨立 `/context(peicd100)`。主選單第一項是本對話比例。內部 status／analysis／native setup callback 擷取後直接呼叫，不註冊 `/acm-*`、不 fake user message、不模型工具；精確的舊裸／namespaced shortcut 輸入只顯示主入口提示並 handled，不進 model queue。
+ACM 主選單 `/acm(piecd100)`＋獨立 `/acm-analysis(piecd100)`（同callback唯讀，可json），Context 仍獨立 `/context(peicd100)`。主選單第一項是本對話比例。內部 status／analysis／native setup callback 擷取後直接呼叫，只恢復 `/acm-analysis(piecd100)`，其他 `/acm-*` 不註冊、不 fake user message、不模型工具；除復原的 namespaced analysis 外，精確的舊裸／namespaced shortcut 輸入只顯示主入口提示並 handled，不進 model queue。
 
 設定前後驗 idle／queued work、session ID/file、active leaf、lifecycle epoch、model identity/API/endpoint/capacity、runtime settings、branch policy 及 default bytes Hash。取消／同值不保存，跨 await 改值拒絕舊候選。不 reload 後使用 stale context。共用 native setup 有額外明確提示／原 fingerprint 與磁碟 CAS，不把對話比例當全域 owner。
 
@@ -62,6 +62,12 @@ Producer 與 guard 都對 native/manual/overflow compaction、tree summary 取�
 
 Current suite `tests/acm-session120.test.mjs` 使用真正 Pi 1.1.0 loader／AgentSession／SessionManager／branch restore／私密磁碟 defaults，mock 只取代模型 wire；會遵守 pre-aborted signal，不能讓忽略 signal 的 mock 假裝已送出網路。
 
-驗兩對話 95／90 vs 60／50 的實際 wire／健康 cursor 差異，global native budgets 相同；future-only 預設與磁碟 reopen；off under/oversafe/crop後不復活；malformed latest／private／one-shot／policy/model漂移；六入口／零工具、舊快捷22種handled不LLM；比例確認／取消／stale branch/defaultCAS、共用 native callback；真 models.json 500K／1M／native usage 與 fresh reload 另由 `pi-context-sdk100.test.mjs` 覆蓋。
+驗兩對話單輸入 95→95／94 vs 60→60／59 的實際 wire／健康 cursor 差異，global native budgets 相同；future-only 預設與磁碟 reopen；off under/oversafe/crop後不復活；malformed latest／private／one-shot／policy/model漂移；七入口／零工具、其餘舊快捷handled不LLM，裸analysis提示完整拼法；比例確認／取消／stale branch/defaultCAS、共用 native callback；真 models.json 500K／1M／native usage 與 fresh reload 另由 `pi-context-sdk100.test.mjs` 覆蓋。
 
 舊 shared-config／auto-init 行為固定在 immutable 1.11 factories 回歸，不能當成 1.12 每對話原生預算 attestation。沒有 real provider／Notify POST、現場強制 reload、人工 TUI pixels、Codex服務上限或所有 Pi版本支援保證。exact SHA／終態／三OS CI／發布以 task artifacts 為準。
+
+## 1.12.1 單數字與工具欄
+
+本對話／新對話預設輸入n（可decimal／%），1<n<100，explicit寫trigger=n,target=n-1。保留1個百分點非1 Token；不保證實際選窗恰好target，也不保證不頻繁縮減。舊stored/custom/legacy比例不因reload/update/read自動改；相同trigger但舊target不同，確認後仍保存n-1；完整同值/取消/staledrift/CASfail不寫。
+
+Footer嚴格ACM n%，n是activebranch trigger，不是nativeusage；Off不加標示，完整開關/比例留main/status。獨立analysis只使用既有analysis callback，main選項保留、[json]只讀無model/no summary/不改raw branch。5resources7commands，其餘已移除shortcut不恢復。

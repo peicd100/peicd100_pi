@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 **0.12.0**；套件／GitHub repo：`peicd100_pi`。ACM、Notify、Theme、Activity、Suffix 共用一個安裝／更新來源，內部保持五個獨立資源、**六個指令入口**。
+版本 **0.12.1**；套件／GitHub repo：`peicd100_pi`。ACM、Notify、Theme、Activity、Suffix 共用一個安裝／更新來源，內部保持五個獨立資源、**七個指令入口**。
 
 ## 安裝一次，之後更新
 
@@ -13,18 +13,19 @@ pi update git:github.com/peicd100/peicd100_pi
 
 不加版本就是追蹤穩定 `main`；標籤供追查／回退。安裝或更新後等工作與佇列結束，再 `/reload` 或重新啟動。不會替正在執行的對話強制換 runtime。本機開發可在工具工作區 `pi install ./peicd100_pi`，不要同時安裝同一套件的 Git 來源。
 
-## 五資源、六入口
+## 五資源、七入口
 
 | 資源 | 入口 | 用途 |
 | --- | --- | --- |
 | `extensions/acm.ts` | `/acm(piecd100)` | 本對話比例／自動縮減開關、新對話預設、狀態、分析、共用原生同步 |
+| 同一 ACM 資源 | `/acm-analysis(piecd100)` | **獨立**讀檔／縮減分析，可附 `json` |
 | 同一 ACM 資源 | `/context(peicd100)` | **獨立** Pi 模型容量設定，不列入 ACM 選單 |
 | `extensions/webhook.ts` | `/notify(piecd100)` | 通知中文主選單，本對話開關排第一 |
 | `extensions/theme.ts` | `/pi-theme(piecd100)` | 主題模板、還原、狀態與取消 |
 | `extensions/activity.ts` | `/pi-activity(piecd100)` | 活動列顯示／隱藏、狀態與取消 |
 | `extensions/suffix.ts` | `/suffix(peicd100)` | 共用後綴文本、本對話開關、新對話預設、預覽與狀態 |
 
-ACM／Notify **不再註冊** `/acm-*`、`/notify-*` 快捷入口；輸入舊入口會被攔下並提示主選單，不當作一般提示送模型。沒有裸指令別名，`context`／`suffix` 精確使用 `(peicd100)`，其餘 `(piecd100)`；Pi／第三方 `/reload`、`/settings`、`/goal` 不改。唯讀自動化仍從同一入口使用 `/acm(piecd100) json`、`analysis`、`analysis-json` 與 `/notify(piecd100) json`，不是額外的註冊指令。
+除恢復的 **`/acm-analysis(piecd100)`** 外，ACM／Notify **不再註冊**其他 `/acm-*`、`/notify-*` 快捷入口；輸入舊入口會被攔下並提示主選單，不當作一般提示送模型。沒有裸指令別名，`context`／`suffix` 精確使用 `(peicd100)`，其餘 `(piecd100)`；Pi／第三方 `/reload`、`/settings`、`/goal` 不改。唯讀自動化仍從同一入口使用 `/acm(piecd100) json`、`analysis`、`analysis-json` 與 `/notify(piecd100) json`，不是額外的註冊指令。
 
 在 `pi config` 可個別停用五資源，Tab 切換個人／專案範圍，再閒置 `/reload`。ACM producer 與獨立 guard 同一資源一起掛載，沒有停用 guard 的選單。這不是安全沙盒，其他不可信插件可能破壞規則。新增插件都必須加入本套件 manifest 與共同命名 adapter／Gate；不擅自擴充使用者明確指定的資源篩選。
 
@@ -32,10 +33,10 @@ ACM／Notify **不再註冊** `/acm-*`、`/notify-*` 快捷入口；輸入舊入
 
 `/acm(piecd100)` 中文主選單順序：
 
-1. **設定本對話觸發／保留比例**（直接顯示目前數值）
+1. **設定本對話觸發比例**（單一數字 n；保留目標自動為 n−1）
 2. 切換本對話自動縮減
 3. 設定新對話預設是否啟用
-4. 設定新對話預設比例
+4. 設定新對話預設觸發比例
 5. 查看目前狀態
 6. 讀檔／縮減分析
 7. 共用原生設定同步
@@ -43,7 +44,7 @@ ACM／Notify **不再註冊** `/acm-*`、`/notify-*` 快捷入口；輸入舊入
 
 首次初始化對話／未存設定的分支時，保存一份預設快照。未設定新版 private 預設時，沿用既有 `settings.acm` 比例與 `compaction.enabled`（缺省啟用、比例 70／55），不是因更新把自訂 95／90 重設。之後以 active branch 的 `peicd100:acm-session-policy` custom entry 為準；恢復／reload 保持，分支繼承分支點，未採用分支不影響目前對話。Custom entry 不送入模型上下文。
 
-改新對話預設只影響未初始化的新對話／分支；改本對話比例與開關只追加本分支設定，不寫入其他對話、共用預設、`settings.json` 或 `models.json`。閒置／佇列清空才能修改；比例先輸入、再預覽確認，須 `0 < 保留 < 觸發 < 100`，差距小於 5 提醒。取消、同值、對話／分支／模型／設定異動不覆寫。保存後下一次請求生效，不需要 reload，不立刻裁切或恢復歷史。
+改新對話預設只影響未初始化的新對話／分支；改本對話比例與開關只追加本分支設定，不寫入其他對話、共用預設、`settings.json` 或 `models.json`。閒置／佇列清空才能修改；只輸入單一觸發比例 `n`（可小數或附 `%`），須 `1 < n < 100`；保留目標自動為 `n−1`，例如 `31` → `31%／30%`。先預覽確認並提醒 1 個百分點可能頻繁縮減；不接受舊雙數字輸入。更新／讀取不自動改寫舊保存比例；即使輸入的觸發值相同，只要舊保留值不同，確認後仍保存新 n−1。取消、完整同值、對話／分支／模型／設定異動不覆寫。保存後下一次請求生效，不需要 reload，不立刻裁切或恢復歷史。
 
 **停用是停用自動縮減，不是停用安全保護。** 停用時不自動裁切／工具預覽，不提交新游標；已成功裁切的游標仍保持，不恢復已排除的舊上下文。超過本對話觸發比例所界定的安全輸入門檻時停止，不硬送超量內容，不改用 AI 摘要。Native threshold／manual／overflow compaction 與 tree 摘要仍取消。開啟時仍保護 system、最新 user、任務錨點與最近完整工具批次，保留配對與原始紀錄／簽章；只有匹配且健康的 Main 回應、同一分支／比例／模型才提交裁切候選。
 
@@ -53,9 +54,11 @@ Pi 1.1.0 公開 API **沒有每對話原生 compaction token 設定 setter**，�
 
 Pi `settings.json` 的共用／每模型 native compaction budget 仍是另一個**共用基準**，不是對話比例 owner。啟用時原生基準與模型配置無效仍 fail closed；請明確從 ACM 選單「共用原生設定同步」維護。此動作可能保存共用 native 設定並 reload，但不把本對話比例寫到全域，不改新對話預設。沒有自動送出已移除的 `/acm-setup`，也不生成假的使用者提示。提前 native threshold／overflow 仍取消摘要，真正送出前的 ACM budget 才決定對話窗口。
 
-Footer 保留 `ACM 95%→90%` 等**本對話**比例，停用加「自動縮減停用」；不追加「Pi窗口」。實際容量／用量／百分比由 Pi 原生顯示。狀態分開列本對話、新對話預設與共用原生基準，不混稱已同步。
+Footer 嚴格只顯示 **`ACM n%`**，例如 `ACM 31%`；n 是本對話觸發設定，不是即時用量。無箭頭／保留目標／停用附註／Pi窗口；停用仍顯示設定，開關與保留詳情從選單／狀態查。實際容量／用量／百分比由 Pi 原生顯示。狀態分開列本對話、新對話預設與共用原生基準，不混稱已同步。
 
 ### 唯讀分析
+
+獨立 **`/acm-analysis(piecd100)`** 已恢復，可附 `json` 查技術資料；ACM 選單「讀檔／縮減分析」與 `/acm(piecd100) analysis[-json]` 使用同一 callback，不送模型、不產生 AI 摘要。裸 `/acm-analysis` 只提示完整指令，其餘已移除快捷不恢復。
 
 選單「讀檔／縮減分析」或同一入口 `analysis`／`analysis-json`；不送模型、不重讀磁碟。最近 **40 次成功縮減**的逐檔成功 read／同範圍重讀／舊結果移出後再讀候選表，不是 40 輪回應；完整 owning tool batch、分段／nested／缺證據／有界窗口規則保持。畫面先表再判讀，最多 20 檔；JSON 保留有界全表及證據。
 

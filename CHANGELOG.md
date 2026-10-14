@@ -1,5 +1,12 @@
 # 更新紀錄
 
+## 0.12.1
+
+- ACM1.12.1 本對話／新對話預設改單一觸發 n 輸入，1<n<100，可小數與%；explicit 保存 n/n−1，完整相同值不寫，旧保存比例不自動改，取消／stale／private CAS 保持。
+- 下方工具欄只顯示 ACM n%，不箭頭／保留目標／停用附註；n 是本對話觸發設定，不是原生使用量。開關及完整比例留在選單／狀態。
+- 恢復獨立 /acm-analysis(piecd100) [json]，與主選單分析同 callback、只讀無模型；裸入口提示完整拼法，其他 removed shortcut 不恢復。五資源七入口，容量／whole batch／安全上限／no-summary guard／其他插件不變。
+- 新 versioned producer/menu/threshold/footer/namespace module，immutable 1.12.0 歷史 Hash 保全；新增 genuine SDK 設定／恢復／分支／未來預設／Off／獨立分析／footer 與輸入邊界回歸。
+
 ## 0.12.0
 
 - ACM1.12.0 主選單第一項本對話比例；本對話縮減開關、新對話預設開關／比例、狀態、分析、共用原生同步與取消。Private defaults atomic CAS，初始化 branch snapshot／恢復／分支點繼承；改預設只 future-only，改本對話不寫 global settings/models 或其他對話。

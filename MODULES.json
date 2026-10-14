@@ -50,20 +50,22 @@
         "extensions/no-summary-guard.ts": "extensions/no-summary-guard_v1.5.0.ts"
       },
       "active": {
-        "version": "1.12.0",
+        "version": "1.12.1",
         "entrypoint": "extensions/index.ts",
         "files": {
-          "extensions/index.ts": "515f9b8410d2ece0efd7f33ff0ab3b2ebb22115c96cbb5e4d7615bbba78a26b0",
+          "extensions/index.ts": "47a7dc0239ad263eb5758c63f93d516f2cfa14d678945d7bf1696d792d875e2d",
           "extensions/no-summary-guard.ts": "b6b07a992987b4c8f59b9080817d2e154408c5ba49eacab5e4324ec8671448b0",
           "src/config_v1.10.0.mjs": "d0c941277379acd539e4dd16e0ee5d47b3f274ab16cbcc6d528120b13a9a0c5a",
           "src/pi-context_v1.10.0.mjs": "d181ec6ed8296d4fa763d4a7637767389c9285bad9debf29daa890a08073fbcd",
           "src/pi-context-txn_v1.10.0.mjs": "9d162b2e429054e9711d07147d83dfe71b85337043e2e4521ba7cb24d57f5aaf",
           "src/analysis_v1.9.0.mjs": "f49370755a346c41fc80d6a4532dd9792e24c874bb53c54a4ead55050c2ee84e",
-          "extensions/index_v1.12.0.ts": "50656baec9b078edfc9f79c9ca1c6dbd5ac58ebecab90cc913c8f5d8dc58562b",
           "extensions/no-summary-guard_v1.12.0.ts": "df97d1913a5f955ead46779d186644ce54b79f7f45bda8696c294bdb6e45b18b",
           "src/pi-context-command_v1.12.0.mjs": "d95675836d67650000e556e4f03d8889561e0a287a4bb84514dcfb1c1aab45c4",
           "src/session-policy_v1.12.0.mjs": "78c9827719884ffaff3d0d1bff7c354aecc40ada7449090691f4bfaf8f7a82c3",
-          "src/menu_v1.12.0.mjs": "ecf924feed00268ff2e562a1e6db568ef873e247a351ddc557ee6f7a54c66875"
+          "extensions/index_v1.12.1.ts": "32f27f20c2b2a5b1676b33b7472fb13bf6b2535de87425a8213d336e190471be",
+          "src/menu_v1.12.1.mjs": "fbda3c0abe9a353a07baa03695ed90a3fcd1906ba2283f6d01114df5f18b6d47",
+          "src/threshold_v1.12.1.mjs": "b298282a8b78ba06f36e5546aa885dce00c45a4b5fcc7f2f3edb389ba673caad",
+          "src/presentation_v1.12.1.mjs": "c55a8a53313ddbd64b16769f07a7d17780ed0b661c51f00998b97dbe663f691c"
         }
       },
       "historical_releases": [
@@ -207,6 +209,27 @@
           "preserved_paths": {
             "extensions/index.ts": "extensions/entry_v1.11.0.ts",
             "extensions/no-summary-guard.ts": "extensions/guard_entry_v1.11.0.ts"
+          }
+        },
+        {
+          "version": "1.12.0",
+          "entrypoint": "extensions/index.ts",
+          "files": {
+            "extensions/index.ts": "515f9b8410d2ece0efd7f33ff0ab3b2ebb22115c96cbb5e4d7615bbba78a26b0",
+            "extensions/no-summary-guard.ts": "b6b07a992987b4c8f59b9080817d2e154408c5ba49eacab5e4324ec8671448b0",
+            "src/config_v1.10.0.mjs": "d0c941277379acd539e4dd16e0ee5d47b3f274ab16cbcc6d528120b13a9a0c5a",
+            "src/pi-context_v1.10.0.mjs": "d181ec6ed8296d4fa763d4a7637767389c9285bad9debf29daa890a08073fbcd",
+            "src/pi-context-txn_v1.10.0.mjs": "9d162b2e429054e9711d07147d83dfe71b85337043e2e4521ba7cb24d57f5aaf",
+            "src/analysis_v1.9.0.mjs": "f49370755a346c41fc80d6a4532dd9792e24c874bb53c54a4ead55050c2ee84e",
+            "extensions/index_v1.12.0.ts": "50656baec9b078edfc9f79c9ca1c6dbd5ac58ebecab90cc913c8f5d8dc58562b",
+            "extensions/no-summary-guard_v1.12.0.ts": "df97d1913a5f955ead46779d186644ce54b79f7f45bda8696c294bdb6e45b18b",
+            "src/pi-context-command_v1.12.0.mjs": "d95675836d67650000e556e4f03d8889561e0a287a4bb84514dcfb1c1aab45c4",
+            "src/session-policy_v1.12.0.mjs": "78c9827719884ffaff3d0d1bff7c354aecc40ada7449090691f4bfaf8f7a82c3",
+            "src/menu_v1.12.0.mjs": "ecf924feed00268ff2e562a1e6db568ef873e247a351ddc557ee6f7a54c66875"
+          },
+          "preserved_paths": {
+            "extensions/index.ts": "extensions/entry_v1.12.0.ts",
+            "extensions/no-summary-guard.ts": "extensions/guard_entry_v1.12.0.ts"
           }
         }
       ]
@@ -627,6 +650,7 @@
     "src/commands_v0.11.0.mjs": "2b4760e54a0e984303491f5784d47401bdb83a4b736049aa5f693741aed93e00",
     "src/menu_v0.11.0.mjs": "5c10d4dc9f7b3d85a90ecbb61abdfa08e05f57b3e6e0bcb9dbac3a88faf6b95c",
     "src/menus_v0.12.0.mjs": "45cdbb27f54aa13d654899b595c4f228553b935e22237954cf479310089d4fd3",
-    "src/commands_v0.12.0.mjs": "b3a96e2daae6f3a351bfdd6c4a100dddb9a4dd2353bd6801c6e107596d634ffc"
+    "src/commands_v0.12.0.mjs": "b3a96e2daae6f3a351bfdd6c4a100dddb9a4dd2353bd6801c6e107596d634ffc",
+    "src/commands_v0.12.1.mjs": "ef1f12ccedb786ae833c3feff67791458aa03b149132bb73658b600673d8bc59"
   }
 }
