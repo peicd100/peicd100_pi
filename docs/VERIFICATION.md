@@ -1,4 +1,18 @@
-# 0.13.0 目前唯一驗證契約
+# 0.14.0 目前唯一驗證契約
+
+- 八個 root resources／十個 commands，無裸 alias；僅 Goal `peicd100_goal` 與 Progress `update_progress` 兩模型工具。單獨資源可選，ACM producer/guard 同資源先後順序與原歷史 hashes 保全。真正公開入口由 bundle.test、package/install Gate 驗，不以工廠未掛載測試代替。
+- Goal/Progress state、授權/ID/revision/CAS、scope/branch/restore、建立啟動/管理不abort/手動interrupt/idle menu、原生retry互斥、固定5000ms不限次/quota永久錯誤暫停/等待靜默/驗收分離，見 *140 genuine SDK 與純狀態測試。零真provider或Notify POST。
+- Focus genuine native ToolExecution/Assistant/Container/第一方 renderer：動態單群組、真實可見邊界、thinking/安全提示、串流/展開/原生文字byte一致、圖片原始資料保全、錯誤一欄仍見!、mouse focus/capture/keyboard handler、未知/多父容器fail-open。圖片保留宿主原設定外層、互動群組展開是明確例外；不聲稱所有第三方/終端協定像素一致。
+- ACM 整數K/未知?K、不重新掃歷史；request-local selector 與1.13 byte-identical檢查，裁切/guard/native分離不變。共用鍵鼠/長清單滾輪/取消/regular原生fallback；偏好讀取不建立檔、CAS/未知版本/鎖/symlink拒絕。
+- Notify 自有Goal優先、兩載入順序/真正idle/queue/quiet、等待及5秒重試安靜、同停止episode去重/恢復新episode/完成獨立、無歷史補送/UNKNOWN不重送；原 profiles/授權/TLS/DNS/receipt 由歷史固定來源回歸。
+- npm test 以真正1.1.0作完整歷史基準；原 exact-footer/native/settings 測試明確固定1.13 fixture，不冒稱當前顯示。test:pi120 驗1.13歷史ACM/Context及當前公開bundle；test:pi150 驗九個新套件檔與公開bundle。各SDK隔離agent-dir與mock transport；安裝Gate驗八資源/兩工具及私有資料保持。
+- full/check-package/install/pack 與同一SHA三OS CI成功後才main/tag/release；結果須由terminal logs/Hash/CI實證，不以本文件宣稱PASS。沒有 Computer use 或實體終端手驗；套件更新不代表目前TUI已reload。
+
+---
+
+## 以下全部為 historical release scope，不是目前執行權威
+
+# 0.13.0 歷史驗證契約
 
 - 真五 root resources／七 commands（含獨立 ACM analysis）：ACM、Notify 各一主入口，Context 獨立，Suffix/Theme/Activity 保持；zero tools、沒有裸 alias；舊 22 種 bare/namespaced shortcuts handled/no LLM。中文 ACM 第一比例／對話開關／預設開關比例／狀態分析native repair／取消，不fakeuser；Notify原profile/Goal/SSRF/TLS/claim/授權callback保持。
 - New private defaults strict schema/4KiB/symlink/0600/0700/atomic CAS/exclusive lock/no read side effect；legacy fallback 沿用比例、enabled 預設 true，不採 Pi native enabled；原 branch/private enabled 保持；active branch policy init/default future-only/two-session independent/restore/disk reopen/no abandoned/malformed latest no fallback。saved branch 不因 private default 之後壞掉改值。

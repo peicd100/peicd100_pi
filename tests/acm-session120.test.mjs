@@ -1,6 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {mkdtemp,rm,readFile,writeFile,stat} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';import {fileURLToPath} from 'node:url';
 import {fromHost,ai} from './runtime.mjs';
+import {historical130Entries} from './historical130.mjs';
 import {DefaultsStore,legacyDefaults,validateDefaults,validateSessionPolicy,SessionPolicy,SESSION_POLICY_TYPE,readSessionPolicy,policyForBranch,requestPolicyKey} from '../modules/acm/src/session-policy_v1.13.0.mjs';
 import {nativeBudget} from '../modules/acm/src/config_v1.10.0.mjs';import {branchState} from '../modules/acm/src/window_v1.5.0.mjs';
 const core=await fromHost('dist/index.js'),{loadExtensions}=await fromHost('dist/core/extensions/loader.js'),root=fileURLToPath(new URL('../',import.meta.url));
@@ -24,7 +25,7 @@ async function sdk(fn){return temp(async dir=>{
  const store=new DefaultsStore(dir),menus=[],notices=[],errors=[],wires=[],statuses=new Map();let nextSelect,answer='60',confirm=true;
  async function make({window=272000,manager=core.SessionManager.inMemory(dir),enabled=true,invalidNative=false,fileBacked=false}={}){
   const settings={acm:{triggerPercent:80,targetPercent:70},compaction:{enabled,reserveTokens:invalidNative?0:window-Math.floor(window*.8),keepRecentTokens:Math.floor(window*.7)},retry:{enabled:false},theme:'system',custom:{preserve:true}};
-  const loaded=await loadExtensions(['acm','webhook','theme','activity','suffix'].map(n=>join(root,'extensions',n+'.ts')),dir);assert.deepEqual(loaded.errors,[]);
+  const loaded=await loadExtensions(historical130Entries(root),dir);assert.deepEqual(loaded.errors,[]);
   const registry=await core.ModelRuntime.create({credentials:new ai.InMemoryCredentialStore(),modelsPath:null,refreshOnCreate:false,allowModelNetwork:false});registry.hasConfiguredAuth=()=>true;registry.getAuth=async()=>({auth:{apiKey:'fixture-only-no-network'},source:'FIXTURE'});const model={...registry.getModel('openai-codex','gpt-6.1-sol'),contextWindow:window};registry.streamSimple=()=>{throw new Error('Forbidden summary/provider');};
   const loader={getExtensions:()=>loaded,getSkills:()=>({skills:[],diagnostics:[]}),getPrompts:()=>({prompts:[],diagnostics:[]}),getThemes:()=>({themes:[],diagnostics:[]}),getAgentsFiles:()=>({agentsFiles:[]}),getSystemPrompt:()=> 'SDK session ACM fixture',getSystemPromptSource:()=>undefined,getAppendSystemPrompt:()=>[],getAppendSystemPromptSources:()=>[],extendResources:()=>{},reload:async()=>{}};
   if(fileBacked)await writeFile(join(dir,'settings.json'),JSON.stringify(settings));const settingsManager=fileBacked?core.SettingsManager.create(dir,dir):core.SettingsManager.inMemory(settings);const {session}=await core.createAgentSession({cwd:dir,agentDir:dir,modelRuntime:registry,model,settingsManager,sessionManager:manager,resourceLoader:loader,tools:[]});sessions.push(session);

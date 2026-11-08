@@ -1,5 +1,13 @@
 # 更新紀錄
 
+## 0.14.0
+
+- 八資源／十入口：新增獨立 Goal、Progress、Focus；共用鍵盤／fullscreen 滑鼠選單與跨啟動開關偏好，不加專用快捷鍵，不改第三方畫面。Goal／Progress 各一模型工具，資料按對話／分支保存；舊套件／資料不自動移除。
+- Goal 無自訂回應／時間／Token／無進展停止上限；原生 retry/compaction/queue settled 後續跑，暫時連線固定等5000ms不限次；明確quota/永久錯誤 paused，人工修復後明確恢復，管理不abort、手動打斷不復活。Progress revision保護、獨立或關聯Goal，不把步驟勾完當Goal驗收。
+- Focus按實際可見訊息將連續工具合組，單一動態動作行／平行數／失敗提示，展開保留原序原生內容，不摘要、不改工具執行／結果／模型輸入。圖片按原設定留在群組外，含互動元件群組展開；未知布局保留原生顯示，不patch宿主。
+- ACM1.14只新增整數 currentK/triggerK、未知?K與共用選單；重用native estimate，不改原selector/guard/native分工。Notify2.3加入自有Goal真實狀態adapter，沿用原設定/授權/quiet/dedup，等待/5秒重試安靜、停止須真idle、startup不補送、不自動開通知。
+- 新版factory與五個前版facade/historical聲明均保全；加入明確歷史1.13 fixture與當前公開入口/完整/pack/install/Pi1.5 genuine SDK Gate，同SHA三OS成功才發布，不以更新假稱live reload。
+
 ## 0.13.0
 
 - ACM1.13.0 移除共用 native 同步入口、啟動同步提示與原生 token 必須匹配 ACM 的請求驗證；對話／預設開關不再以 Pi compaction.enabled 為初值，既有 branch/private 值保留。ACM 預算、模型容量、whole batch、校準、健康 cursor 與 producer／獨立 guard 一次性批准仍保持。
