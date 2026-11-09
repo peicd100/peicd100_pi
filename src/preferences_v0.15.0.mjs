@@ -1,0 +1,15 @@
+import {promises as fs,constants} from 'node:fs';import {join} from 'node:path';import {randomUUID} from 'node:crypto';
+const owned=(stat,directory=false)=>{if(directory?!stat.isDirectory():!stat.isFile())throw new Error('偏好位置型別無法驗證');if(stat.isSymbolicLink()||process.getuid&&stat.uid!==process.getuid())throw new Error('偏好擁有者／連結無法驗證');if(process.platform!=='win32'&&(stat.mode&0o077))throw new Error('偏好權限過寬，未讀取或覆寫');};
+export class PrivatePreference{
+ constructor(root,{defaults,validate,patchFields}){validate(defaults());this.root=root;this.path=join(root,'preferences.json');this.defaults=defaults;this.validate=validate;this.patchFields=patchFields;}
+ async read(){let handle;try{owned(await fs.lstat(this.root),true);const before=await fs.lstat(this.path);owned(before);if(before.size>16384)throw new Error('偏好檔案過大');handle=await fs.open(this.path,constants.O_RDONLY|(constants.O_NOFOLLOW??0));const current=await handle.stat();owned(current);if(before.dev!==current.dev||before.ino!==current.ino||current.size>16384)throw new Error('偏好讀取期間已變動');return this.validate(JSON.parse(await handle.readFile('utf8')));}catch(error){if(error.code==='ENOENT')return this.defaults();throw error;}finally{await handle?.close();}}
+ async write(patch,expectedRevision,valid=()=>true){if(!patch||typeof patch!=='object'||Object.keys(patch).some(k=>!this.patchFields.includes(k)))throw new Error('未知偏好欄位');if(typeof valid!=='function'||!valid())throw new Error('偏好操作範圍已變動');this.validate({...this.defaults(),...patch});await fs.mkdir(this.root,{recursive:true,mode:0o700});owned(await fs.lstat(this.root),true);const lock=join(this.root,'preferences.lock');await fs.mkdir(lock,{mode:0o700});let handle,temp;
+  try{const current=await this.read();if(current.revision!==expectedRevision||!valid())throw new Error('偏好已變動，未覆寫');if(Object.keys(patch).every(k=>current[k]===patch[k]))return current;const next=this.validate({...current,...patch,revision:randomUUID()});temp=this.path+'.'+randomUUID()+'.tmp';handle=await fs.open(temp,'wx',0o600);await handle.writeFile(JSON.stringify(next,null,2)+'\n');await handle.sync();await handle.close();handle=undefined;const fresh=await this.read();if(Object.keys(current).some(key=>fresh[key]!==current[key])||!valid())throw new Error('偏好提交前範圍／內容已變動，未覆寫');await fs.rename(temp,this.path);return next;}
+  finally{await handle?.close();if(temp)await fs.unlink(temp).catch(()=>{});await fs.rmdir(lock);}
+ }
+}
+const boolean=state=>{if(!state||state.schema!==1||typeof state.enabled!=='boolean'||typeof state.revision!=='string'||!(/^(?:implicit|[a-f0-9-]{36})$/).test(state.revision)||Object.keys(state).some(k=>!['schema','enabled','revision'].includes(k)))throw new Error('功能偏好格式無法驗證，未讀取或覆寫');return state;};
+export class FeaturePreference extends PrivatePreference{
+ constructor(root,defaultEnabled=true){super(root,{defaults:()=>({schema:1,enabled:defaultEnabled,revision:'implicit'}),validate:boolean,patchFields:['enabled']});}
+ write(enabled,expectedRevision,valid){return super.write({enabled},expectedRevision,valid);}
+}

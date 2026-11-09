@@ -1,5 +1,16 @@
 # 更新紀錄
 
+## 0.15.0
+
+- 九資源／十一命名入口／三獨立模型工具：加入Usage與agent title/body通知工具；公開facades與current import-closure Hash明確，歷史0.14 facade/runtime保存，不捆綁宿主。
+- 長對話窗口預設On、舊完成元件不逐幀遍歷，按需歷史；使用者10畫面行預覽可調／縮放與原位展開。thinking／工具分組、正文不藏、共用可捲彈窗與關閉／焦點保護、獨立正文純黑；未知布局回原生，不改session／模型／ACM。
+- Footer共用owner保留原生統計／其他狀態／Activity，model/reasoning在用量下一行；ACM目前%／觸發%加原K，直接用未取整native資料，不改selector或native預算。
+- Usage繁中額度／卡／UTC+8，手動返回／否預設、明選二次確認；auto Off／最早到期有效卡／未知效期不自動用／同帳號持久防重／UNKNOWN不補卡／未恢復不連耗。
+- Goal免逐次管理確認預設On可關但不擴外部授權；quota核實恢復預設On可關、原native-header路由及新嚴格證據／current auth seal不可重綁。人工／Off／branch／restart優先，原5s retry／無工作上限／ID-CAS-audit與完成證據保持。
+- Progress上方詳細多行、完成數／目前／受阻步、可詳情／精簡／隱藏並保護高度輸入區；三工具與Goal驗收分離。
+- Notify既有授權正常送不逐次confirm，不繞Off、無目的地／憑證／設定API或敏感上下文附帶；純文轉義／提及中和／有限敏感檢查／bytes／限流／去重，UNKNOWN禁改寫重送。主動與自動終態分離，quota自動等待安靜、讀回不造停止，不讓通知完成Goal。
+- 發布仍須完整SDK／actual pack/install／exactSHA三OS與安全同來源backup-CAS更新；測試全fixture，不聲稱真provider／卡／通知或live reload。
+
 ## 0.14.0
 
 - 八資源／十入口：新增獨立 Goal、Progress、Focus；共用鍵盤／fullscreen 滑鼠選單與跨啟動開關偏好，不加專用快捷鍵，不改第三方畫面。Goal／Progress 各一模型工具，資料按對話／分支保存；舊套件／資料不自動移除。

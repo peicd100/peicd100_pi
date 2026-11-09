@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import {mkd
 import {fromHost} from '../../../tests/runtime.mjs';
 import {VisibilityStore} from '../src/visibility_v0.3.1.mjs';
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js'),{visibleWidth}=await fromHost('../pi-tui/dist/index.js').catch(()=>import('@earendil-works/pi-tui'));
-const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url));
+const path=fileURLToPath(new URL('../extensions/index_v0.4.0.ts',import.meta.url));
 async function fixture(t,run){
  const root=await mkdtemp(join(tmpdir(),'activity widget '));t.mock.timers.enable({apis:['setInterval']});
  const previous=process.env.PI_CODING_AGENT_DIR;process.env.PI_CODING_AGENT_DIR=root;

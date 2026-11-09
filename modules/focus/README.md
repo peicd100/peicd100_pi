@@ -1,4 +1,10 @@
-# 1. Focus 工具紀錄群組折疊
+# 1. Focus 0.15：長對話與型別群組
+
+長對話窗口預設On可關；舊完成元件退出即時渲染，歷史按需看，不裁掉session或模型上下文。使用者訊息預設10畫面行，可調／縮放重算／獨立原位展開。thinking與工具各按型別同組、預設收合；正文一律保留，不以長短決定隱藏。共用可捲彈窗有固定關閉／Ctrl+C／Esc／滑鼠與焦點保護；圖片、權限、互動、錯誤例外維持，未知布局回原生。
+
+顯示偏好及能力狀態從同一入口查詢；正文純黑是Theme的獨立偏好。Footer、模型行、Activity由共享owner協調，不替換原生統計。當前規則以[套件契約](../../docs/SUITE.md)為準。
+
+以下保留0.14工具群組設計與歷史測試範圍，不能當作0.15全部新功能已驗證。
 
 同一套件的獨立資源 `extensions/focus.ts`。正式版本及發布狀態依套件 tag／Gate 證據，不以此文件冒稱已安裝或當前對話已重載。
 
@@ -29,7 +35,9 @@
 
 ---
 
-# 3. 驗證範圍
+# 3. 歷史0.14驗證範圍
+
+0.15當前驗證另見 display/transcript/assistant/footer/focus-unified/candidate-bundle等150 tests與公開bundle/package Gate；需要當前source Hash、terminal結果與同SHA三OS，不以歷史測試冒充。
 
 `tests/focus140.test.mjs` 使用 genuine SDK 的公開 ToolExecutionComponent、AssistantMessageComponent、Container 及實際第一方 renderer，涵蓋群組、串流、thinking／安全邊界、展開、錯誤、窄寬、互動與圖片限制。
 

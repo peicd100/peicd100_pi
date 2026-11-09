@@ -1,6 +1,6 @@
 # PEICD100 Pi 工具箱
 
-版本 **0.14.0**；套件／GitHub repo：`peicd100_pi`。ACM、Notify、Theme、Activity、Suffix、Goal、Progress、Focus 共用一個安裝／更新來源，內部保持八個獨立資源、**十個指令入口**及兩個模型工具。
+版本 **0.15.0**；套件／GitHub repo：`peicd100_pi`。ACM、Notify、Theme、Activity、Suffix、Goal、Progress、Focus、Usage 共用一個安裝／更新來源，內部保持九個獨立資源、**十一個指令入口**及三個模型工具。
 
 ## 安裝一次，之後更新
 
@@ -13,7 +13,7 @@ pi update git:github.com/peicd100/peicd100_pi
 
 不加版本就是追蹤穩定 `main`；標籤供追查／回退。安裝或更新後等工作與佇列結束，再 `/reload` 或重新啟動。不會替正在執行的對話強制換 runtime。本機開發可在工具工作區 `pi install ./peicd100_pi`，不要同時安裝同一套件的 Git 來源。
 
-## 八資源、十入口
+## 九資源、十一入口
 
 | 資源 | 入口 | 用途 |
 | --- | --- | --- |
@@ -26,19 +26,22 @@ pi update git:github.com/peicd100/peicd100_pi
 | `extensions/suffix.ts` | `/suffix(peicd100)` | 共用後綴文本、本對話開關、新對話預設、預覽與狀態 |
 | `extensions/goal.ts` | `/goal(piecd100)` | 自有目標、建立／編輯／暫停／恢復／刪除、驗收與開關 |
 | `extensions/progress.ts` | `/progress(piecd100)` | 步驟、Goal 關聯與開關 |
-| `extensions/focus.ts` | `/focus(piecd100)` | 連續工具紀錄群組折疊、狀態與開關 |
+| `extensions/focus.ts` | `/focus(piecd100)` | 長對話窗口、使用者訊息預覽、thinking／工具群組、狀態與開關 |
+| `extensions/usage.ts` | `/usage(piecd100)` | 繁中額度／卡數／UTC+8效期、手動與安全自動用卡 |
 
 除恢復的 **`/acm-analysis(piecd100)`** 外，ACM／Notify **不再註冊**其他 `/acm-*`、`/notify-*` 快捷入口；輸入舊入口會被攔下並提示主選單，不當作一般提示送模型。沒有裸指令別名，`context`／`suffix` 精確使用 `(peicd100)`，其餘 `(piecd100)`；Pi／第三方 `/reload`、`/settings`、`/goal` 不改。唯讀自動化仍從同一入口使用 `/acm(piecd100) json`、`analysis`、`analysis-json` 與 `/notify(piecd100) json`，不是額外的註冊指令。
 
-在 `pi config` 可個別停用八資源，Tab 切換個人／專案範圍，再閒置 `/reload`。ACM producer 與獨立 guard 同一資源一起掛載，沒有停用 guard 的選單。這不是安全沙盒，其他不可信插件可能破壞規則。新增插件都必須加入本套件 manifest 與共同命名 adapter／Gate；不擅自擴充使用者明確指定的資源篩選。
+在 `pi config` 可個別停用九資源，Tab 切換個人／專案範圍，再閒置 `/reload`。ACM producer 與獨立 guard 同一資源一起掛載，沒有停用 guard 的選單。這不是安全沙盒，其他不可信插件可能破壞規則。新增插件都必須加入本套件 manifest 與共同命名 adapter／Gate；不擅自擴充使用者明確指定的資源篩選。
 
 ## Focus／Goal／Progress
 
 新模組都只有一個使用者入口，選單內同一項切換；偏好跨啟動保存。自有選單共用鍵盤／滑鼠元件，保留上下鍵、Enter、Esc；公開介面不可用時回退原生鍵盤選單，不改第三方畫面、不新增專用快捷鍵。
 
 - **Focus**：文字／實際顯示的 thinking 之間，連續工具合成一個預設折疊區塊；同一標題依真實事件顯示動作、平行執行數與失敗指示。點選或原生工具展開控制可看原序內容，不摘要、不改模型輸入或原始結果。**圖片依 Pi 原設定留在折疊區外；含互動元件的群組維持展開**，權限 UI 照常。未知排列或協定保守保留原生顯示。詳見 [Focus](modules/focus/README.md)。
-- **Goal**：獨立模型工具 `peicd100_goal`，每對話／分支各自管理單一授權目標。明確建立即啟動，草案例外；管理不 abort 當前工作，手動打斷同步暫停。沒有自設回應／時間／Token／無進展停止上限；暫時連線錯誤在原生 retry 結束後固定等 5000ms 再試、不限次，非保證每五秒已發出請求。明確額度不足或不能靠原樣重試解決的永久錯誤暫停，修復後需明確恢復；重載／分支繼承不算恢復授權。
-- **Progress**：獨立模型工具 `update_progress`；可查詢或替換步驟清單，revision 防過期覆寫、最多一個進行中。可關聯 Goal，但清單全完成**不等於 Goal 驗收完成**。
+- **Goal**：獨立模型工具 `peicd100_goal`，每對話／分支單一授權目標。免逐次管理確認預設 On、可關，僅限新使用者已交辦範圍，不授予外部操作權；ID/revision/CAS、稽核、人工停止／中斷優先。建立即啟動、草案例外；管理不 abort 工作。無自設工作數／時間／Token上限；連線暫時錯誤在原生 retry 耗盡後固定等5000ms不限次。額度恢復續跑預設 On、可關，但必須是已知訂閱窗口、原請求前取得的帳號／模型路由、新額度證據與當前授權同時核實；無錨定／未知／付費billing不猜恢復。重啟／分支／人工停止不能默啟，UNKNOWN卡收據也不會因Goal恢復而補卡。
+- **Progress**：獨立模型工具 `update_progress`；revision 防過期覆寫、最多一個進行中。輸入框上方預設詳細多行，依高度保留目前／受阻步，可選詳情／精簡／隱藏；保護焦點與輸入區。可關聯 Goal，但全完成**不等於 Goal 驗收完成**。
+- **長對話顯示**：預設 On、可關；舊完成元件退出即時渲染、歷史按需查看。使用者訊息預設10畫面行、可調／縮放重算、獨立原位展開；thinking／工具按型別各組收合，正文不因長短被藏。詳情共用可捲彈窗／固定關閉／Ctrl+C與焦點保護；圖片、互動、權限與錯誤保留。只改顯示，不改session／模型上下文／ACM。正文純黑背景獨立於主題，可在Theme選單關閉；未知布局回原生。
+- **Usage**：單入口 `/usage(piecd100)`，使用宿主已授權的適用訂閱通道，不要求貼token。手動返回／否預設，明選卡及二次確認；自動用卡預設 Off、限本對話、最早到期有效卡優先，未知效期不自動用。同帳號持久防重、一次成功即關／每次新耗盡最多一張；UNKNOWN不重送、不補卡，未恢復不連耗。詳見 [Usage](docs/USAGE.md)。
 
 不會自動移除第三方套件或資料。使用自有 Goal／Progress 時須在 `pi config` 停用對應第三方 extensions，避免同名工具或雙重續跑；只停用載入，資料保持。資料與模型工具契約見 [新套件規則](docs/SUITE.md)。
 
@@ -71,7 +74,7 @@ Pi `settings.json` 的 ordinary／每模型 native compaction budget 是 Pi 自�
 
 Pi 1.2.0 沒有辨識 ACM threshold 取消並單獨靜默的公開 result 欄位；**本版不保證取消提示消失**，不 monkey-patch Pi、不攔終端文字、不隱藏 manual／overflow／其他錯誤。
 
-Footer 顯示 **`ACM n% currentK/triggerK`**，例如 `ACM 30% 5K/15K`。n 是本對話觸發設定，後兩數是 Pi 目前上下文估計與本分支 ACM 觸發門檻，**不是縮減保留目標或即時百分比**。1K=1000、四捨五入整數，未知顯 `?K`；只重用既有 native estimate，不為畫面掃歷史，不宣稱等同 ACM 校準後 request-local 的精確判定。停用仍保留設定顯示，開關／保留比例從選單查。原 selector／guard／裁切不變；狀態分開列對話、新預設與共用原生基準，不混稱同步。
+Footer 顯示 **`ACM current%/trigger% currentK/triggerK`**。目前百分比直接以未取整 native tokens／完整有效contextWindow四捨五入整數，不從K反推；未知顯 `?%`／`?K`，1K=1000。不是縮減保留目標或精確觸發保證，不改ACM校準／selector／guard／原生預算。模型與reasoning固定在用量下一行，窄窗可換行，共同owner保留原生統計、其他狀態與Activity，不為畫面掃歷史。
 
 ### 唯讀分析
 
@@ -97,9 +100,9 @@ Models／settings joint locks＋fingerprint／CAS／private journal／atomic ren
 
 新對話預設／active branch snapshot／授權 gate 保持。清除只清目前 profile，不清其他方式與 prefs，也不復活 legacy 來源。切換與保存 revision/CAS、awaited DNS／preDispatch 後重驗；不自動測試、補送或把舊通知轉送新方式。明確測試仍需授權，不應輸入秘密到 slash 參數。
 
-固定 final settled／idle／無佇列／3 秒防抖終態通知。新自有 Goal 優先轉接：驗證完成、明確暫停／手動打斷／受阻、額度不足或永久錯誤暫停才投影；工作／續跑／等待／固定五秒重試保持安靜，管理暫停仍須等實際 idle。每次停止 episode 一次，恢復後再停止才是新事件，沒有虛構 budget/retry-exhausted。無自有 Goal 時仍保留第三方 Goal0.54.11 舊 adapter；該舊 adapter 的精確 `Provider retries exhausted` 人工等待例外不套到新引擎。原開關／profile／授權／UNKNOWN 不重送與重載不補送規則保持，不自動開通知。
+固定 final settled／idle／無佇列／3 秒防抖終態通知。新自有 Goal 優先轉接：驗證完成、明確暫停／手動打斷／受阻、額度不足或永久錯誤暫停才投影；工作／續跑／等待／固定五秒重試保持安靜；原錨定且啟用quota自動恢復亦視為等待，無法自動恢復才是真正停止。管理暫停仍須等實際 idle。每次停止 episode 一次，恢復後再停止才是新事件，沒有虛構 budget/retry-exhausted。無自有 Goal 時仍保留第三方 Goal0.54.11 舊 adapter；該舊 adapter 的精確 `Provider retries exhausted` 人工等待例外不套到新引擎。原開關／profile／授權／UNKNOWN 不重送與重載不補送規則保持，不自動開通知。
 
-跨程序 claim／dedup／UNKNOWN 不重送；Telegram 固定 public HTTPS/TLS、DNS 全地址驗證、不 redirects、plain JSON，HTTP 成功且 API `ok:true` 才 ACCEPTED。所有方式固定安全文案，只對話名稱、可驗證的停止類別／下一步／UTC+8；不讀 prompt、raw error、objective 或秘密，不用模型產生通知、不全體 mentions。Startup／reload／切樹不補送，SDK／print／RPC 不自動通知。
+跨程序 claim／dedup／UNKNOWN 不重送；Telegram 固定 public HTTPS/TLS、DNS 全地址驗證、不 redirects、plain JSON，HTTP 成功且 API `ok:true` 才 ACCEPTED。自動終態沿用固定安全文案，只對話名稱、停止類別／下一步／UTC+8，不讀 prompt、raw error、objective 或秘密。主動工具 `peicd100_notify` 僅接受title/body；介面預設 On可關，仍須既有已授權通道與本對話On，不接受目的地／憑證／設定參數。純文字／平台轉義／提及中和／長度及有限敏感檢查，限制30s間隔、同目的地每10分鐘最多3則；同對話／目的地之相同內容永久保守去重，UNKNOWN禁止換ID／改寫／換通道盲重送。介面Off不改自動終態開關；通知接受非已讀或Goal驗收。Startup／reload／切樹不補送，SDK／print／RPC 不自動通知。
 
 ## Suffix
 
@@ -132,6 +135,6 @@ npm run test:install
 npm run test:remote
 ```
 
-隔離 agent-dir／真正 SDK、mock 模型／DNS／HTTPS，不改個人配置、不真實 provider／Notify POST。歷史共享比例與 auto-init 回歸固定不可變 1.11 factory，歷史 1.13 對話隔離／停用／native 分離／修復由明確 frozen fixture 回歸；目前八資源及新引擎／折疊／K／鍵鼠另有 genuine SDK suite。Pi 1.2.0 Gate 驗歷史 ACM／Context 及目前公開入口契約，不將不可變 1.11 wire attestation 當作 1.2.0 全套支援證明；不把舊測試當新的 session budget attestation。新 runtime Hash／原 history Hash／UTF-8／隱私／pack／真 Pi install 與三系統 exact SHA Gate 見 [驗證](docs/VERIFICATION.md)、[發布](docs/RELEASING.md)。
+隔離 agent-dir／真正 SDK、mock 模型／DNS／HTTPS，不改個人配置、不真實 provider／Notify POST。歷史共享比例與 auto-init 回歸固定不可變 1.11 factory，歷史 1.13 對話隔離／停用／native 分離／修復由明確 frozen fixture 回歸；目前九資源及新引擎／Usage／通知工具／窗口／群組／百分比／鍵鼠另有 genuine SDK suite。Pi 1.2.0 Gate 驗歷史 ACM／Context 及目前公開入口契約，不將不可變 1.11 wire attestation 當作 1.2.0 全套支援證明；不把舊測試當新的 session budget attestation。新 runtime Hash／原 history Hash／UTF-8／隱私／pack／真 Pi install 與三系統 exact SHA Gate 見 [驗證](docs/VERIFICATION.md)、[發布](docs/RELEASING.md)。
 
 Git 安裝僅 runtime `gpt-tokenizer`，不捆綁 Pi 宿主。`private:true`／`UNLICENSED` 防止意外 npm publish，GitHub 公開不等於一般開源授權，來源見 `NOTICE.md`。版本演進與退役機制見 `CHANGELOG.md`／`MODULES.json`；只有目前 active entries 有執行權威。

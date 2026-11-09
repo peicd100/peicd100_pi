@@ -1,0 +1,117 @@
+{
+  "upstream": "npm:@specode/pi-subscription-usage@1.5.0",
+  "repository": "git+https://github.com/specode/pi-subscription-usage.git",
+  "verbatim": true,
+  "source_manifest": [
+    {
+      "path": "LICENSE",
+      "sha256": "25a7f9cd7eb7b3c03883e8351146577a82b2c23d93611cd4271fb93b423fdea3",
+      "bytes": 1121
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "d63de03b75d9e030f46961139c007d092645470107f1ce79f2dbe26b7455a3e6",
+      "bytes": 918
+    },
+    {
+      "path": "package.json",
+      "sha256": "849ba80a7a5a23681772e0c94acb6262fd658a0343ce37817ed1600e837cff13",
+      "bytes": 1224
+    },
+    {
+      "path": "src/codex-reset-core.ts",
+      "sha256": "9a7703b9f5c8c555fde800b50e0518dc1e8d7c30ebfc56e4116460364165685e",
+      "bytes": 7597
+    },
+    {
+      "path": "src/codex-resets.ts",
+      "sha256": "f2db4f0eac7dc3392f6c52e7612d11d053099a65c4df3e3421e2fe43c2210104",
+      "bytes": 4563
+    },
+    {
+      "path": "src/config-core.ts",
+      "sha256": "951321547f40419cf89176a23d00fc73b67a7c7350305a91664878abfde70549",
+      "bytes": 1085
+    },
+    {
+      "path": "src/config.ts",
+      "sha256": "19fb7a5eb411471cf63aedde0c44a43dc9db1514549b746a87a6ff85b64c83c8",
+      "bytes": 1322
+    },
+    {
+      "path": "src/core.ts",
+      "sha256": "672cc5dc85b7a44b02ae0f7928c9d6a81d7fbf8dbc21106362c14b5c8046a7e1",
+      "bytes": 5002
+    },
+    {
+      "path": "src/display.ts",
+      "sha256": "e6954dad36e5284a51a74f9dd7b58084eb78132885727a734c246ca30e3ba29a",
+      "bytes": 1809
+    },
+    {
+      "path": "src/format.ts",
+      "sha256": "7cf0ee636e426c5d72fd1d866a5344e49659513787b6eef5789dad7b7bcdd396",
+      "bytes": 6851
+    },
+    {
+      "path": "src/providers/antigravity.ts",
+      "sha256": "b54055dcbacf1915de13d6ec54c6678d7d921c057f6285ee63c3df0d3ad737a1",
+      "bytes": 11198
+    },
+    {
+      "path": "src/providers/claude-bridge.ts",
+      "sha256": "e38f3d1dc74c44379a6a81f14eae6092077661c9df5712d306565ced8fa2aeb3",
+      "bytes": 4091
+    },
+    {
+      "path": "src/providers/codex-constants.ts",
+      "sha256": "04a4c2210ae22304a132da78e495ce04ce31271d9b070388c469a73aef0ee80c",
+      "bytes": 96
+    },
+    {
+      "path": "src/providers/codex.ts",
+      "sha256": "4db9b9b6e85a4c185f3f122015323840a28b99d29d09241784f4bcc545d27b01",
+      "bytes": 6555
+    },
+    {
+      "path": "src/providers/grok.ts",
+      "sha256": "e6b03e5acae6d56225c4027dc4bccab6ba46b91c122dcd2f0d722436532dd599",
+      "bytes": 10410
+    },
+    {
+      "path": "src/providers/kimi.ts",
+      "sha256": "b42646251096c6f67e48b67db664df58de08c4c4dcb70f8b8b1ae9817574ce10",
+      "bytes": 4857
+    },
+    {
+      "path": "src/providers/openai.ts",
+      "sha256": "8e1ca40fe4ad008e36b5db329248503f6f75162706d935192a5183ffd204740a",
+      "bytes": 5402
+    },
+    {
+      "path": "src/providers/opencode-go.ts",
+      "sha256": "c3b0c2e38618566613086296ee27529e949b25631664da773365fd04bf910f5b",
+      "bytes": 2678
+    },
+    {
+      "path": "src/query.ts",
+      "sha256": "01032d48c6c5f551b3eef6329ebb54faae455706885b603c039bd636b6e658c3",
+      "bytes": 19905
+    },
+    {
+      "path": "src/status.ts",
+      "sha256": "bf97b71925fd4b5a90b331cec932085fdc7835501dd4dda8c5ce4589bbb6d542",
+      "bytes": 7880
+    },
+    {
+      "path": "src/types.ts",
+      "sha256": "a0f2f18fe4dac48f9502b5e1ae094888483cc6bab2ec575acfd6b1d78cc6ddcf",
+      "bytes": 1986
+    },
+    {
+      "path": "src/usage.ts",
+      "sha256": "d9666749f4b9bb50a66d6494462b1ba1b5dfb0609a8766e9cc914dc10aa1d53b",
+      "bytes": 19944
+    }
+  ]
+}

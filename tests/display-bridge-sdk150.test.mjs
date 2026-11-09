@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {mkdtemp,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';import {fileURLToPath} from 'node:url';import {fromHost} from './runtime.mjs';
+const Native=await fromHost('dist/index.js'),{loadExtensions}=await fromHost('dist/core/extensions/loader.js');
+test('actual SDK uncached Jiti loaders and distinct ExtensionAPI event facades acquire one shared UI owner through public events',async()=>{
+ const directory=await mkdtemp(join(tmpdir(),'peicd100 display bridge ')),old=process.env.PI_CODING_AGENT_DIR,bus=Native.createEventBus(),seen=[];process.env.PI_CODING_AGENT_DIR=directory;const off=bus.on('fixture:display-owner',value=>seen.push(value));
+ try{const paths=['display-bridge-a.ts','display-bridge-b.ts'].map(name=>fileURLToPath(new URL('./fixtures/'+name,import.meta.url))),loaded=await loadExtensions(paths,directory,bus);assert.deepEqual(loaded.errors,[]);assert.equal(loaded.extensions.length,2);assert.deepEqual(seen.map(x=>x.label),['a','b']);assert.equal(seen[0].owner===seen[1].owner,true,'Shared despite separate uncached module graphs and facade objects');assert.equal(seen[0].owner.serviceVersion,'0.15.0');assert.equal(seen[0].owner.status().mode,'detached','No session/model/network/real UI was started');}
+ finally{off();bus.clear();if(old===undefined)delete process.env.PI_CODING_AGENT_DIR;else process.env.PI_CODING_AGENT_DIR=old;await rm(directory,{recursive:true,force:true});}
+});

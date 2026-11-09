@@ -2,7 +2,7 @@ import test from 'node:test'; import assert from 'node:assert/strict';
 import {mkdtemp,rm,readFile,writeFile,mkdir} from 'node:fs/promises'; import {tmpdir} from 'node:os'; import {join} from 'node:path'; import {fileURLToPath} from 'node:url';
 import {fromHost} from './runtime.mjs'; import {themeParts} from '../src/palette_v0.1.0.mjs'; import {ToggleStore,TEMPLATE} from '../src/toggle_v0.2.0.mjs';
 const {loadExtensions}=await fromHost('dist/core/extensions/loader.js'),{Theme}=await fromHost('dist/index.js');
-const path=fileURLToPath(new URL('../extensions/index.ts',import.meta.url)),preset=JSON.parse(await readFile(fileURLToPath(new URL('../themes/pi-theme-docker-look.json',import.meta.url))));
+const path=fileURLToPath(new URL('../extensions/index_v0.5.0.ts',import.meta.url)),preset=JSON.parse(await readFile(fileURLToPath(new URL('../themes/pi-theme-docker-look.json',import.meta.url))));
 async function fixture(run){
  const root=await mkdtemp(join(tmpdir(),'theme 中文開關 ')),old=process.env.PI_CODING_AGENT_DIR;process.env.PI_CODING_AGENT_DIR=root;
  try{

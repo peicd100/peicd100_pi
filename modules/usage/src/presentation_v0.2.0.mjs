@@ -1,0 +1,5 @@
+// Native UI projection extends the frozen U2a formatter without changing it.
+import{usageDetails as baseDetails}from'./presentation_v0.1.0.mjs';export{usageStatus,manualConfirmation,operationMessage}from'./presentation_v0.1.0.mjs';
+const names=new Map([['OpenAI (ChatGPT subscription)','OpenAI（ChatGPT 訂閱）'],['Matched app in Pi Codex account','已比對 Pi Codex 帳號內的應用程式'],['Current','目前'],['Monthly limit','每月額度'],['Daily limit','每日額度'],['Weekly limit','每週額度'],['Credits','點數'],['Balance','餘額'],['Total','總計'],['Used','已用'],['Remaining','剩餘']]);
+const local=v=>names.get(v)??(typeof v==='string'&&v.endsWith(' app limits')?(v.slice(0,-11)==='Current'?'目前':v.slice(0,-11))+'應用程式額度':v);
+export function usageDetails(snapshot,mode='remaining'){if(snapshot?.view?.status!=='ready')return baseDetails(snapshot,mode);const report=snapshot.view.report;return baseDetails({...snapshot,view:{...snapshot.view,report:{...report,providerName:local(report.providerName),buckets:report.buckets.map(b=>({...b,label:local(b.label),groupLabel:local(b.groupLabel)})),metrics:report.metrics.map(m=>({...m,label:local(m.label),value:typeof m.value==='string'?local(m.value):m.value}))}}},mode);}

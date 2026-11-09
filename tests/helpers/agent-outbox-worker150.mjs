@@ -1,0 +1,2 @@
+import{Store}from'../../modules/webhook/src/core_v2.0.1.mjs';import{AgentOutbox}from'../../modules/webhook/src/agent-outbox_v1.0.0.mjs';
+const store=new Store(process.argv[2]),outbox=new AgentOutbox(store);let state;try{state=(await outbox.reserve({id:'a'.repeat(64),contentKey:'b'.repeat(64),destinationBinding:'c'.repeat(64),sessionBinding:'d'.repeat(64)},{now:Date.parse('2030-01-01T00:00:00Z')})).state;}catch{state='FAILED_PRECHECK';}console.log(JSON.stringify({state}));

@@ -1,1 +1,1 @@
-export { default } from './index_v0.2.0.ts';
+export { default } from './index_v0.3.0.ts';

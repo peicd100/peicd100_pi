@@ -1,4 +1,19 @@
-# 0.14.0 目前唯一驗證契約
+# 0.15.0 目前唯一驗證契約
+
+- 九個公開root resources／十一命名commands／三模型工具（Goal、Progress、Notify），ACM producer先guard同資源；單獨選用／裸alias攔截／歷史runtime保全。必須由真正公開facades、package/install/pack與MODULES current import-closure驗證，工廠DI不是產品安裝證據。
+- 長對話窗口／10畫面行預覽／typed thinking-tool群組／正文黑底／共用彈窗／共享Footer-model獨立行／ACM整數目前%：保留原文、模型上下文、圖片／互動／權限／錯誤；未知布局回原生。warm走訪/延遲基準不是cold或實體終端attestation。
+- Goal管理預設免逐次確認、quota核實恢復預設On，人工／UI／branch／restart優先；原ID/CAS/audit/criteria/5s retry不設工作上限。原native-header route錨定與pause後嚴格新證據不可重綁，UNKNOWN卡hold不因Goal續跑而釋放。
+- Progress上方詳細多行／高度預算／目前與受阻步／詳情-精簡-隱藏，單一工具；步驟勾完不是Goal驗收。
+- Usage單入口／繁中UTC+8／返回與否預設／明選二次確認；auto Off／最早到期有效卡／未知效期排除／同帳號持久episode reservation／一次成功關或新耗盡最多一張／UNKNOWN不補卡。所有金融／provider/notification POST測試均fixture。
+- Notify純title/body／既有授權正常送不逐次confirm／Off優先／不曝秘密或改目的地／plaintext/escaping/mentions/bytes/敏感有限檢查／持久限流去重／UNKNOWN不換ID重送；主動與auto終態分離、不完成Goal。quota自動等待／retry／user wait靜默，人工不可恢復停止與verified complete才通知，兩loadorder及restore不能造新停止。
+- 當前來源須通target→full真1.1歷史回歸、test:pi120當前公開入口與歷史ACM/Context、test:pi150新套件／current入口、package/check／實際pack／extract及隔離Git install/update/data-CAS；同SHA Linux/Windows/macOS CI成功才正常main/tag/release與安全同源更新。沒有Computer use／實體終端手驗、真服務接受或Windows ACL保證，不forcedreload。
+- MODULES historical maps/shared歷史Hash只是保全證據，active_runtime公開入口closure才是目前選用範圍；不以本文件或測試檔名推測PASS，terminal logs/Hash/CI為證據。
+
+---
+
+## 以下為 0.14.0 historical release scope，不是目前執行權威
+
+# 0.14.0 歷史驗證契約
 
 - 八個 root resources／十個 commands，無裸 alias；僅 Goal `peicd100_goal` 與 Progress `update_progress` 兩模型工具。單獨資源可選，ACM producer/guard 同資源先後順序與原歷史 hashes 保全。真正公開入口由 bundle.test、package/install Gate 驗，不以工廠未掛載測試代替。
 - Goal/Progress state、授權/ID/revision/CAS、scope/branch/restore、建立啟動/管理不abort/手動interrupt/idle menu、原生retry互斥、固定5000ms不限次/quota永久錯誤暫停/等待靜默/驗收分離，見 *140 genuine SDK 與純狀態測試。零真provider或Notify POST。

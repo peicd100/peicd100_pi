@@ -6,4 +6,6 @@
 
 執行時依賴 `gpt-tokenizer@3.4.0`（該套件宣告 MIT），保留其自身授權。Pi API 由使用者的 Pi 宿主提供，以 peerDependencies 宣告，不作為正式依賴捆綁。開發依賴保留其自身授權。
 
+Usage包含少量已固定來源commit的MIT協定解析程式；原LICENSE／NOTICE見 `modules/usage/NOTICE.md` 與其vendor目錄。該部分MIT不改變本套件及其他模組的UNLICENSED，也不代表provider授權／官方背書。
+
 Theme 使用參考 Docker 風格配色，不代表 Docker 或 Pi 官方背書。

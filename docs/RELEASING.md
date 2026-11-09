@@ -1,8 +1,8 @@
 # 發布流程
 
-1. 開發／實驗先在開發分支或 staging，通過 Gate 才發布穩定 main。一般使用者指令不固定版本，標籤用於追查與回退。
+1. 開發／實驗先在開發分支或 staging，通過 Gate 才發布穩定 main。若開發與目前安裝共用目錄，先在隔離同repo worktree改入口／metadata並驗pack，避免新session提前載未驗版本；promotion以已核Hash/備份/CAS對帳代理owned候選與使用者變更，不整目錄reset或清除。一般使用者指令不固定版本，標籤用於追查與回退。
 2. 原模組初始 runtime Hash 與不可變版本檔不就地改；實質改動新增版本路徑／同步入口，避免 ESM cache 復權。
-3. 先 `npm run test:target`，再完整 Pi1.1.0 歷史回歸、`test:pi120` 明確1.13歷史 ACM／Context與當前公開入口、`test:pi150` 新套件／八入口資源契約、`check:package`、`test:install` 與 `npm pack --dry-run`；測試不接觸個人設定或真實模型／端點。
+3. 先 `npm run test:target`，再完整 Pi1.1.0 歷史回歸、`test:pi120` 明確1.13歷史 ACM／Context與當前公開入口、`test:pi150` 新套件／九資源十一入口三工具契約、`check:package`、`test:install` 與 `npm pack --dry-run`；測試不接觸個人設定或真實模型／端點。
 4. 按允許清單核對公開 tree：不含私有設定、URL／key、備份／收據、AGENTS／PEICD、node_modules 或大型 logs。不能默認 MIT，保留 UNLICENSED 與原模組聲明。
 5. 明確授權後才 commit／一般快轉 push／新標籤；不 force、不移動舊標籤、不變更原三個倉庫。不 npm publish。
 6. 先開發分支單次 workflow_dispatch exactSHA Linux／Windows／macOS完整 CI success，才同一SHA快轉 main／新tag；可用官方 `[skip ci]` 只省略相同SHA promotion的重複pushCI，不跳過manual驗證。exact main／tag SHA、`test:remote` 後才交付。
