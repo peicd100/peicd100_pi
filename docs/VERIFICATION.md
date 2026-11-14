@@ -1,4 +1,21 @@
-# 0.15.0 目前唯一驗證契約
+# 1. 0.17 本機候選驗證契約
+
+本文件列門檻，不是 PASS 收據。以 exact source SHA、terminal log 與實際載入證據判定；未執行的 CI／真服務／實體驗收不得推測。
+
+- 九個可選公開 resources、十二入口（含唯一裸總入口 `/peicd100`）、三模型工具。真正 Native loader 驗完整／部分選擇、不強開省略模組、工具歸屬與單一 UI17 owner；UI16 端點必是同 owner 的 identity-bound contract proxy。省略協調 ACM 時保留原 legacy8 embedding。
+- 1.1.0 全歷史與當前相關；1.5.2 當前完整功能矩陣及真公開入口；必要 1.2.0 歷史／入口。原 1.5.0 runner 只代表其明確舊 SDK 範圍。Frozen 0.16／0.15 不當當前證據；不能為了新行為改弱歷史斷言。
+- 共用 Context：單 target/revision、沒有猜測預設、原 catalog bound、未知／不足／busy／queue／scope／CAS／epoch hold；public同model apply無模型請求；精確 options 私有票與最後 payload 後 fresh account CAS、Off、abort／revision 核對。local estimator／metadata 不當服務 tokenizer、接受／容量／實扣證明。
+- ACM1.19只控制／root整合；Claude1.18三演算法區塊、window6/threshold18逐byte不改。n/2／mask／user-marker／不釘首則、prefix/cache／健康 cursor／old session 恢復與停用行為由真 SDK 驗；UI日期時間線／原檔與舊pair bytes保留。
+- Goal complete不額外abort正常Native loop，真公開入口完成後仍可輸出最後Main報告；closed run不能被報告借用結算。Progress新預設單行點整行展收，列表不等Goal驗收；Focus既有人類四項／10.13可重用，非同來源不得假稱重驗。
+- Plus／Pro未知bucket不冒unlimited；原生scoped OAuth／私有帳號政策與免費路由優先；原唯一card ledger/reservation/at-most-once/UNKNOWN/Off不弱化，UI／route／descriptor JSON不能借金融許可。全為fake auth/HTTP/provider/card。
+- package/lock/MODULES依賴inventory／所有歷史與active Hash、UTF-8、TGZ安全閉包、隔離local Git install/list/update/remove/migrate與資料CAS；fixture Git commits只在明確隔離臨時repo，不提交工作repo。Exact已授權PNG/hash，缺少拒絕、不生成。
+- 本機最小CAS／實載後需人類閒置reload／loaded與畫面確認；不自行reload、commit/push/PR/tag／發布、CI dispatch、真登入／模型／金融測試。三OS CI與服務端／實體像素未驗就明列，不能以mock替代。
+
+---
+
+## 2. 以下為 0.15.0 歷史契約，不是目前執行權威
+
+# 0.15.0 歷史驗證契約
 
 - 九個公開root resources／十一命名commands／三模型工具（Goal、Progress、Notify），ACM producer先guard同資源；單獨選用／裸alias攔截／歷史runtime保全。必須由真正公開facades、package/install/pack與MODULES current import-closure驗證，工廠DI不是產品安裝證據。
 - 長對話窗口／10畫面行預覽／typed thinking-tool群組／正文黑底／共用彈窗／共享Footer-model獨立行／ACM整數目前%：保留原文、模型上下文、圖片／互動／權限／錯誤；未知布局回原生。warm走訪/延遲基準不是cold或實體終端attestation。

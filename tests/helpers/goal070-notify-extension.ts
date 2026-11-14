@@ -1,0 +1,3 @@
+// Two real current factories, one public UI/registry; all transport is fake.
+import{createGoalExtension}from'../../modules/goal/extensions/index_v0.7.0.ts';import{createNotifyExtension}from'../../modules/webhook/extensions/index_v2.7.0.ts';
+export default function fixture(pi:any){const state:any={posts:[]};state.owner=createGoalExtension(pi);state.notify=createNotifyExtension(pi,{quietOptions:{delayMs:300000},resolver:async()=>[{address:'8.8.8.8',family:4}],transport:async(_url:any,_dest:any,_key:any,payload:any)=>{state.posts.push(payload);return{state:'ACCEPTED',http_status:200};}});pi.events.on('fixture:goal070-owner',(q:any)=>q?.respond?.(state));}

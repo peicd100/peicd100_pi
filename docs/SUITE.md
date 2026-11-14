@@ -1,4 +1,6 @@
-# 1. 0.15 自有套件契約
+# 1. 0.16 候選自有套件契約
+
+新增行為／未驗界線以 [0.16更新](TOOLBOX_0_16.md) 為準；原0.15契約完整保留在 [歷史](history/SUITE_0.15.0.md)，不與現行並列執行。候選不是遠端發布、實載或實體驗收證據。
 
 九資源、十一個命名指令入口、三個獨立模型工具。`MODULES.json.active_runtime` 是目前公開入口 import-closure 的 Hash／選用集合；歷史 release／shared Hash 僅為保全證據，不是平行的 active runtime。歷史 0.14 說明見 [原文](history/SUITE_0.14.0.md)，不得覆蓋本版。
 
@@ -14,13 +16,13 @@
 
 ## 1.2 Progress
 
-`update_progress` 不帶steps是查詢，替換清單須expected_revision，最多50項／每項503字元／最多一個in_progress。空清單是明確清除，可填本對話goal_id，但勾完清單不是Goal驗收。輸入框上方預設詳細多行，顯示完成數／目前／受阻步，依高度保護輸入區；精簡／隱藏／唯讀詳情不改清單，不搶焦點或重掃歷史。
+`update_progress` 不帶steps是查詢，替換清單須expected_revision，最多50項／每項503字元／最多一個in_progress。空清單是明確清除，可填本對話goal_id，但勾完清單不是Goal驗收。輸入框上方直接展收與完整清單入口，依高度保護輸入區；手動本對話選擇不因更新強展開。非空全完成後只隱藏常駐控件，資料與回報保留；受阻／關聯Goal不一致仍提示，不搶焦點或重掃歷史。
 
 ## 1.3 顯示、Footer 與 ACM
 
 長對話窗口預設On可關，舊完成元件退出即時渲染，按需查看歷史；使用者訊息預設10畫面行，可調、縮放重算及獨立原位展開。thinking／工具依型別各組收合，正文一律保留；圖片、互動、權限、安全與錯誤保留，未知布局回原生。共用可捲彈窗固定關閉、Ctrl+C／Esc／滑鼠與焦點保護。正文純黑背景是獨立偏好，不改文字或宿主主題其他色彩。
 
-單一display／Footer owner保留原生統計、其他狀態與Activity；模型reasoning在用量下一行、窄窗可換行。`ACM current%/trigger% currentK/triggerK` 的目前百分比用未取整native tokens／有效完整contextWindow四捨五入整數，未知?%；K未知?K。不從K反推、不掃歷史、不改ACM觸發、校準、窗口selector、guard或native budget。
+單一display／Footer owner保留原生統計、其他狀態與Activity；模型reasoning在用量下一行、窄窗可換行。`ACM current%/trigger% currentK/triggerK │ 額度 7 天剩 N%` 的目前百分比用未取整native tokens／有效完整contextWindow四捨五入整數，未知?%；K未知?K。不從K反推、不掃歷史、不改ACM觸發、校準、窗口selector、guard或native budget。
 
 ## 1.4 Usage 與 Notify
 
@@ -33,6 +35,8 @@ Usage是單入口，不是可直接花卡的模型工具。返回／否預設，
 ---
 
 # 2. 儲存、界線與驗證
+
+Goal正式驗收complete後隱藏常駐控件但保留完成回報／結算；本對話控制與future defaults分開，On不自動resume。結算只取request前已綁Goal/run/role的真SDK receipt，去重與reasoning子項不雙算，不以session totals／缺失0補值；來源估算／provider回報與訂閱實扣分開，外部角色未核實明示未知。
 
 Goal／Progress使用本分支custom entries，不改訊息／第三方資料。偏好／收據在agent-dir的各自config子目錄，以revision/CAS／短鎖／原子替換保護；未配置的唯讀偏好不建立檔，未知schema／symlink／owner不猜修復。Usage與agent outbox收據只留必要hash／白名單狀態，不把秘密或原始自訂內文存入收據。
 

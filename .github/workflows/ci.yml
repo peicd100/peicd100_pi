@@ -24,7 +24,9 @@ jobs:
       - run: npm run test:target
       - run: npm test
       - run: npm run test:pi120
-      - run: npm run test:pi150
+      # Exact existing PNG/hash must be explicitly provisioned; missing media
+      # fails the full gate rather than inventing an image or counting skips.
+      - run: npm run test:pi152
       - run: npm run check:package
       - run: npm run test:install
       - run: npm pack --dry-run

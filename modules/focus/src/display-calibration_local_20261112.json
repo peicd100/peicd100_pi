@@ -1,0 +1,9 @@
+{
+  "enabled": true,
+  "profileId": "local-herdr-noctty-screenshot-20261112",
+  "provenance": "user-requested display calibration; inferred from supplied 600x506 image rectangle / 60x23 cells; provisional, NOT terminal-attested",
+  "terminalProgram": "herdr",
+  "expectedSdkCellPixels": { "widthPx": 8, "heightPx": 16 },
+  "assumedDisplayCellPixels": { "widthPx": 10, "heightPx": 22 },
+  "notice": "RAM preview only; originals/tool/model images unchanged. Recalibrate after font, zoom, DPI or terminal changes. Disable with enabled=false and manual reload."
+}

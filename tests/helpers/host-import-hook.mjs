@@ -1,0 +1,7 @@
+// TEST BOOTSTRAP ONLY: ESM does not use NODE_PATH. Resolve public SDK bare
+// imports to the same explicitly chosen installed host as tests/runtime.mjs.
+// No downloads, package edits, symlinks, production hooks or private API access.
+import{registerHooks,createRequire}from'node:module';import{resolve,join,dirname}from'node:path';import{readFileSync,existsSync}from'node:fs';import{pathToFileURL}from'node:url';
+const host=process.env.PI_TEST_HOST;if(!host)throw Error('Explicit PI_TEST_HOST required by test import hook');const pkg=resolve(host),metadata=JSON.parse(readFileSync(join(pkg,'package.json'),'utf8'));if(metadata.name!=='@earendil-works/pi-coding-agent')throw Error('Not a Pi SDK package');const require=createRequire(join(pkg,'package.json')),names=new Set(['@earendil-works/pi-coding-agent','@earendil-works/pi-ai','@earendil-works/pi-tui']);
+const entries=new Map();for(const name of names){const path=name===metadata.name?join(pkg,'package.json'):require.resolve.paths(name).map(root=>join(root,name,'package.json')).find(existsSync);if(!path)throw Error('Chosen SDK peer missing: '+name);const data=JSON.parse(readFileSync(path,'utf8')),entry=typeof data.exports==='string'?data.exports:data.exports?.['.']?.import??data.main;if(typeof entry!=='string')throw Error('Chosen SDK public import missing: '+name);entries.set(name,resolve(dirname(path),entry));}
+registerHooks({resolve(specifier,context,next){if(names.has(specifier))return next(pathToFileURL(entries.get(specifier)).href,context);return next(specifier,context);}});

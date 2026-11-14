@@ -1,5 +1,34 @@
 # 更新紀錄
 
+## 0.18.0 - 本機，未發布正式版
+
+- 新增 Guard 0.1.0（預設開啟）：只擋大災難——遞迴刪除重要位置或其上層、格式化磁碟、執行時才決定路徑的遞迴刪除、多層 shell 包裝的遞迴刪除、經 junction／symlink 的遞迴刪除，以及竄改 Guard 本身。Pi 插件與 Claude Code PreToolUse hook 共用同一份檢查程式；出錯放行並記錄。詳見 `docs/GUARD.md`。
+- 文件與註解裡的量測來源改成一般描述。
+
+## 0.17.0 - 本機候選，未發布
+
+- `/peicd100` 總入口／九選中資源與原三模型工具；Current／新預設時間線／共用Context分開，省略模組不強開，legacy8 embedding保持。單UI17 owner與同identity UI16 contract adapter。
+- 電腦使用者共用 Context target/revision：無猜測預設、原catalog bound、public同model另確認套用、不探測或自動reload；私有精確options票、final payload後accountCAS／Off／scope／abort核對。local估算不是服務容量／實扣。
+- Usage0.5帳號分頁、實際provider／model路由、Plus／Pro／五小時來源分類，Native scoped OAuth、私有免費route優先與原單金融owner／UNKNOWN／ledger保持；不以UI借grant。
+- ACM1.19僅控制整合：Claude1.18三算法區塊與window6/threshold18原封；n/2、舊結果先遮再移、舊user進marker、不釘首則，原session保持。
+- Focus0.4沿已驗dynamic完整歷史／圖比例／工具高度與尾檔名，不重做點擊才載入；Goal0.7 complete不額外abort正常final report；Progress0.4預設單行點整行展收，無最右獨立按鈕。
+- metadata／lock／當前及frozen歷史測試分開；exact驗證與未驗範圍以terminal evidence為準，候選本身不代表live／實體／真服務或遠端發布。
+
+## 0.16.0 - 候選，未正式發布
+
+- UI收尾 Focus 0.3.2：普通唯讀錯誤真正收入紅色群組，保留失敗與安全pin；詳情內每個思考／工具預設單行，原位獨立展開、初始到底部、手動上捲不強拉與新增項提示，長內容展開才render。原生圖片／真正互動／031與write安全路徑保全，沒有物理畫面自動PASS。
+- Usage 0.3.1：沿用同一Footer與實際grant/帳本，僅啟用自動用卡時追加「已啟用自動重置 N 次」，N為limit-used-held；處理中／待查明示，不創造新卡或觸發POST，不改原安全機器。
+
+- 後置修復 Focus 0.3.1：以公開原生 Image 元件接 PNG 單一顯示 owner，透過公開 setter 關閉單工具重複圖槽、不改全域偏好；關閉圖片／不支援協定有明確提示，未知與非 PNG 保留原生。原生長 write 唯讀 renderer 以公開 factory 函式身分核實，不依工具／class 名稱或 private child 猜可收合。真正輸入／未知滑鼠／錯誤仍保留；狀態加判定原因，不宣稱實體像素已驗收，0.3.0 原碼保全。
+
+- 保持九資源／十一入口／三工具；共用0.16顯示owner，四個原業務factory僅新增UI橋接版本，舊版facade／runtime／斷言另保全，不混載舊顯示owner。
+- 可控彈窗外框／內距／自適應，公開fullscreen外點取消／不穿透／拖曳保護／未存草稿；正文背景與N/M預覽、fullscreen按視野有界歷史與錨點，未知／regular保守回退。
+- Focus圖片／回報分界，圖後新事件不加回舊組；既有PNG測試不生圖，傳輸／memory repaint不冒稱實體像素。
+- Goal狀態式常用動作、目前對話與future defaults分開；Progress直接展收與完整入口。各自完成後隱藏控件但不刪資料／假完成，request前綁Goal/run結算、去重與未知明示。
+- Usage每分鐘single-flight／RetryAfter／可信剩餘條／逐卡框，明確本對話有限N，不預選或自動啟用，原二確認／UNKNOWN／同帳號防重保持。Footer指定ACM目前%／trigger%與K、短額度，保原生統計與Activity。
+- ACM工作中pending至安全請求邊界、私有快照／scope drift防護，不abort工具；被動request／usage／重讀／完成聲明與離線影子，品質／完整成本／訂閱實扣未核實不排名、不真A/B。
+- 提供確定性引用／影響查詢與離線研究CLI；Hash／版本／EXTRACTED／DECLARED／UNKNOWN，不把靜態索引當loaded或跳過Gate。候選仍須完整SDK／pack／隔離install及人類手動reload後實載／實體驗收；不自動reload或發布。
+
 ## 0.15.0
 
 - 九資源／十一命名入口／三獨立模型工具：加入Usage與agent title/body通知工具；公開facades與current import-closure Hash明確，歷史0.14 facade/runtime保存，不捆綁宿主。

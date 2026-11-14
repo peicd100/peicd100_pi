@@ -1,5 +1,19 @@
 # 發布流程
 
+## 1. 0.17 本機候選 Gate（不等於發布）
+
+先本機 Source／前像SHA、隔離core與移植Gate，再metadata／歷史Hash／1.1完整／1.5.2當前全功能／必要1.2／TGZ閉包／local Git install-update-remove及資料CAS。`refresh-runtime-manifest.mjs` 預設唯讀，只有明確 `--write` 更新候選metadata，不改歷史versioned檔。舊candidate active聲明保存為superseded evidence，不偽稱正式release。
+
+未發布、未CI或未手驗各自明示；工程完成不代替原Goal全部criteria／真容量／實扣或人類reload。沒有因此授權remote install、commit/push/tag/PR、CI dispatch、真登入／金融／模型。以下保留原流程細節，不得用舊0.16／1.5.0結果宣稱本版通過。
+
+### 1.1. 原0.16候選流程（歷史）
+
+先隔離開發／前像／manifest Hash，再最小相關SDK、完整Pi1.1歷史與target、Pi1.5完整當前0.16及保全0.15斷言、package／pack／隔離install。Pi1.5 runner以公用ESM test hook對齊同一host實例，不修改宿主或第三方。完整媒體Gate須明確提供 `PI_EXISTING_PNG_FIXTURE` 與 `PI_EXISTING_PNG_SHA256`，缺少就拒絕，不生圖、不以skip算全過。
+
+本機候選與遠端main／tag／正式CURRENT_RELEASE分開。可重載驗收時保存候選／前像／Hash與未驗項，正式pause同Goal並通知後停止；不可自動reload／restart／換Goal或靠額度恢復越過。人類已reload且明確同意，才核真正loaded與後置實體回饋，不以磁碟版號／mock／metadata當真機PASS。沒有因此授權commit／push／CI dispatch／發布或額外真服務模型測試。
+
+## 2. 正式發布（另需有效授權）
+
 1. 開發／實驗先在開發分支或 staging，通過 Gate 才發布穩定 main。若開發與目前安裝共用目錄，先在隔離同repo worktree改入口／metadata並驗pack，避免新session提前載未驗版本；promotion以已核Hash/備份/CAS對帳代理owned候選與使用者變更，不整目錄reset或清除。一般使用者指令不固定版本，標籤用於追查與回退。
 2. 原模組初始 runtime Hash 與不可變版本檔不就地改；實質改動新增版本路徑／同步入口，避免 ESM cache 復權。
 3. 先 `npm run test:target`，再完整 Pi1.1.0 歷史回歸、`test:pi120` 明確1.13歷史 ACM／Context與當前公開入口、`test:pi150` 新套件／九資源十一入口三工具契約、`check:package`、`test:install` 與 `npm pack --dry-run`；測試不接觸個人設定或真實模型／端點。
